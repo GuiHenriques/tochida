@@ -11,45 +11,21 @@
   <body>
     <script>
       // Paths to the placeholder images
-      const creature = "creatures/blue.png";
-      const object = "objects/orange.png";
+      const creature = "blue.png";
+      const object = "orange.png";
 
       const trials = [
         {
-          square1: {
-            creature,
-            object,
-          },
-          square2: {
-            creature,
-            object,
-          },
-          square3: {
-            creature,
-            object,
-          },
-          square4: {
-            creature,
-            object,
-          },
+          square1: { creature, object: creature },
+          square2: { creature, object: creature },
+          square3: { creature, object: creature },
+          square4: { creature, object: creature },
         },
         // {
-        //   square1: {
-        //     creature: "creatures/creature4.png",
-        //     object: "objects/object4.png",
-        //   },
-        //   square2: {
-        //     creature: "creatures/creature3.png",
-        //     object: "objects/object3.png",
-        //   },
-        //   square3: {
-        //     creature: "creatures/creature2.png",
-        //     object: "objects/object2.png",
-        //   },
-        //   square4: {
-        //     creature: "creatures/creature1.png",
-        //     object: "objects/object1.png",
-        //   },
+        //   square1: { creature: object, object },
+        //   square2: { creature: object, object },
+        //   square3: { creature: object, object },
+        //   square4: { creature: object, object },
         // },
         // Add more trials as needed
       ];
@@ -61,14 +37,14 @@
               <tr>
                 <td>
                   <div class="container">
-                    <img src="${trial.square1.creature}" alt="Creature 1">
-                    <img src="${trial.square1.object}" alt="Object 1">
+                    <img src="${trial.square1.creature}" alt="Creature1">
+                    <img src="${trial.square1.object}" alt="Object1">
                   </div>
                 </td>
                 <td>
                   <div class="container">
-                    <img src="${trial.square2.creature}" alt="Creature 2">
-                    <img src="${trial.square2.object}" alt="Object 2">
+                    <img src="${trial.square2.creature}" alt="Creature2">
+                    <img src="${trial.square2.object}" alt="Object2">
                   </div>
                 </td>
               </tr>
@@ -91,16 +67,12 @@
       }
 
       // Time to display each set of images in milliseconds
-      const displayTime = 2000;
 
       // Initialize jsPsych
-      var jsPsych = initJsPsych({
-        on_finish: function () {
-          jsPsych.data.displayData();
-        },
-      });
+      var jsPsych = initJsPsych();
 
       var timeline = [];
+      var grid1 = createImageTable(trials[0]);
 
       // Instructions trial
       var instructions = {
@@ -115,7 +87,6 @@
         let imageTrial = {
           type: jsPsychHtmlKeyboardResponse,
           stimulus: createImageTable(trial),
-          choices: "NO_KEYS",
           // trial_duration: displayTime,
         };
         timeline.push(imageTrial);

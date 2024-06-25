@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Digit Span Task</title>
+    <script src="../jspsych/jspsych.js"></script>
+    <link rel="stylesheet" href="../jspsych/jspsych.css" />
+    <script src="../jspsych/plugin-html-keyboard-response.js"></script>
+    <script src="../jspsych/plugin-html-button-response.js"></script>
+  </head>
+  <body></body>
+  <script>
+    // Initialize jsPsych
+    const jsPsych = initJsPsych({
+      on_finish: function() {
+        jsPsych.data.displayData();
+      },
+    });
+    var timeline = [];
+
+    // Instructions
+    let instructions = {
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus:
+        "<h2>Esta es una tarea de memoria.</h2>" +
+        "<p>Essa é uma tarefa de memória.</p>" +
+        "<br>" +
+        "<h3>Algunos números surgirán en la pantalla, Pon atención. Cuándo termine, repita la secuencia. </h3>" +
+        "<p>Alguns números aparecerão na tela, observe com atenção. Assim que terminar, repita a sequência.</p>" +
+        "<br>",
+
+      choices: "ALL_KEYS",
+      prompt:
+        "<h4>Presione cualquier tecla para continuar.</h4>" +
+        "<p>Pressione qualquer tecla para continuar.</p>",
+    };
+    timeline.push(instructions);
+
+    // Helper function to generate a random digit sequence
+    function generateDigitSequence(length) {
+      var digits = [];
+      for (var i = 0; i < length; i++) {
+        digits.push(Math.floor(Math.random() * 9) + 1); // digits 1-9
+      }
+      return digits;
+    }
+
+    // Helper function to validate the user's response
+    function validateResponse(sequence, response) {
+      return JSON.stringify(sequence) === JSON.stringify(response);
+    }
+    
+    /**
+    * TODO: Add Backward Validation
+    */
+
+    // Trial to display each digit for one second|
+    function createDigitDisplayTrial(digit) {
+      return {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: '<div style="font-size: 48px;">' + digit + "</div>",
+        choices: "NO_KEYS",
+        stimulus_duration: 1000,
+        trial_duration: 1100,
+      };
+    }
+
+    // Trial to collect user's response using buttons
+    function createUserResponseTrial(sequence) {
+      var buttonsHTML = `
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 150px; margin: 0 auto;">
+            ${Array.from({length: 9}, (_, i) => `<button class="digit-button jspsych-btn" data-digit="${i + 1}" style="font-size: 24px; padding: 10px;">${i + 1}</button>`).join('')}
+          </div>
+          <div id="response" style="font-size: 24px; margin: 20px 0;"></div>
+        `;
+  
+      return {
+        type: jsPsychHtmlButtonResponse,
+        stimulus: '<p>Enter the sequence:</p>' + buttonsHTML,
+        choices: ["Submit"],
+        on_load: function() {
+          var response = [];
+          document.querySelectorAll('.digit-button').forEach(button => {
+            button.addEventListener('click', function() {
+              var digit = this.getAttribute('data-digit');
+              response.push(parseInt(digit));
+              document.getElementById('response').textContent = response.join(' ');
+            });
+          });
+        },
+        on_finish: function(data) {
+          var response = data.response;
+          jsPsych.data.addProperties({correct: validateResponse(sequence, response)});
+        }
+      };
+    }
+
+    // Main function to create trials for each digit sequence length
+    function createDigitSpanTrials() {
+      var sequenceLength = 2;
+
+      while (sequenceLength <= 3) {
+        var sequence1 = generateDigitSequence(sequenceLength);
+        var sequence2 = generateDigitSequence(sequenceLength);
+
+        var trials = [];
+
+        // First sequence
+        sequence1.forEach((digit) => {
+          trials.push(createDigitDisplayTrial(digit));
+        });
+        trials.push(createUserResponseTrial(sequence1));
+
+        // Second sequence
+        sequence2.forEach((digit) => {
+          trials.push(createDigitDisplayTrial(digit));
+        });
+        trials.push(createUserResponseTrial(sequence2));
+
+        timeline.push({
+          timeline: trials,
+          // conditional_function: function() {
+          //   var responses = jsPsych.data.get().last(2).filter({correct: true}).count();
+          //   return responses > 0;
+          // }
+        });
+
+        sequenceLength++;
+      }
+    }
+
+    // Start the experiment
+    createDigitSpanTrials();
+
+    jsPsych.run(timeline);
+  </script>
+</html>

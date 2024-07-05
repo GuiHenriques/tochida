@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tarefa de Tradução</title>
+    <script src="../jspsych/jspsych.js"></script>
+    <script src="../jspsych/plugin-survey-text.js"></script>
+    <script src="../jspsych/plugin-html-keyboard-response.js"></script>
+    <link href="../jspsych/jspsych.css" rel="stylesheet" type="text/css" />
+    <style>
+      body {
+        zoom: 140%;
+      }
+      p {
+        font-size: 13px;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      // Translation Task
+      const jsPsych = initJsPsych({
+        on_finish: function () {
+          jsPsych.data.displayData();
+        },
+      });
+
+      var timeline = [];
+
+      var instructions = {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus:
+          "<h4>Tarea de traducción</h4>" +
+          "<p>Tarefa de tradução</p>" +
+          "<br>" +
+          "<h5>Usted verá una palabra escrita en Portugues. Por favor, escriba una traducción equivalente en Español.</h5>" +
+          "<p>Você verá uma palavra escrita em Português. Por favor, escreva uma tradução correspondente em Espanhol." +
+          "<br>",
+
+        choices: "ALL_KEYS",
+        prompt:
+          "<br>" +
+          "<h5>Presione cualquier tecla para continuar.</h5>" +
+          "<p>Pressione qualquer tecla para continuar.</p>",
+      };
+      timeline.push(instructions);
+
+      // List of Portuguese words and their Spanish translations
+      var words = [
+        "MESA",
+        "CADEIRA",
+        "CHAVE",
+        "BICICLETA",
+        "JANELA",
+        "PORTA",
+        "CASA",
+        "IGREJA",
+        "CELULAR",
+        "RELÓGIO",
+        "CARRO",
+        "GATO",
+        "CACHORRO",
+        "MENINO",
+        "LIVRO",
+        "COMPUTADOR",
+      ];
+
+      // Create an array of objects containing the words
+      var translation_words = [];
+      for (var i = 0; i < words.length / 4; i++) {
+        translation_words.push({
+          word: words[i],
+        });
+      }
+
+      // Define the trial using timeline variables
+      var translation_trial = {
+        type: jsPsychSurveyText,
+        questions: [
+          {
+            prompt: jsPsych.timelineVariable("word"),
+            placeholder: "TRADUCCIÓN",
+            name: "answer",
+          },
+        ],
+        button_label: "SIGUIENTE",
+        data: {
+          prompt: jsPsych.timelineVariable("word"),
+        },
+      };
+
+      // Create a timeline and add the trials
+      var translation = {
+        timeline: [translation_trial],
+        timeline_variables: translation_words,
+      };
+
+      timeline.push(translation);
+
+      jsPsych.run(timeline);
+    </script>
+  </body>
+</html>

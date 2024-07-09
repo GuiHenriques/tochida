@@ -1,57 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Logica jspsych</title>
     <script src="../jspsych/jspsych.js"></script>
     <link rel="stylesheet" href="../jspsych/jspsych.css" />
     <script src="../jspsych/plugin-html-keyboard-response.js"></script>
     <script src="../jspsych/plugin-html-button-response.js"></script>
-</head>
-<body></body>
-<script>
+  </head>
+  <body></body>
+  <script>
+    // CONSTANTS
+    const sequences = [
+        ["2-9", "4-6"],
+        ["3-8-6", "6-1-2"],
+        ["3-4-1-7", "6-1-5-8"],
+        ["8-4-2-3-9", "5-2-1-8-6"],
+        ["3-8-9-1-7-4", "7-9-6-4-8-3"],
+        ["5-1-7-4-2-3-8", "9-8-5-2-1-6-3"],
+        ["1-8-4-5-9-7-6-3", "2-9-7-6-3-1-5-4"],
+        ["5-3-8-7-1-2-4-6-9", "4-2-6-9-1-7-8-3-5"]
+    ];
+
+
     const jsPsych = initJsPsych({
-        on_finish: function() {
-            jsPsych.data.displayData();
-        },
+      on_finish: function () {
+        jsPsych.data.displayData();
+      },
     });
 
     var timeline = [];
 
     timeline.push({
-        type: jsPsychHtmlKeyboardResponse,
-        stimulus: "Press <strong>R</strong> to right answer or <strong>W</strong> to wrong answer"
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus:
+        "Press <strong>R</strong> to right answer or <strong>W</strong> to wrong answer",
     });
 
     function createTrial(number) {
-        return {
-            type: jsPsychHtmlKeyboardResponse,
-            stimulus: `${number}`,
-        }
+      return {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: `${number}`,
+        choices: ["r", "w"],
+        on_finish: function (data) {
+          data.correct = data.response == "r";
+        },
+      };
     }
 
     function createLevel(level) {
-        const trial1 = createTrial(level);
-        const trial2 = createTrial(level);
-        return [trial1, trial2];
+      const trial1 = createTrial(level);
+      const trial2 = createTrial(level);
+      return [trial1, trial2];
     }
 
     function mainTest() {
-        let difficulty = 2
+      var total_score = 0;
+      let difficulty = 2;
+      while (difficulty < 5) {
+        var level_score = 0;
+        console.log("difficulty", difficulty);
 
-        if (difficulty == 4) {
-            return
-        }
+        const level = createLevel(difficulty);
+        timeline.push(...level);
 
-        level = createLevel(difficulty)
-        // console.log("level",  level);
-        timeline.push(...level)
+        // if (difficulty == 3) {
+        //   break;
+        // }
+        console.log(jsPsych.data.get());
+        difficulty++;
+      }
+      endTest(score);
+    }
 
-        difficulty++
+    function endTest(score) {
+      timeline.push({
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: "End of test. Your score is " + score + " points.",
+      });
     }
 
     mainTest();
-    jsPsych.run(timeline)
-</script>
+    jsPsych.run(timeline);
+  </script>
 </html>

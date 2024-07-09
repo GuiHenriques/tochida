@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logica jspsych</title>
+    <script src="../jspsych/jspsych.js"></script>
+    <link rel="stylesheet" href="../jspsych/jspsych.css" />
+    <script src="../jspsych/plugin-html-keyboard-response.js"></script>
+    <script src="../jspsych/plugin-html-button-response.js"></script>
+</head>
+<body></body>
+<script>
+    const jsPsych = initJsPsych({
+        on_finish: function() {
+            jsPsych.data.displayData();
+        },
+    });
+
+    var timeline = [];
+
+    timeline.push({
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: "Press <strong>R</strong> to right answer or <strong>W</strong> to wrong answer"
+    });
+
+    function createTrial(number) {
+        return {
+            type: jsPsychHtmlKeyboardResponse,
+            stimulus: `${number}`,
+        }
+    }
+
+    function createLevel(level) {
+        const trial1 = createTrial(level);
+        const trial2 = createTrial(level);
+        return [trial1, trial2];
+    }
+
+    function mainTest() {
+        let difficulty = 2
+
+        if (difficulty == 4) {
+            return
+        }
+
+        level = createLevel(difficulty)
+        // console.log("level",  level);
+        timeline.push(...level)
+
+        difficulty++
+    }
+
+    mainTest();
+    jsPsych.run(timeline)
+</script>
+</html>

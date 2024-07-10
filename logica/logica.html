@@ -51,7 +51,8 @@
       if (index < 0 || index >= sequences.length) {
         throw new Error("Index out of bounds");
       }
-      return sequences[index];
+      const [s1, s2] = sequences[index];
+      return { s1, s2 };
     }
 
     const jsPsych = initJsPsych({
@@ -75,8 +76,8 @@
         type: jsPsychHtmlKeyboardResponse,
         stimulus: `<div style="font-size:48px">${digit}</div>`,
         trial_duration: 600,
-        data: { type: "digit"},
-      }
+        data: { type: "digit" },
+      };
     }
 
     // Function to create a Response trial
@@ -99,17 +100,21 @@
     }
 
     // Function to create a conditional trial block
-    function createLevel(sequence1, sequence2) {
+    function createLevel(index) {
+      const { s1, s2 } = getSequences(index);
       
-      const stage1 = createResponseTrial(sequence1);
-      const stage2 = createResponseTrial(sequence2);
+      const digits1 = s1.map((digit) => createDigitTrial(digit));
+      const digits2 = s2.map((digit) => createDigitTrial(digit));
+      
+      const response1 = createResponseTrial(s1);
+      const response2 = createResponseTrial(s2);
 
       return {
-        timeline: [stage1, stage2],
+        timeline: [...digits1, response1, ...digits2, response2],
         conditional_function: function () {
           const correctCount = jsPsych.data
             .get()
-            .filter({ type: "response"})
+            .filter({ type: "response" })
             .last(2)
             .filter({ correct: true })
             .count();
@@ -119,22 +124,12 @@
       };
     }
 
-    // Initial trial to ensure the conditional logic starts correctly
-    const [s1, s2] = getSequences(0);
-    for (let digit of s1) {
-      timeline.push(createDigitTrial(digit));
-    }
-    timeline.push(createResponseTrial(0));
-
-    for (let digit of s2) {
-      timeline.push(createDigitTrial(digit));
-    }
-    timeline.push(createResponseTrial(0));
+    // Initial trial
+    timeline.push(...createLevel(0).timeline);
 
     // Add levels
     for (let i = 1; i <= 5; i++) {
-
-      timeline.push(createLevel(s1, s2));
+      timeline.push(createLevel(i));
     }
 
     // Function to generate the final score display dynamically

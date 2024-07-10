@@ -29,56 +29,76 @@
       },
     });
 
-        var timeline = [];
+    var timeline = [];
+    var score = 0;
 
+    // Instructions
     timeline.push({
-        type: jsPsychHtmlKeyboardResponse,
-        stimulus: "Press <strong>R</strong> to right answer or <strong>W</strong> to wrong answer",
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus:
+        "Press <strong>R</strong> to right answer or <strong>W</strong> to wrong answer",
+      choices: "ALL_KEYS",
     });
 
-    
-
+    // Function to create a trial
     function createTrial(number) {
-        return {
-            type: jsPsychHtmlKeyboardResponse,
-            stimulus: `<div style="font-size:28px">${number}</div>`,
-            choices: ["r", "w"],
-            data: { level: number },
-            on_finish: function (data) {
-                if (data.response === "r") {
-                    jsPsych.data.addProperties({ correct: true });
-                } else {
-                    jsPsych.data.addProperties({ correct: false });
-                }
-            },
-        };
+      return {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: `<div style="font-size:28px">${number}</div>`,
+        choices: ["r", "w"],
+        data: { level: number },
+        on_finish: function (data) {
+          if (data.response === "r") {
+            score++;
+            data.correct = true;
+          } else {
+            data.correct = false;
+          }
+          console.log("score", score);
+        },
+      };
     }
 
-    function createNextLevel(level) {
-        return {
-            timeline: [createTrial(level)],
-            conditional_function: function () {
-                var data = jsPsych.data.get().last(1).values()[0];
-                return data.response === "r";
-            },
-        };
+    // Function to create a conditional trial block
+    function createLevel(level) {
+      const stage1 = createTrial(level);
+      const stage2 = createTrial(level);
+
+      return {
+        timeline: [stage1, stage2],
+        conditional_function: function () {
+          const correctCount = jsPsych.data
+            .get()
+            .last(2)
+            .filter({ correct: true })
+            .count();
+          return correctCount > 0;
+        },
+      };
     }
 
-    // Initial trial
+    // Initial trial to ensure the conditional logic starts correctly
+    timeline.push(createTrial(0));
     timeline.push(createTrial(0));
 
-    // Next levels
-    for (let i = 1; i <= 3; i++) {
-        timeline.push(createNextLevel(i));
+    // Add levels
+    for (let i = 1; i <= 5; i++) {
+      timeline.push(createLevel(i));
     }
+
+    // Function to generate the final score display dynamically
+    function endTest() {
+      return {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: function () {
+          return `End of test. Your score is ${score} points`;
+        },
+      };
+    }
+
+    // Add the end test screen at the end of the timeline
+    timeline.push(endTest());
 
     jsPsych.run(timeline);
-
-    function endTest(score) {
-      timeline.push({
-        type: jsPsychHtmlKeyboardResponse,
-        stimulus: "End of test. Your score is " + score + " points.",
-      });
-    }
-    </script>
+  </script>
 </html>

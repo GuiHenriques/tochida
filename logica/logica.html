@@ -13,15 +13,46 @@
   <script>
     // CONSTANTS
     const sequences = [
-      ["2-9", "4-6"],
-      ["3-8-6", "6-1-2"],
-      ["3-4-1-7", "6-1-5-8"],
-      ["8-4-2-3-9", "5-2-1-8-6"],
-      ["3-8-9-1-7-4", "7-9-6-4-8-3"],
-      ["5-1-7-4-2-3-8", "9-8-5-2-1-6-3"],
-      ["1-8-4-5-9-7-6-3", "2-9-7-6-3-1-5-4"],
-      ["5-3-8-7-1-2-4-6-9", "4-2-6-9-1-7-8-3-5"],
+      [
+        ["2", "9"],
+        ["4", "6"],
+      ],
+      [
+        ["3", "8", "6"],
+        ["6", "1", "2"],
+      ],
+      [
+        ["3", "4", "1", "7"],
+        ["6", "1", "5", "8"],
+      ],
+      [
+        ["8", "4", "2", "3", "9"],
+        ["5", "2", "1", "8", "6"],
+      ],
+      [
+        ["3", "8", "9", "1", "7", "4"],
+        ["7", "9", "6", "4", "8", "3"],
+      ],
+      [
+        ["5", "1", "7", "4", "2", "3", "8"],
+        ["9", "8", "5", "2", "1", "6", "3"],
+      ],
+      [
+        ["1", "8", "4", "5", "9", "7", "6", "3"],
+        ["2", "9", "7", "6", "3", "1", "5", "4"],
+      ],
+      [
+        ["5", "3", "8", "7", "1", "2", "4", "6", "9"],
+        ["4", "2", "6", "9", "1", "7", "8", "3", "5"],
+      ],
     ];
+
+    function getSequences(index) {
+      if (index < 0 || index >= sequences.length) {
+        throw new Error("Index out of bounds");
+      }
+      return sequences[index];
+    }
 
     const jsPsych = initJsPsych({
       on_finish: function () {
@@ -35,18 +66,26 @@
     // Instructions
     timeline.push({
       type: jsPsychHtmlKeyboardResponse,
-      stimulus:
-        "Press <strong>R</strong> to right answer or <strong>W</strong> to wrong answer",
-      choices: "ALL_KEYS",
+      stimulus: "<strong>R</strong> to right or  <strong>W</strong> to wrong",
     });
 
-    // Function to create a trial
-    function createTrial(number) {
+    // Function to create a Digit trial
+    function createDigitTrial(digit) {
+      return {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: `<div style="font-size:48px">${digit}</div>`,
+        trial_duration: 600,
+        data: { type: "digit"},
+      }
+    }
+
+    // Function to create a Response trial
+    function createResponseTrial(number) {
       return {
         type: jsPsychHtmlKeyboardResponse,
         stimulus: `<div style="font-size:28px">${number}</div>`,
         choices: ["r", "w"],
-        data: { level: number },
+        data: { type: "response" },
         on_finish: function (data) {
           if (data.response === "r") {
             score++;
@@ -60,30 +99,42 @@
     }
 
     // Function to create a conditional trial block
-    function createLevel(level) {
-      const stage1 = createTrial(level);
-      const stage2 = createTrial(level);
+    function createLevel(sequence1, sequence2) {
+      
+      const stage1 = createResponseTrial(sequence1);
+      const stage2 = createResponseTrial(sequence2);
 
       return {
         timeline: [stage1, stage2],
         conditional_function: function () {
           const correctCount = jsPsych.data
             .get()
+            .filter({ type: "response"})
             .last(2)
             .filter({ correct: true })
             .count();
+
           return correctCount > 0;
         },
       };
     }
 
     // Initial trial to ensure the conditional logic starts correctly
-    timeline.push(createTrial(0));
-    timeline.push(createTrial(0));
+    const [s1, s2] = getSequences(0);
+    for (let digit of s1) {
+      timeline.push(createDigitTrial(digit));
+    }
+    timeline.push(createResponseTrial(0));
+
+    for (let digit of s2) {
+      timeline.push(createDigitTrial(digit));
+    }
+    timeline.push(createResponseTrial(0));
 
     // Add levels
     for (let i = 1; i <= 5; i++) {
-      timeline.push(createLevel(i));
+
+      timeline.push(createLevel(s1, s2));
     }
 
     // Function to generate the final score display dynamically

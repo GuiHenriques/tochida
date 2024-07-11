@@ -47,6 +47,7 @@
       ],
     ];
 
+    // Helper functions
     function getSequences(index) {
       if (index < 0 || index >= sequences.length) {
         throw new Error("Index out of bounds");
@@ -55,14 +56,19 @@
       return { s1, s2 };
     }
 
+    function validateResponse(sequence, response) {
+      return JSON.stringify(sequence) === JSON.stringify(response);
+    }
+
+    // VARIABLES
+    var timeline = [];
+    var score = 0;
+
     const jsPsych = initJsPsych({
       on_finish: function () {
         jsPsych.data.displayData();
       },
     });
-
-    var timeline = [];
-    var score = 0;
 
     // Instructions
     timeline.push({
@@ -81,36 +87,77 @@
     }
 
     // Function to create a Response trial
-    function createResponseTrial(number) {
+    function createResponseTrial(sequence) {
+      var stimulusHTML = `
+          <p>Enter the sequence (${sequence}):</p>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 150px; margin: 0 auto;">
+            ${Array.from(
+              { length: 9 },
+              (_, i) =>
+                `<button class="digit-button jspsych-btn" data-digit="${
+                  i + 1
+                }" style="font-size: 24px; padding: 10px;">${i + 1}</button>`
+            ).join("")}
+          </div>
+          <div id="response" style="font-size: 24px; margin: 20px 0;"></div>
+        `;
+
+      let user_response = [];
+
       return {
-        type: jsPsychHtmlKeyboardResponse,
-        stimulus: `<div style="font-size:28px">${number}</div>`,
-        choices: ["r", "w"],
+        type: jsPsychHtmlButtonResponse,
+        stimulus: stimulusHTML,
+        choices: ["Submit"],
         data: { type: "response" },
+        // post_trial_gap: 1000,
+        on_load: function () {
+          document.querySelectorAll(".digit-button").forEach((button) => {
+            button.addEventListener("click", function () {
+              var digit = this.getAttribute("data-digit");
+              user_response.push(digit);
+              document.getElementById("response").textContent = user_response.join(" ");
+            });
+          });
+        },
         on_finish: function (data) {
-          if (data.response === "r") {
+          data.user_response = user_response;
+          data.correct = validateResponse(sequence, user_response);
+          console.log("correct", data.correct);
+
+          if (data.correct) {
             score++;
-            data.correct = true;
-          } else {
-            data.correct = false;
           }
           console.log("score", score);
         },
       };
     }
 
+    function createFeedbackTrial() {
+        return {
+            type: jsPsychHtmlKeyboardResponse,
+            stimulus: function() {
+                const lastTrial = jsPsych.data.get().last(1).values()[0];
+                return lastTrial.correct ? "Correct!" : "Incorrect!";
+            },
+            trial_duration: 1000,
+            choices: "NO_KEYS"
+        };
+    }
+
     // Function to create a conditional trial block
     function createLevel(index) {
       const { s1, s2 } = getSequences(index);
-      
+
       const digits1 = s1.map((digit) => createDigitTrial(digit));
       const digits2 = s2.map((digit) => createDigitTrial(digit));
-      
+
       const response1 = createResponseTrial(s1);
       const response2 = createResponseTrial(s2);
 
+      const feedback = createFeedbackTrial();
+
       return {
-        timeline: [...digits1, response1, ...digits2, response2],
+        timeline: [...digits1, response1, feedback, ...digits2, response2, feedback],
         conditional_function: function () {
           const correctCount = jsPsych.data
             .get()

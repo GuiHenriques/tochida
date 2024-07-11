@@ -11,10 +11,10 @@
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0"
-    />
-  </head>
-  <body></body>
-  <script>
+      />
+    </head>
+    <body></body>
+    <script>
     // CONSTANTS
     const sequences = [
       [
@@ -50,7 +50,7 @@
         ["4", "2", "6", "9", "1", "7", "8", "3", "5"],
       ],
     ];
-
+    
     const backwardSequences = [
       [
         ["8", "2"],
@@ -90,6 +90,12 @@
       ],
     ];
 
+    // VARIABLES
+    let timeline = [];
+    let direct_score = 0;
+    let inward_score = -2;
+    let total_score = 0;
+    
     // Helper functions
     function getSequences(index) {
       if (index < 0 || index >= sequences.length) {
@@ -98,7 +104,7 @@
       const [s1, s2] = sequences[index];
       return { s1, s2 };
     }
-
+    
     function validateResponse(sequence, response) {
       return JSON.stringify(sequence) === JSON.stringify(response);
     }
@@ -123,11 +129,6 @@
       return true;
     }
 
-    // VARIABLES
-    let timeline = [];
-    let direct_score = 0;
-    let inward_score = -2;
-    let total_score = 0;
 
     const jsPsych = initJsPsych({
       on_finish: function () {
@@ -136,10 +137,23 @@
     });
 
     // Instructions
-    timeline.push({
+    let instructions = {
       type: jsPsychHtmlKeyboardResponse,
-      stimulus: "Direct order",
-    });
+      stimulus:
+        "<h2>Esta es una tarea de memoria.</h2>" +
+        "<p>Essa é uma tarefa de memória.</p>" +
+        "<br>" +
+        "<h3>Algunos números surgirán en la pantalla, Pon atención. Cuándo termine, repita la secuencia. </h3>" +
+        "<p>Alguns números aparecerão na tela, observe com atenção. Assim que terminar, repita a sequência.</p>" +
+        "<br>",
+
+      choices: "ALL_KEYS",
+      prompt:
+        "<h4>Presione cualquier tecla para continuar.</h4>" +
+        "<p>Pressione qualquer tecla para continuar.</p>",
+      data: { part: "instructions"}
+    };
+    timeline.push(instructions);
 
     // Function to create a Digit trial
     function createDigitTrial(digit) {

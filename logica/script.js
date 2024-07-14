@@ -6,8 +6,8 @@ import {
 } from "./utils.js";
 
 // CONSTANTS
-let pretrial_display_time = 2000;
-let digit_display_time = 1000;
+let pretrial_display_time = 200;
+let digit_display_time = 100;
 
 // VARIABLES
 let timeline = [];
@@ -15,7 +15,6 @@ let direct_score = 0;
 let inward_score = -2;
 let max_direct_sequence = 0;
 let max_inward_sequence = 0;
-let total_score = 0;
 
 const jsPsych = initJsPsych({
   on_finish: function () {
@@ -28,27 +27,25 @@ function createDirectInstructions() {
   return {
     type: jsPsychHtmlKeyboardResponse,
     stimulus:
-      "<h2>Esta es una tarea de memoria.</h2>" +
-      "<p>Essa é uma tarefa de memória.</p>" +
-      "<br>" +
-      "<h3>Algunos números surgirán en la pantalla, Pon atención. Cuándo termine, repita la secuencia. </h3>" +
-      "<p>Alguns números aparecerão na tela, observe com atenção. Assim que terminar, repita a sequência.</p>" +
-      "<br>",
-
-    choices: "ALL_KEYS",
-    prompt:
+      "<h4>Esta es una tarea de memoria.</h4>" +
+      "<h4>Algunos números surgirán en la pantalla, Pon atención. Cuándo termine, repita la secuencia. </h4>" +
       "<h4>Pulse cualquier tecla para seguir</h4>" +
-      "<p>Pressione qualquer tecla para continuar.</p>",
+      "<hr>" +
+      "<p>Essa é uma tarefa de memória.</p>" +
+      "<p>Alguns números aparecerão na tela, observe com atenção. Assim que terminar, repita a sequência.</p>" +
+      "<p>Pressione qualquer tecla para continuar.</p>" +
+      "<br>",
+    choices: "ALL_KEYS",
     data: { part: "instructions" },
   };
 }
-timeline.push(createDirectInstructions());
 
 // Function to create a pre trial preparation
 function createPreTrial() {
   return {
     type: jsPsychHtmlKeyboardResponse,
-    stimulus: "<h3>Memorice la secuencia</h3>" + "<p>Memorize a sequência</p>",
+    stimulus:
+      "<h4>Memorice la secuencia</h4>" + "<hr>" + "<p>Memorize a sequência</p>",
     choices: "NO_KEYS",
     trial_duration: pretrial_display_time,
     data: { type: "pre-trial" },
@@ -67,33 +64,33 @@ function createDigitTrial(digit) {
 
 // Function to create a Response trial
 function createResponseTrial(sequence, backward = false) {
-  let stimulusHTML = `
-              <p>Escriba la secuencia. ${sequence} :</p>
-              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 150px; margin: 0 auto;">
-                ${Array.from(
-                  { length: 9 },
-                  (_, i) =>
-                    `<button class="digit-button jspsych-btn" data-digit="${
-                      i + 1
-                    }" style="font-size: 24px; padding: 10px;">${
-                      i + 1
-                    }</button>`
-                ).join("")}
-              </div>
-              <div id="response" style="font-size: 24px; margin: 20px 0;"></div>
-              <div>
-              <button
-                id="clear-button"
-                class="jspsych-btn"
-                style="font-size: 12px; padding: 5px; margin-bottom: 20px"
-              >
-                <span style="display: inline-block; vertical-align: middle;">Borrar</span>
-                <span class="material-symbols-outlined" style="display: inline-block; vertical-align: middle; margin-left: 5px;">backspace</span>
-              </button>
-            </div>
-            `;
-
   let user_response = [];
+  
+  let stimulusHTML = `
+      <p>Escriba la secuencia. ${sequence} :</p>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 150px; margin: 0 auto;">
+        ${Array.from(
+          { length: 9 },
+          (_, i) =>
+            `<button class="digit-button jspsych-btn" data-digit="${
+              i + 1
+            }" style="font-size: 24px; padding: 10px;">${
+              i + 1
+            }</button>`
+        ).join("")}
+      </div>
+      <div id="response" style="font-size: 24px; margin: 20px 0;"></div>
+      <div>
+      <button
+        id="clear-button"
+        class="jspsych-btn"
+        style="font-size: 12px; padding: 5px; margin-bottom: 20px"
+      >
+        <span style="display: inline-block; vertical-align: middle;">Borrar</span>
+        <span class="material-symbols-outlined" style="display: inline-block; vertical-align: middle; margin-left: 5px;">backspace</span>
+      </button>
+      </div>
+    `;
 
   return {
     type: jsPsychHtmlButtonResponse,
@@ -121,13 +118,18 @@ function createResponseTrial(sequence, backward = false) {
       data.user_response = user_response;
       if (backward) {
         data.correct = validateBackwardResponse(sequence, user_response);
+
         if (data.correct) {
           inward_score++;
+          max_inward_sequence = sequence.length;
+          console.log("max inward", max_inward_sequence);
         }
       } else {
         data.correct = validateResponse(sequence, user_response);
         if (data.correct) {
           direct_score++;
+          max_direct_sequence = sequence.length;
+          console.log("max direct", max_direct_sequence);
         }
       }
       console.log(direct_score, inward_score);
@@ -142,8 +144,8 @@ function createFeedbackTrial() {
     stimulus: function () {
       const lastTrial = jsPsych.data.get().last(1).values()[0];
       return lastTrial.correct
-        ? "<h4>Correcto!</h4>" + "<p>Correto!</p>"
-        : "<h4>Incorrecto!</h4>" + "<p>Incorreto!</p>";
+        ? "<h4>Correcto!</h4>" + "<hr>" + "<p>Correto!</p>"
+        : "<h4>Incorrecto!</h4>" + "<hr>" + "<p>Incorreto!</p>";
     },
     trial_duration: 1000,
     choices: "NO_KEYS",
@@ -158,10 +160,16 @@ function createPraticeFeedbackTrial(sequence) {
     stimulus: function () {
       const lastTrial = jsPsych.data.get().last(1).values()[0];
       return lastTrial.correct
-        ? "<h4>Muy bien.</h4>" + "<p>Muito bem.</p>"
-        : `<p>No exactamente. La secuencia era <strong>${sequence[0]} - ${sequence[1]}</strong>.</p>
-              <p>Entonces, en orden de atrás hacia adelante debe introducir <strong>${sequence[1]} - ${sequence[0]}</strong>.</p>
-              <p>Vamos a intentarlo de nuevo.</p>`;
+        ? "<h4>Muy bien.</h4>" + "<hr>" + "<p>Muito bem.</p>"
+        : `<h4>No exactamente. La secuencia era ${sequence[0]} - ${sequence[1]}.</h4>
+            <h4>Entonces, en orden de atrás hacia adelante debe introducir ${sequence[1]} - ${sequence[0]}.</h4>
+            <h4>Vamos a intentarlo de nuevo.</h4>
+            <h4> Pulse cualquier tecla para seguir.</h4>
+            <hr>
+            <p>Não exatamente. A sequência era ${sequence[0]} - ${sequence[1]}.</p>
+            <p>Então, na ordem de trás para frente, você deve digitar ${sequence[1]} - ${sequence[0]}.</p>
+            <p>Vamos tentar novamente.</p>
+            <p>Pressione qualquer tecla para continuar.</p>`;
     },
     data: { type: "feedback" },
   };
@@ -171,8 +179,13 @@ function createMidPraticeFeedbackTrial() {
   return {
     type: jsPsychHtmlKeyboardResponse,
     stimulus:
-      "<h4>¿Vamos a intentar una vez más? Recuerde que debe introducir los números de atrás hacia adelante.</h4>" +
-      "<p>Vamos tentar mais uma vez? Lembre-se que você deve digitar os números de trás para frente.</p>",
+      "<h4>¿Vamos a intentar una vez más?</h4>" +
+      "<h4>Recuerde que debe introducir los números de atrás hacia adelante.</h4>" +
+      "<h4>Pulse cualquier tecla para seguir.</h4>" +
+      "<hr>" +
+      "<p>Vamos tentar mais uma vez?</p>" +
+      "<p>Lembre-se que você deve digitar os números de trás para frente.</p>" +
+      "<p>Pressione qualquer tecla para continuar.</p>",
     choices: "ALL_KEYS",
     data: { type: "feedback" },
   };
@@ -181,8 +194,12 @@ function createMidPraticeFeedbackTrial() {
 function createPostPracticeTrial() {
   return {
     type: jsPsychHtmlKeyboardResponse,
-    stimulus: "<h4>¡Vamos empezar!</h4>" + "<p>Vamos começar!</p>",
-    // "<p>Muito bem! Vamos começar</p>",
+    stimulus:
+      "<h4>¡Vamos empezar!</h4>" +
+      "<h4>Pulse cualquier tecla para seguir.</h4>" +
+      "<hr>" +
+      "<p>Vamos começar!</p>" +
+      "<p>Pressione qualquer tecla para continuar.</p>",
     choices: "ALL_KEYS",
     data: { type: "feedback" },
   };
@@ -243,34 +260,29 @@ function addDirectTrials() {
     timeline.push(createLevel(direct_index));
   }
 }
-// addDirectTrials();
 
 // Inward Instructions
 function createInwardInstructions() {
   return {
     type: jsPsychHtmlKeyboardResponse,
     stimulus:
-      "<h3>Ahora, usted verá algunos números más.</h3>" +
-      "<p>Agora, você verá mais alguns números</p>" +
-      "<br>" +
-      "<h3>Esta vez, cuándo termine, usted debe introducirlos en orden de atrás hacia  adelante. </h3>" +
-      "<p>Desta vez, quando terminar, você deve digitá-los de trás para frente. </p>" +
-      "<br>",
-
-    choices: "ALL_KEYS",
-    prompt:
+      "<h4>Ahora, usted verá algunos números más.</h4>" +
+      "<h4>Esta vez, cuándo termine, usted debe introducirlos en orden de atrás hacia  adelante. </h4>" +
       "<h4>¿Vamos a intentarlo?</h4>" +
-      "<p>Vamos tentar?</p>" +
-      "<br>" +
       "<h4>Pulse cualquier tecla para seguir</h4>" +
+      "<hr>" +
+      "<p>Agora, você verá mais alguns números</p>" +
+      "<p>Desta vez, quando terminar, você deve digitá-los de trás para frente. </p>" +
+      "<p>Vamos tentar?</p>" +
       "<p>Pressione qualquer tecla para continuar.</p>",
+    choices: "ALL_KEYS",
     data: { part: "instructions" },
   };
 }
-timeline.push(createInwardInstructions());
 
 // Function to create a practice trial
 function createPracticeTrial(sequence) {
+  let pratice_tries = 0;
   const pretrial = createPreTrial();
 
   const practiceDigitTrials = sequence.map((digit) => createDigitTrial(digit));
@@ -287,6 +299,9 @@ function createPracticeTrial(sequence) {
     loop_function: function (data) {
       const trialsData = data.values();
       const responseTrialData = trialsData[trialsData.length - 2];
+      if (pratice_tries == 2) {
+        return false;
+      }
       return !responseTrialData.correct;
     },
   };
@@ -307,7 +322,6 @@ function createPraticeLevel() {
     timeline: [practice1, midpractice, practice2, postpractice],
   };
 }
-timeline.push(createPraticeLevel());
 
 // Function to add levels to the timeline
 function addInwardTrials() {
@@ -334,6 +348,16 @@ function endTest() {
     choices: "NO_KEYS",
   };
 }
-timeline.push(endTest());
+
+function runExperiment() {
+  timeline.push(createDirectInstructions());
+  addDirectTrials();
+  timeline.push(createInwardInstructions());
+  timeline.push(createPraticeLevel());
+  addInwardTrials();
+  timeline.push(endTest());
+}
+
+runExperiment();
 
 jsPsych.run(timeline);

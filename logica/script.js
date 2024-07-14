@@ -7,6 +7,7 @@ import {
 
 // CONSTANTS
 let pretrial_display_time = 200;
+let feedback_display_time = 200;
 let digit_display_time = 100;
 
 // VARIABLES
@@ -57,6 +58,7 @@ function createDigitTrial(digit) {
   return {
     type: jsPsychHtmlKeyboardResponse,
     stimulus: `<div style="font-size:48px">${digit}</div>`,
+    choice: "NO_KEYS",
     trial_duration: digit_display_time,
     data: { type: "digit" },
   };
@@ -147,7 +149,7 @@ function createFeedbackTrial() {
         ? "<h4>Correcto!</h4>" + "<hr>" + "<p>Correto!</p>"
         : "<h4>Incorrecto!</h4>" + "<hr>" + "<p>Incorreto!</p>";
     },
-    trial_duration: 1000,
+    trial_duration: feedback_display_time,
     choices: "NO_KEYS",
     data: { type: "feedback" },
   };
@@ -171,6 +173,7 @@ function createPraticeFeedbackTrial(sequence) {
             <p>Vamos tentar novamente.</p>
             <p>Pressione qualquer tecla para continuar.</p>`;
     },
+    choices: "ALL_KEYS",
     data: { type: "feedback" },
   };
 }
@@ -332,19 +335,18 @@ function addInwardTrials() {
 addInwardTrials();
 
 // Function to generate the final score display dynamically
-function endTest() {
+function resultsTrial() {
   return {
     type: jsPsychHtmlKeyboardResponse,
     stimulus: function () {
-      const total_score = direct_score + inward_score;
       return `
                 <p>Pontos ordem direta: ${direct_score}</p>
                 <p>Pontos ordem inversa: ${inward_score}</p>
                 <p>Sequência Maior de Dígitos de Ordem Direta: ${max_direct_sequence}</p>
                 <p>Sequência Maior de Dígitos de Ordem Inversa: ${max_inward_sequence}</p>
-                <p>Total de pontos: ${total_score}</p>
             `;
     },
+    data: { part: "results"},
     choices: "NO_KEYS",
   };
 }
@@ -355,7 +357,7 @@ function runExperiment() {
   timeline.push(createInwardInstructions());
   timeline.push(createPraticeLevel());
   addInwardTrials();
-  timeline.push(endTest());
+  timeline.push(resultsTrial());
 }
 
 runExperiment();

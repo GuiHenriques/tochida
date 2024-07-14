@@ -13,7 +13,7 @@ let digit_display_time = 100;
 // VARIABLES
 let timeline = [];
 let direct_score = 0;
-let inward_score = -2;
+let inward_score = 0;
 let max_direct_sequence = 0;
 let max_inward_sequence = 0;
 
@@ -81,7 +81,7 @@ function createResponseTrial(sequence, backward = false) {
             }</button>`
         ).join("")}
       </div>
-      <div id="response" style="font-size: 24px; margin: 20px 0;"></div>
+      <div id="response" style="height: 24px; font-size: 24px; margin: 20px 0;"></div>
       <div>
       <button
         id="clear-button"
@@ -259,7 +259,6 @@ function addDirectTrials() {
 
   // Add levels
   for (let direct_index = 1; direct_index <= 7; direct_index++) {
-    max_direct_sequence = direct_index;
     timeline.push(createLevel(direct_index));
   }
 }
@@ -300,6 +299,7 @@ function createPracticeTrial(sequence) {
       feedback,
     ],
     loop_function: function (data) {
+      pratice_tries++;
       const trialsData = data.values();
       const responseTrialData = trialsData[trialsData.length - 2];
       if (pratice_tries == 2) {
@@ -328,11 +328,16 @@ function createPraticeLevel() {
 
 // Function to add levels to the timeline
 function addInwardTrials() {
-  for (let inward_index = 1; inward_index <= 8; inward_index++) {
+  inward_score = 0;
+  max_inward_sequence = 0;
+  
+  // Initial trial
+  timeline.push(...createLevel(1, true).timeline);
+
+  for (let inward_index = 2; inward_index <= 8; inward_index++) {
     timeline.push(createLevel(inward_index, true));
   }
 }
-addInwardTrials();
 
 // Function to generate the final score display dynamically
 function resultsTrial() {

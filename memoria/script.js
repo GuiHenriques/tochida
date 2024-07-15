@@ -95,6 +95,7 @@ function createResponseTrial(sequence, backward = false) {
   return {
     type: jsPsychHtmlKeyboardResponse,
     stimulus: stimulusHTML,
+    choices: "NO_KEYS",
     data: { type: "response" },
     on_load: function () {
       document.querySelectorAll(".digit-button").forEach((button) => {

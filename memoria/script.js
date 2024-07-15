@@ -69,35 +69,32 @@ function createResponseTrial(sequence, backward = false) {
   let user_response = [];
   
   let stimulusHTML = `
-      <p>Escriba la secuencia. ${sequence} :</p>
+      <p>Escriba la secuencia. (${sequence}) :</p>
       <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 150px; margin: 0 auto;">
         ${Array.from(
           { length: 9 },
           (_, i) =>
             `<button class="digit-button jspsych-btn" data-digit="${
               i + 1
-            }" style="font-size: 24px; padding: 10px;">${
-              i + 1
-            }</button>`
+            }" style="font-size: 24px; padding: 10px;">${i + 1}</button>`
         ).join("")}
       </div>
       <div id="response" style="height: 24px; font-size: 24px; margin: 20px 0;"></div>
-      <div>
-      <button
-        id="clear-button"
-        class="jspsych-btn"
-        style="font-size: 12px; padding: 5px; margin-bottom: 20px"
-      >
-        <span style="display: inline-block; vertical-align: middle;">Borrar</span>
-        <span class="material-symbols-outlined" style="display: inline-block; vertical-align: middle; margin-left: 5px;">backspace</span>
-      </button>
+      <div style="display: flex; justify-content: space-between; gap: 50px">
+        <button id="clear-button" class="jspsych-btn" style="padding: 7px">
+          <span style="display: inline-block; vertical-align: middle; font-size: 14px">Borrar</span>
+          <span class="material-symbols-outlined" style="display: inline-block; vertical-align: middle;">backspace</span>
+        </button>
+        <button id="submit-button" class="jspsych-btn" style="padding: 7px">
+          <span style="display: inline-block; vertical-align: middle; font-size: 16px">Seguir</span>
+          <span class="material-symbols-outlined" style="display: inline-block; vertical-align: middle;">arrow_forward</span>
+        </button>
       </div>
     `;
 
   return {
-    type: jsPsychHtmlButtonResponse,
+    type: jsPsychHtmlKeyboardResponse,
     stimulus: stimulusHTML,
-    choices: ['<div style="font-size:20px">Seguir</div>'],
     data: { type: "response" },
     on_load: function () {
       document.querySelectorAll(".digit-button").forEach((button) => {
@@ -115,6 +112,13 @@ function createResponseTrial(sequence, backward = false) {
           document.getElementById("response").textContent =
             user_response.join(" ");
         });
+      document
+        .getElementById("submit-button")
+        .addEventListener("click", function () {
+          jsPsych.finishTrial({
+            response: user_response,
+          });
+        });
     },
     on_finish: function (data) {
       data.user_response = user_response;
@@ -124,17 +128,14 @@ function createResponseTrial(sequence, backward = false) {
         if (data.correct) {
           inward_score++;
           max_inward_sequence = sequence.length;
-          console.log("max inward", max_inward_sequence);
         }
       } else {
         data.correct = validateResponse(sequence, user_response);
         if (data.correct) {
           direct_score++;
           max_direct_sequence = sequence.length;
-          console.log("max direct", max_direct_sequence);
         }
       }
-      console.log(direct_score, inward_score);
       user_response = [];
     },
   };

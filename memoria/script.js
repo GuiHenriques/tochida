@@ -6,9 +6,9 @@ import {
 } from "./utils.js";
 
 // CONSTANTS
-let pretrial_display_time = 200;
-let feedback_display_time = 200;
-let digit_display_time = 100;
+let pretrial_display_time = 2000;
+let feedback_display_time = 1500;
+let digit_display_time = 1000;
 
 // VARIABLES
 let timeline = [];
@@ -69,7 +69,7 @@ function createResponseTrial(sequence, backward = false) {
   let user_response = [];
   
   let stimulusHTML = `
-      <p>Escriba la secuencia. (${sequence}) :</p>
+      <p>Escriba la secuencia:</p>
       <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 150px; margin: 0 auto;">
         ${Array.from(
           { length: 9 },

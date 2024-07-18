@@ -114,4 +114,5 @@ function loadAudios() {
   var green = "assets/sound/speech_green.mp3";
   return [red, blue, green];
 }
+
 export { createGrid, createTestGrid, loadObjects, loadCreatures, loadAudios };

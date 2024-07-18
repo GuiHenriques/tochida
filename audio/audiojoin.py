@@ -12,7 +12,7 @@ def join_audio_files(input_files, output_file):
 
 
 # List of input audio files
-input_files = ["audio1.mp3", "audio2.mp3", "audio3.mp3"]
+input_files = ["sound/speech_blue.mp3", "sound/speech_green.mp3", "sound/speech_red.mp3"]
 
 # Output file name
 output_file = "combined_audio.mp3"

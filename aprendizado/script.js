@@ -8,10 +8,8 @@ import {
 
 import { trials_pt } from "./orders/order-test.js";
 import { trials_pt_1 } from "./orders/order-1.js";
-
-// VARIABLES
-let timeline = [];
-let experimentOrder;
+import { trials_pt_2 } from "./orders/order-2.js";
+import { trials_pt_3 } from "./orders/order-3.js";
 
 // Initialize jsPsych
 const jsPsych = initJsPsych();
@@ -19,37 +17,19 @@ const jsPsych = initJsPsych();
 // Choose Experiment Order
 function experimentOrderTrial() {
   return {
-    type: jsPsychHtmlKeyboardResponse,
-    stimulus: `
-    <p>Choose the order of the experiment.</p>
-    <div style="display: flex; justify-content: center; gap: 20px">
-        ${Array.from(
-          { length: 5 },
-          (_, i) =>
-            `<button class="digit-button jspsych-btn" data-digit="${i}" style="font-size: 24px;">${i}</button>`
-        ).join("")}
-      </div>
-    `,
-    choices: "NO_KEYS",
-    on_load: function () {
-      document.querySelectorAll(".digit-button").forEach((button) => {
-        button.addEventListener("click", function () {
-          experimentOrder = this.getAttribute("data-digit");
-          console.log("Experiment Order", experimentOrder);
-          jsPsych.finishTrial();
-        });
-      });
+    type: jsPsychHtmlButtonResponse,
+    stimulus: "<p>What is the order of the experiments</p>",
+    choices: ["1", "2", "3", "4"],
+    on_finish: function (data) {
+      data.order = data.response + 1;
     },
   };
 }
-
 // Select choosen trial
 function mapTrialOrders(index) {
-  console.log("Index", index);
   switch (index) {
     case "0":
-      console.log("Index", index);
-      return (trials_pt, "trials_es", "trials_pt_es", "trials_es_pt");
+      return trials_pt, "trials_es", "trials_pt_es", "trials_es_pt";
     case "1":
       return trials_pt_1;
     case "2":
@@ -105,6 +85,7 @@ function instructionsTestTrial() {
     choices: "ALL_KEYS",
   };
 }
+
 // Learn Trials
 function createLearnTrials(trials) {
   for (let i = 0; i < 2; i++) {
@@ -135,16 +116,22 @@ function createLearnTrials(trials) {
 //   timeline.push(test_trial);
 // });
 
-function runExperiment() {
+async function runExperiment() {
+  let timeline = [];
+
   // Preload assets
   timeline.push(preloadAssets());
 
   // Experiment order
-  timeline.push(experimentOrderTrial());
-  console.log("Eo", experimentOrder);
+  let order = experimentOrderTrial();
+  timeline.push(order);
+
+  // timeline.push({
+  //   type: jsPsychHtmlKeyboardResponse,
+  //   stimulus: `${experimentOrder}`,
+  // });
   //  Load order
-  let trials = mapTrialOrders(experimentOrder);
-  
+  // let trials = mapTrialOrders(experimentOrder);
 
   // Instructions
   timeline.push(instructionsLearnTrial());

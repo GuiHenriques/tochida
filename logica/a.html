@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>jsPsych Experiment</title>
+    <script src="../jspsych/jspsych.js"></script>
+    <script src="../jspsych/plugin-html-keyboard-response.js"></script>
+    <script src="../jspsych/plugin-audio-keyboard-response.js"></script>
+    <script src="../jspsych/plugin-preload.js"></script>
+    <script src="../jspsych/plugin-html-button-response.js"></script>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body></body>
+  <script>
+    const jsPsych = initJsPsych({
+      on_finish: function () {
+        jsPsych.data.displayData();
+      },
+    });
+
+    const timeline = [];
+
+    function experimentOrderTrial() {
+      return {
+        type: jsPsychHtmlButtonResponse,
+        stimulus: "<p>What is the order of the experiments?</p>",
+        choices: ["1", "2", "3", "4"],
+        on_finish: function (data) {
+          data.order = data.response + 1;
+          console.log(data);
+        }
+      };
+    }
+    timeline.push(experimentOrderTrial());
+
+   jsPsych.run(timeline);
+  </script>
+</html>

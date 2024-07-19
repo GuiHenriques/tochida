@@ -22,6 +22,7 @@ function experimentOrderTrial() {
     stimulus: "<p>What is the order of the experiments?</p>",
     choices: ["1", "2", "3", "4"],
     on_finish: function (data) {
+      data.type = "experiment_order";
       data.order = parseInt(data.response) + 1;
     },
   };
@@ -78,40 +79,37 @@ function createLearnTrials(trials) {
 }
 
 async function runExperiment() {
+  let preTimeline = [];
   let timeline = [];
 
   // Experiment order
   let orderTrial = experimentOrderTrial();
-  timeline.push(orderTrial);
+  preTimeline.push(orderTrial);
+
+  // Run the initial preTimeline to get the order
+  await jsPsych.run(preTimeline);
+
+  // Retrieve the selected order
+  let order = jsPsych.data
+    .get()
+    .filter({ type: "experiment_order" })
+    .values()[0].order;
+  console.log("Order:", order);
 
   // Instructions
   timeline.push(instructionsLearnTrial());
 
-  // Run the initial timeline to get the order
-  await jsPsych.run(timeline);
-
-  // Retrieve the selected order
-  let orderData = jsPsych.data
-    .get()
-    .filter({ trial_type: "html-button-response" })
-    .values();
-  let selectedOrder = orderData.length > 0 ? orderData[0].order : null;
-  console.log("Selected order:", selectedOrder);
-
   // Map the selected order to the corresponding trials
-  if (selectedOrder !== null) {
-    let trialOrder = mapTrialOrders(selectedOrder);
-    console.log("Trial order based on selection:", trialOrder);
+  let trialOrder = mapTrialOrders(order);
+  console.log("Trials:", trialOrder);
 
-    // Add the learn trials to the timeline
-    if (trialOrder) {
-      let learnTrials = createLearnTrials(trialOrder);
-      timeline = [...timeline, ...learnTrials];
-    }
+  
+  // Add the learn trials to the timeline
+  let learnTrials = createLearnTrials(trialOrder);
+  timeline.push(...learnTrials);
 
-    // Run the experiment with the updated timeline
-    jsPsych.run(timeline);
-  }
+  // Run the experiment
+  jsPsych.run(timeline);
 }
 
 runExperiment();

@@ -85,31 +85,84 @@ const trials_pt_1 = {
   ],
   test: [
     {
+      // Test 1
       grid: [
-        { creature: creatures[1] },
-        { creature: creatures[23] },
-        { creature: creatures[33] },
-        { creature: creatures[57] },
+        { creature: creatures[0] },
+        { creature: creatures[22] },
+        { creature: creatures[32] },
+        { creature: creatures[56] },
       ],
       audio: audios[0],
     },
     {
+      // Test 2
       grid: [
         { creature: creatures[6] },
         { creature: creatures[58] },
         { creature: creatures[32] },
         { creature: creatures[34] },
       ],
-      audio: audios[1],
+      audio: audios[0],
     },
     {
+      // Test 3
       grid: [
         { creature: creatures[59] },
         { creature: creatures[22] },
         { creature: creatures[17] },
         { creature: creatures[25] },
       ],
-      audio: audios[2],
+      audio: audios[0],
+    },
+    {
+      // Test 4
+      grid: [
+        { creature: creatures[7] },
+        { creature: creatures[0] },
+        { creature: creatures[59] },
+        { creature: creatures[35] },
+      ],
+      audio: audios[0],
+    },
+    {
+      // Test 5
+      grid: [
+        { creature: creatures[60] },
+        { creature: creatures[28] },
+        { creature: creatures[36] },
+        { creature: creatures[3] },
+      ],
+      audio: audios[0],
+    },
+    {
+      // Test 6
+      grid: [
+        { creature: creatures[61] },
+        { creature: creatures[22] },
+        { creature: creatures[28] },
+        { creature: creatures[37] },
+      ],
+      audio: audios[0],
+    },
+    {
+      // Test 7
+      grid: [
+        { creature: creatures[9] },
+        { creature: creatures[62] },
+        { creature: creatures[6] },
+        { creature: creatures[38] },
+      ],
+      audio: audios[0],
+    },
+    {
+      // Test 8
+      grid: [
+        { creature: creatures[63] },
+        { creature: creatures[29] },
+        { creature: creatures[39] },
+        { creature: creatures[15] },
+      ],
+      audio: audios[0],
     },
   ],
 };
@@ -197,7 +250,88 @@ const trials_es_1 = {
       audio: audios[0],
     },
   ],
-  grid: [],
+  test: [
+    {
+      // Test 1
+      grid: [
+        { creature: creatures[40] },
+        { creature: creatures[23] },
+        { creature: creatures[11] },
+        { creature: creatures[48] },
+      ],
+      audio: audios[0],
+    },
+    {
+      // Test 2
+      grid: [
+        { creature: creatures[41] },
+        { creature: creatures[1] },
+        { creature: creatures[8] },
+        { creature: creatures[49] },
+      ],
+      audio: audios[0],
+    },
+    {
+      // Test 3
+      grid: [
+        { creature: creatures[23] },
+        { creature: creatures[42] },
+        { creature: creatures[20] },
+        { creature: creatures[50] },
+      ],
+      audio: audios[0],
+    },
+    {
+      // Test 4
+      grid: [
+        { creature: creatures[43] },
+        { creature: creatures[11] },
+        { creature: creatures[23] },
+        { creature: creatures[51] },
+      ],
+      audio: audios[0],
+    },
+    {
+      // Test 5
+      grid: [
+        { creature: creatures[29] },
+        { creature: creatures[44] },
+        { creature: creatures[8] },
+        { creature: creatures[52] },
+      ],
+      audio: audios[0],
+    },
+    {
+      // Test 6
+      grid: [
+        { creature: creatures[45] },
+        { creature: creatures[14] },
+        { creature: creatures[2] },
+        { creature: creatures[53] },
+      ],
+      audio: audios[0],
+    },
+    {
+      // Test 7
+      grid: [
+        { creature: creatures[46] },
+        { creature: creatures[5] },
+        { creature: creatures[27] },
+        { creature: creatures[54] },
+      ],
+      audio: audios[0],
+    },
+    {
+      // Test 8
+      grid: [
+        { creature: creatures[47] },
+        { creature: creatures[27] },
+        { creature: creatures[17] },
+        { creature: creatures[55] },
+      ],
+      audio: audios[0],
+    },
+  ],
 };
 
 const trials_es_pt_1 = {
@@ -283,7 +417,88 @@ const trials_es_pt_1 = {
       audio: audios[0],
     },
   ],
-  grid: [],
+  test: [
+    {
+      // Test 1
+      grid: [
+        { creature: creatures[12] },
+        { creature: creatures[48] },
+        { creature: creatures[19] },
+        { creature: creatures[49] },
+      ],
+      audio: audios[0],
+    },
+    {
+      // Test 2
+      grid: [
+        { creature: creatures[49] },
+        { creature: creatures[25] },
+        { creature: creatures[24] },
+        { creature: creatures[46] },
+      ],
+      audio: audios[0],
+    },
+    {
+      // Test 3
+      grid: [
+        { creature: creatures[50] },
+        { creature: creatures[12] },
+        { creature: creatures[26] },
+        { creature: creatures[45] },
+      ],
+      audio: audios[0],
+    },
+    {
+      // Test 4
+      grid: [
+        { creature: creatures[51] },
+        { creature: creatures[44] },
+        { creature: creatures[19] },
+        { creature: creatures[2] },
+      ],
+      audio: audios[0],
+    },
+    {
+      // Test 5
+      grid: [
+        { creature: creatures[30] },
+        { creature: creatures[52] },
+        { creature: creatures[9] },
+        { creature: creatures[43] },
+      ],
+      audio: audios[0],
+    },
+    {
+      // Test 6
+      grid: [
+        { creature: creatures[53] },
+        { creature: creatures[15] },
+        { creature: creatures[42] },
+        { creature: creatures[14] },
+      ],
+      audio: audios[0],
+    },
+    {
+      // Test 7
+      grid: [
+        { creature: creatures[4] },
+        { creature: creatures[31] },
+        { creature: creatures[54] },
+        { creature: creatures[41] },
+      ],
+      audio: audios[0],
+    },
+    {
+      // Test 8
+      grid: [
+        { creature: creatures[55] },
+        { creature: creatures[16] },
+        { creature: creatures[40] },
+        { creature: creatures[6] },
+      ],
+      audio: audios[0],
+    },
+  ],
 };
 
 const trials_pt_es_1 = {
@@ -369,8 +584,88 @@ const trials_pt_es_1 = {
       audio: audios[0],
     },
   ],
-  grid: [],
+  grid: [
+    {
+      // Test 1
+      grid: [
+        { creature: creatures[56] },
+        { creature: creatures[24] },
+        { creature: creatures[18] },
+        { creature: creatures[39] },
+      ],
+      audio: audios[0],
+    },
+    {
+      // Test 2
+      grid: [
+        { creature: creatures[18] },
+        { creature: creatures[57] },
+        { creature: creatures[3] },
+        { creature: creatures[38] },
+      ],
+      audio: audios[0],
+    },
+    {
+      // Test 3
+      grid: [
+        { creature: creatures[58] },
+        { creature: creatures[26] },
+        { creature: creatures[37] },
+        { creature: creatures[7] },
+      ],
+      audio: audios[0],
+    },
+    {
+      // Test 4
+      grid: [
+        { creature: creatures[20] },
+        { creature: creatures[59] },
+        { creature: creatures[25] },
+        { creature: creatures[36] },
+      ],
+      audio: audios[0],
+    },
+    {
+      // Test 5
+      grid: [
+        { creature: creatures[60] },
+        { creature: creatures[10] },
+        { creature: creatures[35] },
+        { creature: creatures[1] },
+      ],
+      audio: audios[0],
+    },
+    {
+      // Test 6
+      grid: [
+        { creature: creatures[61] },
+        { creature: creatures[10] },
+        { creature: creatures[30] },
+        { creature: creatures[34] },
+      ],
+      audio: audios[0],
+    },
+    {
+      // Test 7
+      grid: [
+        { creature: creatures[62] },
+        { creature: creatures[13] },
+        { creature: creatures[4] },
+        { creature: creatures[33] },
+      ],
+      audio: audios[0],
+    },
+    {
+      // Test 8
+      grid: [
+        { creature: creatures[63] },
+        { creature: creatures[17] },
+        { creature: creatures[13] },
+        { creature: creatures[32] },
+      ],
+      audio: audios[0],
+    },
+  ],
 };
 
-
-export { trials_pt_1, trials_es_1, trials_pt_es_1, trials_es_pt_1};
+export { trials_pt_1, trials_es_1, trials_pt_es_1, trials_es_pt_1 };

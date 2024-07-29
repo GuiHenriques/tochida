@@ -48,3 +48,17 @@ button {
 button:hover {
   background-color: #eee;
 }
+
+.fixation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+}
+
+.fixation-cross {
+  color: white;
+  font-size: 100px;
+}

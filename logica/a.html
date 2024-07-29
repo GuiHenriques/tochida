@@ -23,17 +23,17 @@
 
     function experimentOrderTrial() {
       return {
-        type: jsPsychHtmlButtonResponse,
-        stimulus: "<p>What is the order of the experiments?</p>",
-        choices: ["1", "2", "3", "4"],
-        on_finish: function (data) {
-          data.order = data.response + 1;
-          console.log(data);
-        }
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: `
+          <div class="fixation">
+            <p class="fixation-cross">+</p>
+          </div>
+          `,
+        trial_duration: 30000,
       };
     }
     timeline.push(experimentOrderTrial());
 
-   jsPsych.run(timeline);
+    jsPsych.run(timeline);
   </script>
 </html>

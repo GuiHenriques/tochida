@@ -106,15 +106,15 @@ function createLearnTrials(trials) {
     });
   }
 }
-// // Test trial
-// trials_pt.test.forEach((trial) => {
-//   let test_trial = {
-//     type: jsPsychHtmlKeyboardResponse,
-//     stimulus: createTestGrid(trial),
-//     // trial_duration: displayTime,
-//   };
-//   timeline.push(test_trial);
-// });
+// Test trial
+trials_pt.test.forEach((trial) => {
+  let test_trial = {
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus: createTestGrid(trial),
+    // trial_duration: displayTime,
+  };
+  timeline.push(test_trial);
+});
 
 async function runExperiment() {
   let timeline = [];

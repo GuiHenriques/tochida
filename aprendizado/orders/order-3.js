@@ -1,6 +1,7 @@
 import { creatures, objects, audios } from "./loader.js";
 
 const trials_es_pt_3 = {
+  order: "3-ES-PT",
   learn: [
     // Trial 1
     {
@@ -166,6 +167,7 @@ const trials_es_pt_3 = {
 };
 
 const trials_pt_es_3 = {
+  order: "3-PT-ES",
   learn: [
     // Trial 1
     {
@@ -331,6 +333,7 @@ const trials_pt_es_3 = {
 };
 
 const trials_pt_3 = {
+  order: "3-PT",
   learn: [
     // Trial 1
     {
@@ -496,6 +499,7 @@ const trials_pt_3 = {
 };
 
 const trials_es_3 = {
+  order: "3-ES",
   learn: [
     // Trial 1
     {
@@ -659,3 +663,5 @@ const trials_es_3 = {
       audio: audios[0],
     },],
 };
+
+export { trials_es_pt_3, trials_pt_es_3, trials_pt_3, trials_es_3 };

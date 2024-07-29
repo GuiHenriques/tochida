@@ -1,6 +1,7 @@
 import { creatures, objects, audios } from "./loader.js";
 
 const trials_pt_1 = {
+  order: "1-PT",
   learn: [
     {
       // Trial 1
@@ -168,6 +169,7 @@ const trials_pt_1 = {
 };
 
 const trials_es_1 = {
+  order: "1-ES",
   learn: [
     {
       // Trial 1
@@ -335,6 +337,7 @@ const trials_es_1 = {
 };
 
 const trials_es_pt_1 = {
+  order: "1-ES-PT",
   learn: [
     {
       // Trial 1
@@ -502,6 +505,7 @@ const trials_es_pt_1 = {
 };
 
 const trials_pt_es_1 = {
+  order: "1-PT-ES",
   learn: [
     {
       // Trial 1
@@ -584,7 +588,7 @@ const trials_pt_es_1 = {
       audio: audios[0],
     },
   ],
-  grid: [
+  test: [
     {
       // Test 1
       grid: [

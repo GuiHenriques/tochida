@@ -6,7 +6,7 @@ import {
   loadAudios,
 } from "./utils.js";
 
-import { trials_pt } from "./orders/order-test.js";
+import { trials_pt, trials_es } from "./orders/order-test.js";
 import {
   trials_pt_1,
   trials_es_1,
@@ -33,11 +33,11 @@ import {
 } from "./orders/order-4.js";
 
 // Constants
-let fixationTime = 300;
+let fixationTime = 3000;
 let preLearnTrialTime = 500;
-let learnTrialTime = 650;
+let learnTrialTime = 6500;
 let preTestTrialTime = 1000;
-let testTrialTime = 600;
+let testTrialTime = 6000;
 
 // Initialize jsPsych
 const jsPsych = initJsPsych();
@@ -59,7 +59,7 @@ function experimentOrderTrial() {
 function mapTrialOrders(index) {
   switch (index) {
     case 0:
-      return trials_pt;
+      return [trials_pt, trials_es];
     case 1:
       return [trials_pt_1, trials_es_1, trials_es_pt_1, trials_pt_es_1];
     case 2:
@@ -68,8 +68,6 @@ function mapTrialOrders(index) {
       return [trials_es_pt_3, trials_pt_es_3, trials_pt_3, trials_es_3];
     case 4:
       return [trials_pt_es_4, trials_es_pt_4, trials_es_4, trials_pt_4];
-    default:
-      return null;
   }
 }
 
@@ -107,6 +105,7 @@ function createLearnTrials(trials) {
         type: jsPsychHtmlKeyboardResponse,
         stimulus: createGrid(trial.grid),
         trial_duration: preLearnTrialTime,
+        // choices: "NO_KEYS",
       };
 
       let sound_learn_trial = {
@@ -114,6 +113,7 @@ function createLearnTrials(trials) {
         stimulus: trial.audio,
         prompt: createGrid(trial.grid),
         trial_duration: learnTrialTime,
+        // choices: "NO_KEYS",
       };
 
       learnTimeline = learnTimeline.concat([
@@ -135,15 +135,17 @@ function createTestTrials(trials) {
 
     let image_test_trial = {
       type: jsPsychHtmlKeyboardResponse,
-      stimulus: createTestGrid(trial),
+      stimulus: createTestGrid(trial.grid),
       trial_duration: preTestTrialTime,
+      // choices: "NO_KEYS",
     };
 
     let sound_test_trial = {
       type: jsPsychAudioKeyboardResponse,
       stimulus: trial.audio,
-      prompt: createTestGrid(trial),
+      prompt: createTestGrid(trial.grid),
       trial_duration: testTrialTime,
+      // choices: "NO_KEYS",
     };
 
     testTimeline = testTimeline.concat([
@@ -152,6 +154,14 @@ function createTestTrials(trials) {
       sound_test_trial,
     ]);
   });
+
+  return testTimeline;
+}
+
+function joinLearnAndTestTrials(order) {
+  let learnTrials = createLearnTrials(order);
+  let testTrials = createTestTrials(order);
+  return learnTrials.concat(testTrials);
 }
 
 async function runExperiment() {
@@ -170,6 +180,7 @@ async function runExperiment() {
     .get()
     .filter({ type: "experiment_order" })
     .values()[0].order;
+
   console.log("Order:", order);
 
   // Instructions
@@ -177,22 +188,18 @@ async function runExperiment() {
 
   // Map the selected order to the corresponding trials
   let orders = mapTrialOrders(order);
-  console.log("Orders:", orders);
+  console.log("Orders:", typeof orders, orders);
 
-  // Add the learn trials to the timeline
+  // Add trials
   orders.forEach((order) => {
-    let learnTrials = createLearnTrials(order);
-    timeline.push(...learnTrials);
-  });
-
-  // Add the test trials to the timeline
-  orders.forEach((order) => {
-    let testTrials = createTestGrid(order.test);
-    timeline.push(...testTrials);
+    let learnAndTestTrials = joinLearnAndTestTrials(order);
+    timeline.push(...learnAndTestTrials);
   });
 
   // Run the experiment
   jsPsych.run(timeline);
 }
+
+
 
 runExperiment();

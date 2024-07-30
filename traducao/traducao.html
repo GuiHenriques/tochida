@@ -5,6 +5,7 @@
     <script src="../jspsych/jspsych.js"></script>
     <script src="../jspsych/plugin-survey-text.js"></script>
     <script src="../jspsych/plugin-html-keyboard-response.js"></script>
+    <script src="../utils/saveData.js"></script>
     <link href="../jspsych/jspsych.css" rel="stylesheet" type="text/css" />
     <style>
       body {
@@ -20,29 +21,45 @@
       // Translation Task
       const jsPsych = initJsPsych({
         on_finish: function () {
+          let data = jsPsych.data.get().csv();
+          console.log("data:", data);   
+
+          let participant_id = jsPsych.data.get().values()[0].response.participante_id;
+          console.log("id:", participant_id);
+
+          let filename = "traducao_" + participant_id + ".csv";
+          console.log("filename:", filename);
+
+          saveData(data, filename);
+    
           jsPsych.data.displayData();
         },
       });
 
       var timeline = [];
 
+      // Participant ID
+      let participantId = {
+        type: jsPsychSurveyText,
+        questions: [{ prompt: "ID do participante", name: "participante_id", columns: 20 }],
+        button_label: "Continuar",
+        data: { part: "participant_id" },
+      };
+      timeline.push(participantId);
+
       var instructions = {
         type: jsPsychHtmlKeyboardResponse,
         stimulus:
-          "<h4>Tarea de traducción</h4>" +
-          "<p>Tarefa de tradução</p>" +
-          "<br>" +
+          "<h5>Tarea de traducción</h5>" +
           "<h5>Usted verá una palabra escrita en Portugues. Por favor, escriba una traducción equivalente en Español.</h5>" +
-          "<p>Você verá uma palavra escrita em Português. Por favor, escreva uma tradução correspondente em Espanhol." +
-          "<br>",
-
-        choices: "ALL_KEYS",
-        prompt:
-          "<br>" +
           "<h5>Presione cualquier tecla para continuar.</h5>" +
+          "<hr>" +
+          "<p>Tarefa de tradução</p>" +
+          "<p>Você verá uma palavra escrita em Português. Por favor, escreva uma tradução correspondente em Espanhol." +
           "<p>Pressione qualquer tecla para continuar.</p>",
+        choices: "ALL_KEYS",
       };
-      timeline.push(instructions);
+      // timeline.push(instructions);
 
       // List of Portuguese words and their Spanish translations
       var words = [
@@ -66,7 +83,7 @@
 
       // Create an array of objects containing the words
       var translation_words = [];
-      for (var i = 0; i < words.length / 4; i++) {
+      for (var i = 0; i < words.length/8; i++) {
         translation_words.push({
           word: words[i],
         });
@@ -79,7 +96,7 @@
           {
             prompt: jsPsych.timelineVariable("word"),
             placeholder: "TRADUCCIÓN",
-            name: "answer",
+            name: jsPsych.timelineVariable("word"),
           },
         ],
         button_label: "SIGUIENTE",

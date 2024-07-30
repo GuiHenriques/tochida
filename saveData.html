@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>save data</title>
+    <script src="../jspsych/jspsych.js"></script>
+    <script src="../jspsych/plugin-html-button-response.js"></script>
+    <script src="./utils/saveData.js"></script>
+    <link rel="stylesheet" href="./jspsych/jspsych.css" />
+  </head>
+  <body></body>
+  <script>
+    const jsPsych = initJsPsych({
+      on_finish: function () {
+        saveData(jsPsych.data.get().filter({trial_index: 1}).csv(), "data.csv");
+        jsPsych.data.displayData();
+      },
+    });
+
+    let instruction = {
+      type: jsPsychHtmlButtonResponse,
+      stimulus: "This is a example of saving data",
+      choices: ["Continue"],
+    }
+
+    let response = {
+      type: jsPsychHtmlButtonResponse,
+      stimulus: "Select your answer",
+      choices: ["A", "B", "C", "D"],
+    };
+
+    jsPsych.run([instruction, response]);
+  </script>
+</html>

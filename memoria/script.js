@@ -20,7 +20,13 @@ let max_inward_sequence = 0;
 
 const jsPsych = initJsPsych({
   on_finish: function () {
-    let filename = jsPsych.data.get().first(1).values()[0]
+    let participant_id = jsPsych.data
+      .get()
+      .filter({ part: "participant_id" })
+      .values()[0].response.id;
+    console.log("Participant ID", participant_id);
+    let data = jsPsych.data.get().filter({ part: "results" }).values()[0];
+    console.log("Data", data);
     jsPsych.data.displayData();
   },
 });
@@ -29,7 +35,7 @@ const jsPsych = initJsPsych({
 function getParticipantId() {
   return {
     type: jsPsychSurveyText,
-    questions: [{ prompt: "ID do participante", columns: 20 }],
+    questions: [{ prompt: "ID do participante", name: "id", columns: 20 }],
     button_label: "Continuar",
     data: { part: "participant_id" },
   };
@@ -365,18 +371,24 @@ function resultsTrial() {
                 <p>Sequência Maior de Dígitos de Ordem Inversa: ${max_inward_sequence}</p>
             `;
     },
-    data: { part: "results" },
-    choices: "NO_KEYS",
+    data: {
+      part: "results",
+      pontos_ordem_direta: direct_score,
+      pontos_ordem_inversa: inward_score,
+      maior_sequencia_direta: max_direct_sequence,
+      maior_sequencia_inversa: max_inward_sequence,
+    },
+    // choices: "NO_KEYS",
   };
 }
 
 function runExperiment() {
   timeline.push(getParticipantId());
   timeline.push(createDirectInstructions());
-  addDirectTrials();
-  timeline.push(createInwardInstructions());
-  timeline.push(createPraticeLevel());
-  addInwardTrials();
+  // addDirectTrials();
+  // timeline.push(createInwardInstructions());
+  // timeline.push(createPraticeLevel());
+  // addInwardTrials();
   timeline.push(resultsTrial());
 }
 

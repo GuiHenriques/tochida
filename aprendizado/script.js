@@ -25,6 +25,7 @@ function experimentOrderTrial() {
     },
   };
 }
+
 // Select choosen trial
 function mapTrialOrders(index) {
   switch (index) {

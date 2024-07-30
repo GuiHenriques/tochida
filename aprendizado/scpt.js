@@ -42,11 +42,23 @@ let testTrialTime = 6000;
 // Initialize jsPsych
 const jsPsych = initJsPsych();
 
+// Preload
+function preloadAssets() {
+  let images = loadObjects().concat(loadCreatures());
+  let audios = loadAudios();
+
+  return {
+    type: jsPsychPreload,
+    audio: audios,
+    images: images,
+  };
+}
+
 // Choose Experiment Order
 function experimentOrderTrial() {
   return {
     type: jsPsychHtmlButtonResponse,
-    stimulus: "<p>What is the order of the experiments?</p>",
+    stimulus: "<p>Ordem do Experimento</p>",
     choices: ["0", "1", "2", "3", "4"],
     on_finish: function (data) {
       data.type = "experiment_order";
@@ -75,7 +87,32 @@ function mapTrialOrders(index) {
 function instructionsLearnTrial() {
   return {
     type: jsPsychHtmlKeyboardResponse,
-    stimulus: "<p>Instructions</p>",
+
+    stimulus:
+      "<div style='text-align: center; width: 80%; margin: auto;'>" +
+      "<h4>En esta actividad, usted verá algunas figuras y oirá una voz le orientando a mirar a una de estas figuras. Direccione su mirada a la figura indicada.</h4>" +
+      "<h4>Pulse cualquier tecla para seguir</h4>" +
+      "<hr>" +
+      "<p>Nessa atividade, você verá algumas figuras na tela, e ouvirá uma voz te orientando a olhar para uma dessas figuras. Direcione seu olhar para a figura indicada.</p>" +
+      "<p>Pressione qualquer tecla para continuar.</p>" +
+      "</div>",
+    choices: "ALL_KEYS",
+  };
+}
+
+// Instructions Test trial
+function instructionsTestTrial() {
+  return {
+    type: jsPsychHtmlKeyboardResponse,
+
+    stimulus:
+      "<div style='text-align: center; width: 80%; margin: auto;'>" +
+      "<h4>Oiga la palabra y direccione su mirada a la figura indicada.</h4>" +
+      "<h4>Pulse cualquier tecla para seguir</h4>" +
+      "<hr>" +
+      "<p>Ouça a palavra e direcione seu olhar para a figura indicada.</p>" +
+      "<p>Pressione qualquer tecla para continuar.</p>" +
+      "</div>",
     choices: "ALL_KEYS",
   };
 }
@@ -96,6 +133,8 @@ function createFixationTrial() {
 // Learn Trials
 function createLearnTrials(trials) {
   let learnTimeline = [];
+
+  learnTimeline.push(instructionsLearnTrial());
   // Repeat twice
   for (let i = 0; i < 2; i++) {
     trials.learn.forEach((trial) => {
@@ -129,6 +168,8 @@ function createLearnTrials(trials) {
 // Test Trials
 function createTestTrials(trials) {
   let testTimeline = [];
+
+  testTimeline.push(instructionsTestTrial());
 
   trials.test.forEach((trial) => {
     let fixation = createFixationTrial();
@@ -164,9 +205,25 @@ function joinLearnAndTestTrials(order) {
   return learnTrials.concat(testTrials);
 }
 
+function thankTrial() {
+  return {
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus:
+      "<div style='text-align: center; width: 80%; margin: auto;'>" +
+      "<h4>¡Gracias!</h4>" +
+      "<hr>" +
+      "<p>Obrigado!</p>" +
+      "</div>",
+    choices: "NO_KEYS"
+  };
+}
+
 async function runExperiment() {
   let preTimeline = [];
   let timeline = [];
+
+  // Preload Assets
+  preloadAssets();
 
   // Experiment order
   let orderTrial = experimentOrderTrial();
@@ -195,6 +252,9 @@ async function runExperiment() {
     let learnAndTestTrials = joinLearnAndTestTrials(order);
     timeline.push(...learnAndTestTrials);
   });
+
+  // Thank Trial
+  timeline.push(thankTrial());
 
   // Run the experiment
   jsPsych.run(timeline);

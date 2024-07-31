@@ -13,6 +13,7 @@ let digit_display_time = 1000;
 
 // VARIABLES
 let timeline = [];
+let participant = "";
 let direct_score = 0;
 let inward_score = 0;
 let max_direct_sequence = 0;
@@ -25,9 +26,21 @@ const jsPsych = initJsPsych({
       .filter({ part: "participant_id" })
       .values()[0].response.id;
     console.log("Participant ID", participant_id);
-    let data = jsPsych.data.get().filter({ part: "results" }).values()[0];
-    console.log("Data", data);
-    jsPsych.data.displayData();
+
+    let data = jsPsych.data
+      .get()
+      .last()
+      .ignore("stimulus")
+      .ignore("rt")
+      .ignore("time_elapsed")
+      .ignore("internal_node_id")
+      .ignore("trial_type")
+      .ignore("trial_index")
+      .ignore("response")
+      .csv();
+
+    let filename = `memoria_${participant_id}.csv`;
+    saveData(data, filename);
   },
 });
 
@@ -38,6 +51,9 @@ function getParticipantId() {
     questions: [{ prompt: "ID do participante", name: "id", columns: 20 }],
     button_label: "Continuar",
     data: { part: "participant_id" },
+    on_finish: function (data) {
+      participant = data.response.id;
+    }
   };
 }
 
@@ -76,7 +92,7 @@ function createDigitTrial(digit) {
   return {
     type: jsPsychHtmlKeyboardResponse,
     stimulus: `<div style="font-size:48px">${digit}</div>`,
-    choice: "NO_KEYS",
+    choices: "NO_KEYS",
     trial_duration: digit_display_time,
     data: { type: "digit" },
   };
@@ -371,12 +387,12 @@ function resultsTrial() {
                 <p>Sequência Maior de Dígitos de Ordem Inversa: ${max_inward_sequence}</p>
             `;
     },
-    data: {
-      part: "results",
-      pontos_ordem_direta: direct_score,
-      pontos_ordem_inversa: inward_score,
-      maior_sequencia_direta: max_direct_sequence,
-      maior_sequencia_inversa: max_inward_sequence,
+    on_finish: function (data) {
+      data.participante = participant;
+      data.pontos_ordem_direta = direct_score;
+      data.pontos_ordem_inversa = inward_score;
+      data.maior_sequencia_direta = max_direct_sequence;
+      data.maior_sequencia_inversa = max_inward_sequence;
     },
     // choices: "NO_KEYS",
   };
@@ -385,10 +401,10 @@ function resultsTrial() {
 function runExperiment() {
   timeline.push(getParticipantId());
   timeline.push(createDirectInstructions());
-  // addDirectTrials();
-  // timeline.push(createInwardInstructions());
-  // timeline.push(createPraticeLevel());
-  // addInwardTrials();
+  addDirectTrials();
+  timeline.push(createInwardInstructions());
+  timeline.push(createPraticeLevel());
+  addInwardTrials();
   timeline.push(resultsTrial());
 }
 

@@ -21,17 +21,28 @@
       // Translation Task
       const jsPsych = initJsPsych({
         on_finish: function () {
-          let data = jsPsych.data.get().csv();
-          console.log("data:", data);   
+          let data = jsPsych.data
+            .get()
+            .ignore("rt")
+            .ignore("time_elapsed")
+            .ignore("internal_node_id")
+            .ignore("trial_type")
+            .ignore("trial_index")
+            .ignore("prompt")
+            .ignore("part")
+            .csv();
+          //
+          console.log("data:", data);
 
-          let participant_id = jsPsych.data.get().values()[0].response.participante_id;
+          let participant_id = jsPsych.data.get().values()[0]
+            .response.participante_id;
           console.log("id:", participant_id);
 
           let filename = "traducao_" + participant_id + ".csv";
           console.log("filename:", filename);
 
           saveData(data, filename);
-    
+
           jsPsych.data.displayData();
         },
       });
@@ -41,7 +52,13 @@
       // Participant ID
       let participantId = {
         type: jsPsychSurveyText,
-        questions: [{ prompt: "ID do participante", name: "participante_id", columns: 20 }],
+        questions: [
+          {
+            prompt: "<h3>ID do participante</h3>",
+            name: "participante_id",
+            columns: 20,
+          },
+        ],
         button_label: "Continuar",
         data: { part: "participant_id" },
       };
@@ -83,7 +100,7 @@
 
       // Create an array of objects containing the words
       var translation_words = [];
-      for (var i = 0; i < words.length/8; i++) {
+      for (var i = 0; i < words.length; i++) {
         translation_words.push({
           word: words[i],
         });

@@ -48,7 +48,7 @@ const jsPsych = initJsPsych({
 function getParticipantId() {
   return {
     type: jsPsychSurveyText,
-    questions: [{ prompt: "ID do participante", name: "id", columns: 20 }],
+    questions: [{ prompt: "<h3>ID do participante</h3>", name: "id", columns: 20 }],
     button_label: "Continuar",
     data: { part: "participant_id" },
     on_finish: function (data) {

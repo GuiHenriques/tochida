@@ -21,29 +21,17 @@
       // Translation Task
       const jsPsych = initJsPsych({
         on_finish: function () {
-          let data = jsPsych.data
-            .get()
-            .ignore("rt")
-            .ignore("time_elapsed")
-            .ignore("internal_node_id")
-            .ignore("trial_type")
-            .ignore("trial_index")
-            .ignore("prompt")
-            .ignore("part")
-            .csv();
-          //
-          console.log("data:", data);
-
           let participant_id = jsPsych.data.get().values()[0]
             .response.participante;
-          console.log("id:", participant_id);
 
           let filename = "traducao_" + participant_id + ".csv";
-          console.log("filename:", filename);
 
-          saveData(data, filename);
-
-          jsPsych.data.displayData();
+          let data = jsPsych.data
+            .get()
+            .filterColumns(["response"])
+            .csv();
+            console.log(data);
+            // .localSave("csv", filename);
         },
       });
 
@@ -127,8 +115,18 @@
         timeline: [translation_trial],
         timeline_variables: translation_words,
       };
-
       timeline.push(translation);
+
+      var thanks = {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus:
+          "<div style='text-align: center; width: 80%; margin: auto;'>" +
+          "<h4>¡Gracias!</h4>" +
+          "<hr>" +
+          "<p>Obrigado!</p>" +
+          "</div>",
+      };
+      timeline.push(thanks);
 
       jsPsych.run(timeline);
     </script>

@@ -26,21 +26,25 @@ const jsPsych = initJsPsych({
       .filter({ part: "participant_id" })
       .values()[0].response.id;
     console.log("Participant ID", participant_id);
+    
+    let filename = `memoria_${participant_id}.csv`;
 
     let data = jsPsych.data
       .get()
-      .last()
-      .ignore("stimulus")
-      .ignore("rt")
-      .ignore("time_elapsed")
-      .ignore("internal_node_id")
-      .ignore("trial_type")
-      .ignore("trial_index")
-      .ignore("response")
+      .last(2)
+      .filterColumns([
+        "participante",
+        "pontos_ordem_direta",
+        "pontos_ordem_inversa",
+        "maior_sequencia_direta",
+        "maior_sequencia_inversa",
+      ])
       .csv();
+      // .localSave('csv', filename);
+    // "participante","pontos_ordem_direta","pontos_ordem_inversa","maior_sequencia_direta","maior_sequencia_inversa"
+    console.log("Data", data);
 
-    let filename = `memoria_${participant_id}.csv`;
-    saveData(data, filename);
+    // saveData(data, filename);
   },
 });
 
@@ -394,7 +398,6 @@ function resultsTrial() {
       data.maior_sequencia_direta = max_direct_sequence;
       data.maior_sequencia_inversa = max_inward_sequence;
     },
-    // choices: "NO_KEYS",
   };
 }
 
@@ -408,18 +411,18 @@ function thankTrial() {
       "<hr>" +
       "<p>Obrigado!</p>" +
       "</div>",
-    choices: "NO_KEYS",
   };
 }
 
 function runExperiment() {
   timeline.push(getParticipantId());
   timeline.push(createDirectInstructions());
-  addDirectTrials();
-  timeline.push(createInwardInstructions());
-  timeline.push(createPraticeLevel());
-  addInwardTrials();
+  // addDirectTrials();
+  // timeline.push(createInwardInstructions());
+  // timeline.push(createPraticeLevel());
+  // addInwardTrials();
   timeline.push(resultsTrial());
+  timeline.push(thankTrial());
 }
 
 runExperiment();

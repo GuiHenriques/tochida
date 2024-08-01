@@ -398,6 +398,20 @@ function resultsTrial() {
   };
 }
 
+// Thank Trial
+function thankTrial() {
+  return {
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus:
+      "<div style='text-align: center; width: 80%; margin: auto;'>" +
+      "<h4>¡Gracias!</h4>" +
+      "<hr>" +
+      "<p>Obrigado!</p>" +
+      "</div>",
+    choices: "NO_KEYS",
+  };
+}
+
 function runExperiment() {
   timeline.push(getParticipantId());
   timeline.push(createDirectInstructions());

@@ -35,7 +35,7 @@
           console.log("data:", data);
 
           let participant_id = jsPsych.data.get().values()[0]
-            .response.participante_id;
+            .response.participante;
           console.log("id:", participant_id);
 
           let filename = "traducao_" + participant_id + ".csv";
@@ -55,7 +55,7 @@
         questions: [
           {
             prompt: "<h3>ID do participante</h3>",
-            name: "participante_id",
+            name: "participante",
             columns: 20,
           },
         ],
@@ -76,7 +76,7 @@
           "<p>Pressione qualquer tecla para continuar.</p>",
         choices: "ALL_KEYS",
       };
-      // timeline.push(instructions);
+      timeline.push(instructions);
 
       // List of Portuguese words and their Spanish translations
       var words = [

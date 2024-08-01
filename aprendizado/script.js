@@ -58,11 +58,25 @@ function preloadAssets() {
 function experimentOrderTrial() {
   return {
     type: jsPsychHtmlButtonResponse,
-    stimulus: "<p>Ordem do Experimento:</p>",
+    stimulus: "<h2>Ordem do Experimento:</h2>",
     choices: ["0", "1", "2", "3", "4"],
     on_finish: function (data) {
       data.type = "experiment_order";
       data.order = parseInt(data.response);
+    },
+  };
+}
+
+// Choose Experiment Type
+function experimentTypeTrial() {
+  return {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: "<h2>Tipo de Experimento:</h2>",
+    choices: ["Aprendizado e Teste", "Teste"],
+    data: { part: "experiment_type" },
+    on_finish: function (data) {
+      data.type = "experiment_type";
+      data.experiment_type = parseInt(data.response);
     },
   };
 }
@@ -214,7 +228,6 @@ function thankTrial() {
       "<hr>" +
       "<p>Obrigado!</p>" +
       "</div>",
-    choices: "NO_KEYS",
   };
 }
 
@@ -223,36 +236,46 @@ async function runExperiment() {
   let timeline = [];
 
   // Preload Assets
-  preloadAssets();
+  preTimeline.push(preloadAssets());
 
   // Experiment order
   let orderTrial = experimentOrderTrial();
   preTimeline.push(orderTrial);
 
+  // Experiment type
+  let experimentType = experimentTypeTrial();
+  preTimeline.push(experimentType);
+
   // Run the initial preTimeline to get the order
   await jsPsych.run(preTimeline);
 
-  // Retrieve the selected order
+  // Retrieve order and type
   let order = jsPsych.data
     .get()
     .filter({ type: "experiment_order" })
     .values()[0].order;
 
-  console.log("Order:", order);
+  let experiment_type = jsPsych.data
+    .get()
+    .filter({ type: "experiment_type" })
+    .values()[0].experiment_type;
 
-  // Instructions
-  timeline.push(instructionsLearnTrial());
+  console.log("Order:", order);
+  console.log("Experiment Type:", experiment_type);
 
   // Map the selected order to the corresponding trials
   let orders = mapTrialOrders(order);
   console.log("Orders:", typeof orders, orders);
 
-  // Add trials
+  // Select the trials based on the experiment type
   orders.forEach((order) => {
-    let learnAndTestTrials = joinLearnAndTestTrials(order);
-    timeline.push(...learnAndTestTrials);
+    if (experiment_type === 0) {
+      timeline = timeline.concat(joinLearnAndTestTrials(order));
+    } else {
+      timeline = timeline.concat(createTestTrials(order));
+    }
   });
-
+  
   // Thank Trial
   timeline.push(thankTrial());
 

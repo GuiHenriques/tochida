@@ -8,8 +8,10 @@
     <script src="../jspsych/plugin-html-keyboard-response.js"></script>
     <script src="../jspsych/plugin-audio-keyboard-response.js"></script>
     <script src="../jspsych/plugin-preload.js"></script>
+    <script src="../jspsych/plugin-survey-text.js"></script>
     <script src="../jspsych/plugin-html-button-response.js"></script>
-    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../jspsych/jspsych.css">
+    <!-- <link rel="stylesheet" href="../css/style.css" /> -->
   </head>
   <body></body>
   <script>
@@ -21,18 +23,15 @@
 
     const timeline = [];
 
-    function experimentOrderTrial() {
+    function experimentTypeTrial() {
       return {
-        type: jsPsychHtmlKeyboardResponse,
-        stimulus: `
-          <div class="fixation">
-            <p class="fixation-cross">+</p>
-          </div>
-          `,
-        trial_duration: 30000,
+        type: jsPsychHtmlButtonResponse,
+        stimulus: "<h3>Tipo de Experimento<br></h3>",
+        choices: ["Aprendizado e Teste", "Teste"],
+        data: { part: "experiment_type" },
       };
     }
-    timeline.push(experimentOrderTrial());
+    timeline.push(experimentTypeTrial());
 
     jsPsych.run(timeline);
   </script>

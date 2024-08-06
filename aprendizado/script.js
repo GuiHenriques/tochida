@@ -157,7 +157,7 @@ function createLearnTrials(trials) {
       let image_learn_trial = {
         type: jsPsychHtmlKeyboardResponse,
         stimulus: createGrid(trial.grid),
-        trial_duration: preLearnTrialTime,
+        trial_duration: 100,
         // choices: "NO_KEYS",
       };
 
@@ -165,7 +165,7 @@ function createLearnTrials(trials) {
         type: jsPsychAudioKeyboardResponse,
         stimulus: trial.audio,
         prompt: createGrid(trial.grid),
-        trial_duration: learnTrialTime,
+        // trial_duration: learnTrialTime,
         // choices: "NO_KEYS",
       };
 
@@ -199,7 +199,7 @@ function createTestTrials(trials) {
       type: jsPsychAudioKeyboardResponse,
       stimulus: trial.audio,
       prompt: createTestGrid(trial.grid),
-      trial_duration: testTrialTime,
+      // trial_duration: testTrialTime,
       // choices: "NO_KEYS",
     };
 
@@ -228,6 +228,7 @@ function thankTrial() {
       "<hr>" +
       "<p>Obrigado!</p>" +
       "</div>",
+      choices: "NO_KEYS",
   };
 }
 

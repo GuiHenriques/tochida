@@ -126,11 +126,13 @@ function loadAudios() {
     // console.log("Ordem: " + o);
     for (let c = 1; c <= totalConditions; c++) {
       // console.log("Condição: " + c);
-      for (let t = 1; t <= totalTrials; t++) {
+      for (let t = 1; t <= totalTrials; t++) { // Aprendizado
         // console.log("Trial: " + t);
         const file_a = `${audiosDirectory}${ordem}${o}${condicao}${c}${aprendizado}${rodada}${t}.mp3`;
-        const file_b = `${audiosDirectory}${ordem}${o}${condicao}${c}${teste}${rodada}${t}.mp3`;
         audios.push(file_a);
+      }
+      for (let t = 1; t <= totalTrials; t++) { // Teste
+        const file_b = `${audiosDirectory}${ordem}${o}${condicao}${c}${teste}${rodada}${t}.mp3`;
         audios.push(file_b);
       }
     }
@@ -138,6 +140,5 @@ function loadAudios() {
 
   return audios;
 }
-
 
 export { createGrid, createTestGrid, loadObjects, loadCreatures, loadAudios };

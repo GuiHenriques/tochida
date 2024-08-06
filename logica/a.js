@@ -13,22 +13,24 @@ function loadAudios() {
 
   const audios = [];
 
-  for (let o = 1; o <= totalOrders / 4; o++) {
+  for (let o = 1; o <= totalOrders; o++) {
     // console.log("Ordem: " + o);
-    for (let c = 1; c <= totalConditions / 4; c++) {
+    for (let c = 1; c <= totalConditions; c++) {
       // console.log("Condição: " + c);
-      for (let t = 1; t <= totalTrials / 4; t++) {
+      for (let t = 1; t <= totalTrials; t++) {
         // console.log("Trial: " + t);
         const file_a = `${audiosDirectory}${ordem}${o}${condicao}${c}${aprendizado}${rodada}${t}.mp3`;
         const file_b = `${audiosDirectory}${ordem}${o}${condicao}${c}${teste}${rodada}${t}.mp3`;
-        console.log(file_a);
-        console.log(file_b);
-        // audios.push(file_a);
-        // audios.push(file_b);
+        // console.log(file_a);
+        // console.log(file_b);
+        audios.push(file_a);
+        audios.push(file_b);
       }
     }
   }
-
+  // Log length of audios
+  console.log("Total audios: " + audios.length);
+  
   return audios;
 }
 loadAudios();

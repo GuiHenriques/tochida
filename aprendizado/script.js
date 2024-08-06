@@ -6,7 +6,7 @@ import {
   loadAudios,
 } from "./utils.js";
 
-import { trials_pt, trials_es } from "./orders/order-test.js";
+// import { trials_pt, trials_es } from "./orders/order-test.js";
 import {
   trials_pt_1,
   trials_es_1,
@@ -59,10 +59,10 @@ function experimentOrderTrial() {
   return {
     type: jsPsychHtmlButtonResponse,
     stimulus: "<h2>Ordem do Experimento:</h2>",
-    choices: ["0", "1", "2", "3", "4"],
+    choices: ["1", "2", "3", "4"],
     on_finish: function (data) {
       data.type = "experiment_order";
-      data.order = parseInt(data.response);
+      data.order = parseInt(data.response) + 1;
     },
   };
 }
@@ -84,8 +84,6 @@ function experimentTypeTrial() {
 // Select chosen trial
 function mapTrialOrders(index) {
   switch (index) {
-    case 0:
-      return [trials_pt, trials_es];
     case 1:
       return [trials_pt_1, trials_es_1, trials_es_pt_1, trials_pt_es_1];
     case 2:
@@ -141,6 +139,7 @@ function createFixationTrial() {
           </div>
       `,
     trial_duration: fixationTime,
+    choices: "NO_KEYS",
   };
 }
 
@@ -157,16 +156,16 @@ function createLearnTrials(trials) {
       let image_learn_trial = {
         type: jsPsychHtmlKeyboardResponse,
         stimulus: createGrid(trial.grid),
-        trial_duration: 100,
-        // choices: "NO_KEYS",
+        trial_duration: preLearnTrialTime,
+        choices: "NO_KEYS",
       };
 
       let sound_learn_trial = {
         type: jsPsychAudioKeyboardResponse,
         stimulus: trial.audio,
         prompt: createGrid(trial.grid),
-        // trial_duration: learnTrialTime,
-        // choices: "NO_KEYS",
+        trial_duration: learnTrialTime,
+        choices: "NO_KEYS",
       };
 
       learnTimeline = learnTimeline.concat([
@@ -192,15 +191,15 @@ function createTestTrials(trials) {
       type: jsPsychHtmlKeyboardResponse,
       stimulus: createTestGrid(trial.grid),
       trial_duration: preTestTrialTime,
-      // choices: "NO_KEYS",
+      choices: "NO_KEYS",
     };
 
     let sound_test_trial = {
       type: jsPsychAudioKeyboardResponse,
       stimulus: trial.audio,
       prompt: createTestGrid(trial.grid),
-      // trial_duration: testTrialTime,
-      // choices: "NO_KEYS",
+      trial_duration: testTrialTime,
+      choices: "NO_KEYS",
     };
 
     testTimeline = testTimeline.concat([

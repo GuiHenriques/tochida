@@ -176,7 +176,7 @@ const trials_pt_2 = {
         { creature: creatures[48], object: objects[9] },
         { creature: creatures[12], object: objects[6] },
         { creature: creatures[56], object: objects[1] },
-        { creature: creatures[39], object: objects[9] },
+        { creature: creatures[39], object: objects[7] },
       ],
       audio: audios[80],
     },

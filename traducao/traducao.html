@@ -29,9 +29,9 @@
           let data = jsPsych.data
             .get()
             .filterColumns(["response"])
-            .csv();
-            console.log(data);
-            // .localSave("csv", filename);
+            .localSave("csv", filename);
+            // .csv()
+            // console.log(data);
         },
       });
 

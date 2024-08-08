@@ -39,8 +39,8 @@ const jsPsych = initJsPsych({
         "maior_sequencia_direta",
         "maior_sequencia_inversa",
       ])
-      .csv();
-      // .localSave('csv', filename);
+      .localSave('csv', filename);
+      // .csv();
     // "participante","pontos_ordem_direta","pontos_ordem_inversa","maior_sequencia_direta","maior_sequencia_inversa"
     console.log("Data", data);
 
@@ -417,10 +417,10 @@ function thankTrial() {
 function runExperiment() {
   timeline.push(getParticipantId());
   timeline.push(createDirectInstructions());
-  // addDirectTrials();
-  // timeline.push(createInwardInstructions());
-  // timeline.push(createPraticeLevel());
-  // addInwardTrials();
+  addDirectTrials();
+  timeline.push(createInwardInstructions());
+  timeline.push(createPraticeLevel());
+  addInwardTrials();
   timeline.push(resultsTrial());
   timeline.push(thankTrial());
 }

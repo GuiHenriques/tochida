@@ -26,12 +26,10 @@
 
           let filename = "traducao_" + participant_id + ".csv";
 
-          let data = jsPsych.data
+          jsPsych.data
             .get()
             .filterColumns(["response"])
             .localSave("csv", filename);
-            // .csv()
-            // console.log(data);
         },
       });
 

@@ -227,7 +227,6 @@ function thankTrial() {
       "<hr>" +
       "<p>Obrigado!</p>" +
       "</div>",
-      choices: "NO_KEYS",
   };
 }
 

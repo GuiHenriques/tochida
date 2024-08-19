@@ -29,7 +29,7 @@ const jsPsych = initJsPsych({
     
     let filename = `memoria_${participant_id}.csv`;
 
-    let data = jsPsych.data
+    jsPsych.data
       .get()
       .last(2)
       .filterColumns([
@@ -40,11 +40,6 @@ const jsPsych = initJsPsych({
         "maior_sequencia_inversa",
       ])
       .localSave('csv', filename);
-      // .csv();
-    // "participante","pontos_ordem_direta","pontos_ordem_inversa","maior_sequencia_direta","maior_sequencia_inversa"
-    console.log("Data", data);
-
-    // saveData(data, filename);
   },
 });
 
@@ -214,6 +209,7 @@ function createPraticeFeedbackTrial(sequence) {
             <p>Pressione qualquer tecla para continuar.</p>`;
     },
     choices: "ALL_KEYS",
+    trial_duration: feedback_display_time,
     data: { type: "feedback" },
   };
 }

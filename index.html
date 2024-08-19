@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Experiment Selection</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+    />
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        background: linear-gradient(to right, #eee, #fff);
+        display: flex;
+        justify-content: center;
+        height: 100vh;
+      }
+      .container {
+        text-align: center;
+      }
+      h1 {
+        font-size: 3rem;
+        color: #333;
+        margin: 100px;
+      }
+      .options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 50px;
+      }
+      .option {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        width: 250px;
+        height: 300px;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        text-decoration: none;
+        background: #ffffff;
+        color: #333;
+      }
+      .option:hover {
+        background-color: #eee;
+        transition: 0.3s;
+      }
+
+      .icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 200px;
+      }
+
+      .material-symbols-outlined {
+        font-size: 150px;
+        color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Selecione a Tarefa</h1>
+      <div class="options">
+        <a href="traducao/traducao.html" class="option">
+          <div>
+            <h2>Tradução</h2>
+            <div class="icon">
+              <span class="material-symbols-outlined"> translate </span>
+            </div>
+          </div>
+        </a>
+        <a href="memoria/memoria.html" class="option">
+          <div>
+            <h2>Memória</h2>
+            <div class="icon">
+              <span class="material-symbols-outlined"> neurology </span>
+            </div>
+          </div>
+        </a>
+        <a href="aprendizado/aprendizado.html" class="option">
+          <div>
+            <h2>Aprendizado</h2>
+            <div class="icon">
+              <span class="material-symbols-outlined"> school </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

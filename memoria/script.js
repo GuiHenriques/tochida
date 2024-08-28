@@ -181,8 +181,8 @@ function createFeedbackTrial() {
     stimulus: function () {
       const lastTrial = jsPsych.data.get().last(1).values()[0];
       return lastTrial.correct
-        ? "<h4>Correcto!</h4>" + "<hr>" + "<p>Correto!</p>"
-        : "<h4>Incorrecto!</h4>" + "<hr>" + "<p>Incorreto!</p>";
+        ? "<h4>¡Correcto!</h4>" + "<hr>" + "<p>Correto!</p>"
+        : "<h4>¡Incorrecto!</h4>" + "<hr>" + "<p>Incorreto!</p>";
     },
     trial_duration: feedback_display_time,
     choices: "NO_KEYS",

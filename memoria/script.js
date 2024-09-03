@@ -209,7 +209,6 @@ function createPraticeFeedbackTrial(sequence) {
             <p>Pressione qualquer tecla para continuar.</p>`;
     },
     choices: "ALL_KEYS",
-    trial_duration: feedback_display_time,
     data: { type: "feedback" },
   };
 }

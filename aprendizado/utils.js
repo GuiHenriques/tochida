@@ -87,20 +87,42 @@ function loadObjects() {
 // Load creatures
 function loadCreatures() {
   const creaturesDirectory = "assets/criaturas/";
-  const creaturesAlvoName = "CA ";
-  const totalCreaturesAlvo = 32;
 
-  const creaturesNotAlvoName = "CNA ";
-  const totalCreaturesNotAlvo = 32;
+  const creaturesAlvoName = "CA "; // Criaturas alvo
+  const creaturesNotAlvoName = "CNA "; // Criaturas não alvo
+  const creaturesPracticeAlvoName = "CPA "; // Criaturas prática alvo
+  const creaturesPracticeNotAlvoName = "CPNA "; // Criaturas prática não alvo
+
+  const totalTestCreatures = 32; // Quantidade de criaturas de teste
+
+  const totalPracticeCreatures = 8; // Quantidade de criaturas de prática
 
   const creatures = [];
 
-  for (let i = 1; i <= totalCreaturesAlvo; i++) {
+  // Load CA (1 to 32)
+  for (let i = 1; i <= 32; i++) {
     const file = `${creaturesDirectory}${creaturesAlvoName}${i}.png`;
+    
     creatures.push(file);
   }
-  for (let i = 33; i <= totalCreaturesNotAlvo + 32; i++) {
+
+  // Load CNA
+  for (let i = 33; i <= 64; i++) {
     const file = `${creaturesDirectory}${creaturesNotAlvoName}${i}.png`;
+
+    creatures.push(file);
+  }
+
+  // Load CPA
+  for (let i = 65; i <= 72; i++) {
+    const file = `${creaturesDirectory}${creaturesPracticeAlvoName}${i}.png`;
+    
+    creatures.push(file);
+  }
+
+  // Load CPNA
+  for (let i = 73; i <= 80; i++) {
+    const file = `${creaturesDirectory}${creaturesPracticeNotAlvoName}${i}.png`;
     creatures.push(file);
   }
 

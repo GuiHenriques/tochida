@@ -1,3 +1,4 @@
+// Utility functions
 import {
   createGrid,
   createTestGrid,
@@ -6,7 +7,15 @@ import {
   loadAudios,
 } from "./utils.js";
 
-// import { trials_pt, trials_es } from "./orders/order-test.js";
+// Practice Trial Orders
+import {
+  practice_trials_1,
+  practice_trials_2,
+  practice_trials_3,
+  practice_trials_4,
+} from "./orders/order-practice.js";
+
+// Trial Orders
 import {
   trials_pt_1,
   trials_es_1,
@@ -81,6 +90,19 @@ function experimentTypeTrial() {
   };
 }
 
+function mapPracticeTrials(index) {
+  switch (index) {
+    case 1:
+      return practice_trials_1;
+    case 2:
+      return practice_trials_2;
+    case 3:
+      return practice_trials_3;
+    case 4:
+      return practice_trials_4;
+  }
+}
+
 // Select chosen trial
 function mapTrialOrders(index) {
   switch (index) {
@@ -93,6 +115,22 @@ function mapTrialOrders(index) {
     case 4:
       return [trials_pt_es_4, trials_es_pt_4, trials_es_4, trials_pt_4];
   }
+}
+
+// Instruction Practice Trial
+function instructionsPracticeTrial() {
+  return {
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus:
+      "<div style='text-align: center; width: 80%; margin: auto;'>" +
+      "<h4>Pratique a tarefa antes de começar o experimento.</h4>" +
+      "<h4>Pulse cualquier tecla para seguir</h4>" +
+      "<hr>" +
+      "<p>Pratique a tarefa antes de começar o experimento.</p>" +
+      "<p>Pressione qualquer tecla para continuar.</p>" +
+      "</div>",
+    choices: "ALL_KEYS",
+  };
 }
 
 // Instructions Learn trial
@@ -141,6 +179,40 @@ function createFixationTrial() {
     trial_duration: fixationTime,
     choices: "NO_KEYS",
   };
+}
+
+// Practice Trials
+function createPracticeTrials(trials) {
+  let practiceTimeline = [];
+
+  practiceTimeline.push(instructionsPracticeTrial());
+
+  trials.practice.forEach((trial) => {
+    let fixation = createFixationTrial();
+
+    let image_practice_trial = {
+      type: jsPsychHtmlKeyboardResponse,
+      stimulus: createGrid(trial.grid),
+      trial_duration: preLearnTrialTime,
+      choices: "NO_KEYS",
+    };
+
+    let sound_practice_trial = {
+      type: jsPsychAudioKeyboardResponse,
+      stimulus: trial.audio,
+      prompt: createGrid(trial.grid),
+      trial_duration: learnTrialTime,
+      // choices: "NO_KEYS",
+    };
+
+    practiceTimeline = practiceTimeline.concat([
+      fixation,
+      image_practice_trial,
+      sound_practice_trial,
+    ]);
+  });
+
+  return practiceTimeline;
 }
 
 // Learn Trials
@@ -259,12 +331,16 @@ async function runExperiment() {
     .filter({ type: "experiment_type" })
     .values()[0].experiment_type;
 
-  console.log("Order:", order);
-  console.log("Experiment Type:", experiment_type);
-
   // Map the selected order to the corresponding trials
   let orders = mapTrialOrders(order);
-  console.log("Orders:", typeof orders, orders);
+
+  // Add Practice Trials if the experiment type is 0
+  if (experiment_type === 0) {
+    let practice_trials = mapPracticeTrials(order);
+
+    // Load the practice trials in the timeline
+    timeline = timeline.concat(createPracticeTrials(practice_trials));
+  }
 
   // Select the trials based on the experiment type
   orders.forEach((order) => {
@@ -274,7 +350,7 @@ async function runExperiment() {
       timeline = timeline.concat(createTestTrials(order));
     }
   });
-  
+
   // Thank Trial
   timeline.push(thankTrial());
 

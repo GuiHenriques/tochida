@@ -1,3 +1,4 @@
+// Importação das funções utilitárias que auxiliam na geração e validação das sequências
 import {
   getSequences,
   getBackwardSequences,
@@ -5,28 +6,34 @@ import {
   validateBackwardResponse,
 } from "./utils.js";
 
-// CONSTANTS
-let pretrial_display_time = 2000;
-let feedback_display_time = 1500;
-let digit_display_time = 1000;
+// CONSTANTES
+// Tempo de preparação antes de cada sequência
+let tempo_preparacao = 2000;
 
-// VARIABLES
+// Tempo de exibição do feedback de acerto/erro
+let tempo_feedback = 1500;
+
+// Tempo de exibição de cada dígito
+let tempo_exibicao_digito = 1000;
+
+// VARIÁVEIS
 let timeline = [];
-let participant = "";
-let direct_score = 0;
-let inward_score = 0;
-let max_direct_sequence = 0;
-let max_inward_sequence = 0;
+let participante = "";
+let pontuacao_direta = 0;
+let pontuacao_inversa = 0;
+let maior_sequencia_direta = 0;
+let maior_sequencia_inversa = 0;
 
+// Inicialização do jsPsych com função ao final do experimento para salvar dados
 const jsPsych = initJsPsych({
   on_finish: function () {
-    let participant_id = jsPsych.data
+    let id_participante = jsPsych.data
       .get()
       .filter({ part: "participant_id" })
       .values()[0].response.id;
-    console.log("Participant ID", participant_id);
-    
-    let filename = `memoria_${participant_id}.csv`;
+    console.log("ID do Participante:", id_participante);
+
+    let nome_arquivo = `memoria_${id_participante}.csv`;
 
     jsPsych.data
       .get()
@@ -38,25 +45,27 @@ const jsPsych = initJsPsych({
         "maior_sequencia_direta",
         "maior_sequencia_inversa",
       ])
-      .localSave('csv', filename);
+      .localSave("csv", nome_arquivo);
   },
 });
 
-// Participant ID
-function getParticipantId() {
+// Função para capturar o ID do participante
+function obterIdParticipante() {
   return {
     type: jsPsychSurveyText,
-    questions: [{ prompt: "<h3>ID do participante</h3>", name: "id", columns: 20 }],
+    questions: [
+      { prompt: "<h3>ID do participante</h3>", name: "id", columns: 20 },
+    ],
     button_label: "Continuar",
     data: { part: "participant_id" },
     on_finish: function (data) {
-      participant = data.response.id;
-    }
+      participante = data.response.id;
+    },
   };
 }
 
-// Direct Instructions
-function createDirectInstructions() {
+// Instruções para sequência direta
+function criarInstrucoesOrdemDireta() {
   return {
     type: jsPsychHtmlKeyboardResponse,
     stimulus:
@@ -73,35 +82,35 @@ function createDirectInstructions() {
   };
 }
 
-// Function to create a pre trial preparation
-function createPreTrial() {
+// Função para criar a etapa de preparação antes de cada sequência
+function trialPreparacao() {
   return {
     type: jsPsychHtmlKeyboardResponse,
     stimulus:
       "<h4>Memorice la secuencia</h4>" + "<hr>" + "<p>Memorize a sequência</p>",
     choices: "NO_KEYS",
-    trial_duration: pretrial_display_time,
+    trial_duration: tempo_preparacao,
     data: { type: "pre-trial" },
   };
 }
 
-// Function to create a Digit trial
-function createDigitTrial(digit) {
+// Função para criar uma etapa de exibição de dígito
+function trialDigito(digito) {
   return {
     type: jsPsychHtmlKeyboardResponse,
-    stimulus: `<div style="font-size:48px">${digit}</div>`,
+    stimulus: `<div style="font-size:48px">${digito}</div>`,
     choices: "NO_KEYS",
-    trial_duration: digit_display_time,
+    trial_duration: tempo_exibicao_digito,
     data: { type: "digit" },
   };
 }
 
-// Function to create a Response trial
-function createResponseTrial(sequence, backward = false) {
-  let user_response = [];
+// Função para criar uma etapa de resposta do participante
+function trialResposta(sequencia, inversa = false) {
+  let resposta_usuario = [];
 
-  let stimulusHTML = `
-      <p>Escriba la secuencia:</p>
+  let html_stimulus = `
+      <p>Digite a sequência:</p>
       <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 150px; margin: 0 auto;">
         ${Array.from(
           { length: 9 },
@@ -111,13 +120,13 @@ function createResponseTrial(sequence, backward = false) {
             }" style="font-size: 24px; padding: 10px;">${i + 1}</button>`
         ).join("")}
       </div>
-      <div id="response" style="height: 24px; font-size: 24px; margin: 20px 0;"></div>
+      <div id="resposta" style="height: 24px; font-size: 24px; margin: 20px 0;"></div>
       <div style="display: flex; justify-content: space-between; gap: 50px">
-        <button id="clear-button" class="jspsych-btn" style="padding: 7px">
+        <button id="botao-limpar" class="jspsych-btn" style="padding: 7px">
           <span style="display: inline-block; vertical-align: middle; font-size: 14px">Borrar</span>
           <span class="material-symbols-outlined" style="display: inline-block; vertical-align: middle;">backspace</span>
         </button>
-        <button id="submit-button" class="jspsych-btn" style="padding: 7px">
+        <button id="botao-enviar" class="jspsych-btn" style="padding: 7px">
           <span style="display: inline-block; vertical-align: middle; font-size: 16px">Seguir</span>
           <span class="material-symbols-outlined" style="display: inline-block; vertical-align: middle;">arrow_forward</span>
         </button>
@@ -126,93 +135,96 @@ function createResponseTrial(sequence, backward = false) {
 
   return {
     type: jsPsychHtmlKeyboardResponse,
-    stimulus: stimulusHTML,
+    stimulus: html_stimulus,
     choices: "NO_KEYS",
-    data: { type: "response" },
+    data: { type: "resposta" },
     on_load: function () {
       document.querySelectorAll(".digit-button").forEach((button) => {
         button.addEventListener("click", function () {
-          let digit = this.getAttribute("data-digit");
-          user_response.push(digit);
-          document.getElementById("response").textContent =
-            user_response.join(" ");
+          let digito = this.getAttribute("data-digit");
+          resposta_usuario.push(digito);
+          document.getElementById("resposta").textContent =
+            resposta_usuario.join(" ");
         });
       });
       document
-        .getElementById("clear-button")
+        .getElementById("botao-limpar")
         .addEventListener("click", function () {
-          user_response.pop();
-          document.getElementById("response").textContent =
-            user_response.join(" ");
+          resposta_usuario.pop();
+          document.getElementById("resposta").textContent =
+            resposta_usuario.join(" ");
         });
       document
-        .getElementById("submit-button")
+        .getElementById("botao-enviar")
         .addEventListener("click", function () {
           jsPsych.finishTrial({
-            response: user_response,
+            response: resposta_usuario,
           });
         });
     },
     on_finish: function (data) {
-      data.user_response = user_response;
-      if (backward) {
-        data.correct = validateBackwardResponse(sequence, user_response);
+      data.resposta_usuario = resposta_usuario;
+      if (inversa) {
+        data.correto = validateBackwardResponse(sequencia, resposta_usuario);
 
-        if (data.correct) {
-          inward_score++;
-          max_inward_sequence = sequence.length;
+        if (data.correto) {
+          pontuacao_inversa++;
+          maior_sequencia_inversa = sequencia.length;
         }
       } else {
-        data.correct = validateResponse(sequence, user_response);
-        if (data.correct) {
-          direct_score++;
-          max_direct_sequence = sequence.length;
+        data.correto = validateResponse(sequencia, resposta_usuario);
+        if (data.correto) {
+          pontuacao_direta++;
+          maior_sequencia_direta = sequencia.length;
         }
       }
-      user_response = [];
+      resposta_usuario = [];
     },
   };
 }
 
-function createFeedbackTrial() {
+// Função para criar o feedback de resposta correta ou incorreta
+function trialFeedback() {
   return {
     type: jsPsychHtmlKeyboardResponse,
     stimulus: function () {
-      const lastTrial = jsPsych.data.get().last(1).values()[0];
-      return lastTrial.correct
+      const ultimoTeste = jsPsych.data.get().last(1).values()[0];
+      return ultimoTeste.correto
         ? "<h4>¡Correcto!</h4>" + "<hr>" + "<p>Correto!</p>"
         : "<h4>¡Incorrecto!</h4>" + "<hr>" + "<p>Incorreto!</p>";
     },
-    trial_duration: feedback_display_time,
+    trial_duration: tempo_feedback,
     choices: "NO_KEYS",
     data: { type: "feedback" },
   };
 }
 
-// Function to create a feedback for learning trial
-function createPraticeFeedbackTrial(sequence) {
+// Função para criar o feedback durante o nível de prática
+function trialFeedbackPratica(sequencia) {
   return {
     type: jsPsychHtmlKeyboardResponse,
     stimulus: function () {
-      const lastTrial = jsPsych.data.get().last(1).values()[0];
-      return lastTrial.correct
+      const ultimoTeste = jsPsych.data.get().last(1).values()[0];
+      return ultimoTeste.correto
         ? "<h4>Muy bien.</h4>" + "<hr>" + "<p>Muito bem.</p>"
-        : `<h4>No exactamente. La secuencia era ${sequence[0]} - ${sequence[1]}.</h4>
-            <h4>Entonces, en orden de atrás hacia adelante debe introducir ${sequence[1]} - ${sequence[0]}.</h4>
+        : `<h4>No exactamente. La secuencia era ${sequencia[0]} - ${sequencia[1]}.</h4>
+            <h4>Entonces, en orden de atrás hacia adelante debe introducir ${sequencia[1]} - ${sequencia[0]}.</h4>
             <h4>Vamos a intentarlo de nuevo.</h4>
             <h4> Pulse cualquier tecla para seguir.</h4>
             <hr>
-            <p>Não exatamente. A sequência era ${sequence[0]} - ${sequence[1]}.</p>
-            <p>Então, na ordem de trás para frente, você deve digitar ${sequence[1]} - ${sequence[0]}.</p>
+            <p>Não exatamente. A sequência era ${sequencia[0]} - ${sequencia[1]}.</p>
+            <p>Então, na ordem de trás para frente, você deve digitar ${sequencia[1]} - ${sequencia[0]}.</p>
             <p>Vamos tentar novamente.</p>
             <p>Pressione qualquer tecla para continuar.</p>`;
     },
-    choices: "ALL_KEYS",
+    choices: "NO_KEYS",
+    trial_duration: tempo_feedback,
     data: { type: "feedback" },
   };
 }
 
-function createMidPraticeFeedbackTrial() {
+// Função para criar um bloco de feedback de prática intermediária
+function trialFeedbackPraticaIntermediaria() {
   return {
     type: jsPsychHtmlKeyboardResponse,
     stimulus:
@@ -224,11 +236,12 @@ function createMidPraticeFeedbackTrial() {
       "<p>Lembre-se que você deve digitar os números de trás para frente.</p>" +
       "<p>Pressione qualquer tecla para continuar.</p>",
     choices: "ALL_KEYS",
-    data: { type: "feedback" },
+    data: { tipo: "feedback" },
   };
 }
 
-function createPostPracticeTrial() {
+// Função para criar um bloco de feedback após a prática
+function trialFeedbackPosPratica() {
   return {
     type: jsPsychHtmlKeyboardResponse,
     stimulus:
@@ -238,168 +251,187 @@ function createPostPracticeTrial() {
       "<p>Vamos começar!</p>" +
       "<p>Pressione qualquer tecla para continuar.</p>",
     choices: "ALL_KEYS",
-    data: { type: "feedback" },
+    data: { tipo: "feedback" },
   };
 }
 
-// Function to create a conditional trial block
-function createLevel(index, backward = false) {
+// Função para criar um bloco de nível condicional
+function criarNivel(indice, ordemInversa = false) {
   let s1, s2;
-
-  if (!backward) {
-    ({ s1, s2 } = getSequences(index));
+  
+  // Obtém as sequências para o nível atual
+  if (!ordemInversa) {
+    ({s1, s2} = getSequences(indice));
   } else {
-    ({ s1, s2 } = getBackwardSequences(index));
+    ({ s1, s2 } = getBackwardSequences(indice));
   }
 
-  const pretrial = createPreTrial();
+  // Cria um trial de preparação antes de exibir os dígitos
+  const preTrial = trialPreparacao();
 
-  const digits1 = s1.map((digit) => createDigitTrial(digit));
-  const digits2 = s2.map((digit) => createDigitTrial(digit));
+  // Cria os trials de exibição dos dígitos para cada sequência
+  const digitosSequencia1 = s1.map((digito) => trialDigito(digito));
+  const digitosSequencia2 = s2.map((digito) => trialDigito(digito));
 
-  const response1 = createResponseTrial(s1, backward);
-  const response2 = createResponseTrial(s2, backward);
+  // Cria os trials de resposta para cada sequência
+  const respostaSequencia1 = trialResposta(s1, ordemInversa);
+  const respostaSequencia2 = trialResposta(s2, ordemInversa);
 
-  const feedback = createFeedbackTrial();
+  // Cria o bloco de feedback para o nível
+  const feedback = trialFeedback();
 
   return {
     timeline: [
-      pretrial,
-      ...digits1,
-      response1,
+      preTrial,
+      ...digitosSequencia1,
+      respostaSequencia1,
       feedback,
-      pretrial,
-      ...digits2,
-      response2,
+      preTrial,
+      ...digitosSequencia2,
+      respostaSequencia2,
       feedback,
     ],
+    // Função condicional para repetir o nível se a resposta estiver incorreta
     conditional_function: function () {
-      const correctCount = jsPsych.data
+      const contadorCorretos = jsPsych.data
         .get()
-        .filter({ type: "response" })
+        .filter({ tipo: "resposta" })
         .last(2)
-        .filter({ correct: true })
+        .filter({ correta: true })
         .count();
 
-      return correctCount > 0;
+      return contadorCorretos > 0;
     },
   };
 }
 
-// Function to add levels to the timeline
-function addDirectTrials() {
-  // Instructions
-  timeline.push(createDirectInstructions());
+// Função para adicionar níveis à linha do tempo para a fase de "ordem direta"
+function ordemDireta() {
+  // Instruções iniciais para a fase de ordem direta
+  timeline.push(criarInstrucoesOrdemDireta());
 
-  // Initial trial
-  timeline.push(...createLevel(0).timeline);
+  // Adiciona o trial inicial (primeiro nível)
+  timeline.push(...criarNivel(0).timeline);
 
-  // Add levels
-  for (let direct_index = 1; direct_index <= 7; direct_index++) {
-    timeline.push(createLevel(direct_index));
+  // Adiciona os níveis subsequentes de ordem direta, do índice 1 até o 7
+  for (let indice_direto = 1; indice_direto <= 7; indice_direto++) {
+    timeline.push(criarNivel(indice_direto));
   }
 }
 
-// Inward Instructions
-function createInwardInstructions() {
+// Função para criar instruções para a fase "ordem inversa"
+function criarInstrucoesOrdemInversa() {
   return {
     type: jsPsychHtmlKeyboardResponse,
     stimulus:
-      "<h4>Ahora, usted verá algunos números más.</h4>" +
-      "<h4>Esta vez, cuándo termine, usted debe introducirlos en orden de atrás hacia  adelante. </h4>" +
-      "<h4>¿Vamos a intentarlo?</h4>" +
-      "<h4>Pulse cualquier tecla para seguir</h4>" +
+      "<h4>Agora, você verá alguns números mais.</h4>" +
+      "<h4>Desta vez, quando terminar, você deve introduzi-los em ordem inversa (de trás para frente).</h4>" +
+      "<h4>Vamos tentar?</h4>" +
+      "<h4>Pressione qualquer tecla para continuar</h4>" +
       "<hr>" +
-      "<p>Agora, você verá mais alguns números</p>" +
-      "<p>Desta vez, quando terminar, você deve digitá-los de trás para frente. </p>" +
-      "<p>Vamos tentar?</p>" +
-      "<p>Pressione qualquer tecla para continuar.</p>",
+      "<p>Ahora, usted verá algunos números más.</p>" +
+      "<p>Esta vez, cuándo termine, usted debe introducirlos en orden de atrás hacia adelante. </p>" +
+      "<p>¿Vamos a intentarlo?</p>" +
+      "<p>Pulse cualquier tecla para seguir.</p>",
     choices: "ALL_KEYS",
-    data: { part: "instructions" },
+    data: { parte: "instrucoes" },
   };
 }
 
-// Function to create a practice trial
-function createPracticeTrial(sequence) {
-  let pratice_tries = 0;
-  const pretrial = createPreTrial();
+// Função para criar um teste prático com uma sequência de dígitos
+function criarTentativaPratica(sequencia) {
+  let tentativasPratica = 0; // Conta o número de tentativas na prática
+  const preTrial = trialPreparacao(); // Apresentação inicial antes da sequência
 
-  const practiceDigitTrials = sequence.map((digit) => createDigitTrial(digit));
-  const practiceResponseTrial = createResponseTrial(sequence, true);
-  const feedback = createPraticeFeedbackTrial(sequence);
+  // Cria os trials de dígitos da sequência prática
+  const digitosPratica = sequencia.map((digito) => trialDigito(digito));
+  const respostaPratica = trialResposta(sequencia, true); // Permite resposta em ordem inversa
+  const feedback = trialFeedbackPratica(sequencia); // Feedback após a resposta
 
   return {
     timeline: [
-      pretrial,
-      ...practiceDigitTrials,
-      practiceResponseTrial,
+      preTrial,
+      ...digitosPratica,
+      respostaPratica,
       feedback,
     ],
+    // Função para repetir o trial se a resposta estiver incorreta até 2 tentativas
     loop_function: function (data) {
-      pratice_tries++;
-      const trialsData = data.values();
-      const responseTrialData = trialsData[trialsData.length - 2];
-      if (pratice_tries == 2) {
-        return false;
+      tentativasPratica++;
+      const dadosTrials = data.values();
+      const dadosResposta = dadosTrials[dadosTrials.length - 2];
+      if (tentativasPratica === 2) {
+        return false; // Se já houver 2 tentativas, para o loop
       }
-      return !responseTrialData.correct;
+      return !dadosResposta.correct; // Continua o loop se a resposta estiver incorreta
     },
   };
 }
 
-// Practice level
-function createPraticeLevel() {
+// Função para criar a fase completa de prática
+function criarFasePratica() {
   let s1, s2;
 
+  // Obtém duas sequências para prática em ordem inversa
   ({ s1, s2 } = getBackwardSequences(0));
 
-  const practice1 = createPracticeTrial(s1);
-  const midpractice = createMidPraticeFeedbackTrial();
-  const practice2 = createPracticeTrial(s2);
-  const postpractice = createPostPracticeTrial();
+  // Cria os trials de prática e feedback para cada sequência
+  const pratica1 = criarTentativaPratica(s1);
+  const feedbackIntermediario = trialFeedbackPraticaIntermediaria();
+  const pratica2 = criarTentativaPratica(s2);
+  const feedbackFinal = trialFeedbackPosPratica();
 
   return {
-    timeline: [practice1, midpractice, practice2, postpractice],
+    timeline: [pratica1, feedbackIntermediario, pratica2, feedbackFinal],
   };
 }
 
-// Function to add levels to the timeline
-function addInwardTrials() {
-  inward_score = 0;
-  max_inward_sequence = 0;
+// Função para adicionar níveis ao timeline para a fase de ordem inversa
+function ordemInversa() {
+  // Instruções para a fase de ordem inversa
+  timeline.push(criarInstrucoesOrdemInversa());
 
-  // Initial trial
-  timeline.push(...createLevel(1, true).timeline);
+  // Prática
+  timeline.push(criarFasePratica());
 
-  for (let inward_index = 2; inward_index <= 8; inward_index++) {
-    timeline.push(createLevel(inward_index, true));
+  // Inicialização das variáveis de pontuação e sequência máxima
+  pontuacao_inversa = 0;
+  maior_sequencia_inversa = 0;
+
+  // Primeira tentativa inicial
+  timeline.push(...criarNivel(1, true).timeline);
+
+  // Adiciona mais níveis, variando o índice para aumentar a dificuldade
+  for (let indiceInverso = 2; indiceInverso <= 8; indiceInverso++) {
+    timeline.push(criarNivel(indiceInverso, true));
   }
 }
 
-// Function to generate the final score display dynamically
-function resultsTrial() {
+// Função para gerar dinamicamente a exibição de resultados finais
+function exibirResultadoFinal() {
   return {
     type: jsPsychHtmlKeyboardResponse,
     stimulus: function () {
       return `
-                <p>Pontos ordem direta: ${direct_score}</p>
-                <p>Pontos ordem inversa: ${inward_score}</p>
-                <p>Sequência Maior de Dígitos de Ordem Direta: ${max_direct_sequence}</p>
-                <p>Sequência Maior de Dígitos de Ordem Inversa: ${max_inward_sequence}</p>
+                <p>Pontos em ordem direta: ${pontuacao_direta}</p>
+                <p>Pontos em ordem inversa: ${pontuacao_inversa}</p>
+                <p>Maior sequência em ordem direta: ${maior_sequencia_direta}</p>
+                <p>Maior sequência em ordem inversa: ${maior_sequencia_inversa}</p>
             `;
     },
+    // Salva os dados de pontuação e sequência máxima ao final
     on_finish: function (data) {
-      data.participante = participant;
-      data.pontos_ordem_direta = direct_score;
-      data.pontos_ordem_inversa = inward_score;
-      data.maior_sequencia_direta = max_direct_sequence;
-      data.maior_sequencia_inversa = max_inward_sequence;
+      data.participante = participante;
+      data.pontos_ordem_direta = pontuacao_direta;
+      data.pontos_ordem_inversa = pontuacao_inversa;
+      data.maior_sequencia_direta = maior_sequencia_direta;
+      data.maior_sequencia_inversa = maior_sequencia_inversa;
     },
   };
 }
 
-// Thank Trial
-function thankTrial() {
+// Função de agradecimento ao participante ao final do experimento
+function trialAgradecimento() {
   return {
     type: jsPsychHtmlKeyboardResponse,
     stimulus:
@@ -411,17 +443,20 @@ function thankTrial() {
   };
 }
 
-function runExperiment() {
-  timeline.push(getParticipantId());
-  // timeline.push(createDirectInstructions());
-  addDirectTrials();
-  timeline.push(createInwardInstructions());
-  timeline.push(createPraticeLevel());
-  addInwardTrials();
-  timeline.push(resultsTrial());
-  timeline.push(thankTrial());
+// Função principal para executar o experimento completo
+function executarExperimento() {
+  timeline.push(obterIdParticipante());
+
+  // Executa os trials de ordem direta
+  ordemDireta();
+
+  // Executa os trials de ordem inversa
+  ordemInversa();
+
+  timeline.push(exibirResultadoFinal()); // Exibe o resultado final com pontuações
+  timeline.push(trialAgradecimento()); // Exibe a mensagem de agradecimento
 }
 
-runExperiment();
+executarExperimento(); // Inicializa a execução do experimento
 
-jsPsych.run(timeline);
+jsPsych.run(timeline); // Inicia o experimento no jsPsych

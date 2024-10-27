@@ -80,6 +80,7 @@ function getSequences(index) {
     throw new Error("Index out of bounds");
   }
   const [s1, s2] = sequences[index];
+  
   return { s1, s2 };
 }
 

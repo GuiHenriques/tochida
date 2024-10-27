@@ -6,10 +6,10 @@ const practice_trials_1 = {
     {
       // PT
       grid: [
-        { creature: creatures[63], object: objects[0] },
-        { creature: creatures[64], object: objects[0] },
-        { creature: creatures[65], object: objects[0] },
         { creature: creatures[73], object: objects[0] },
+        { creature: creatures[74], object: objects[0] },
+        { creature: creatures[75], object: objects[0] },
+        { creature: creatures[64], object: objects[0] },
       ],
       audio: audios[0],
     },

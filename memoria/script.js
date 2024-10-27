@@ -3,7 +3,6 @@ import {
   getBackwardSequences,
   validateResponse,
   validateBackwardResponse,
-  saveData,
 } from "./utils.js";
 
 // CONSTANTS
@@ -289,6 +288,9 @@ function createLevel(index, backward = false) {
 
 // Function to add levels to the timeline
 function addDirectTrials() {
+  // Instructions
+  timeline.push(createDirectInstructions());
+
   // Initial trial
   timeline.push(...createLevel(0).timeline);
 
@@ -411,7 +413,7 @@ function thankTrial() {
 
 function runExperiment() {
   timeline.push(getParticipantId());
-  timeline.push(createDirectInstructions());
+  // timeline.push(createDirectInstructions());
   addDirectTrials();
   timeline.push(createInwardInstructions());
   timeline.push(createPraticeLevel());

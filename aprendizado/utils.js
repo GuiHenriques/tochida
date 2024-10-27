@@ -75,7 +75,7 @@ function loadObjects() {
   const totalObjects = 16;
   const objects = [];
 
-  for (let i = 1; i <= totalObjects; i++) {
+  for (let i = 0; i <= totalObjects - 1; i++) {
     const padNum = String(i).padStart(2, "0");
     const file = `${objectsDirectory}${objectsName}${padNum}.png`;
     objects.push(file);
@@ -99,29 +99,29 @@ function loadCreatures() {
 
   const creatures = [];
 
-  // Load CA (1 to 32)
-  for (let i = 1; i <= 32; i++) {
+  // Load CA (0 to 31)
+  for (let i = 0; i <= 31; i++) {
     const file = `${creaturesDirectory}${creaturesAlvoName}${i}.png`;
     
     creatures.push(file);
   }
 
-  // Load CNA
-  for (let i = 33; i <= 64; i++) {
+  // Load CNA (32 to 64)
+  for (let i = 32; i <= 63; i++) {
     const file = `${creaturesDirectory}${creaturesNotAlvoName}${i}.png`;
 
     creatures.push(file);
   }
 
-  // Load CPA
-  for (let i = 65; i <= 72; i++) {
+  // Load CPA (64 to 71)
+  for (let i = 64; i <= 71; i++) {
     const file = `${creaturesDirectory}${creaturesPracticeAlvoName}${i}.png`;
     
     creatures.push(file);
   }
 
-  // Load CPNA
-  for (let i = 73; i <= 80; i++) {
+  // Load CPNA (72 to 79)
+  for (let i = 72; i <= 79; i++) {
     const file = `${creaturesDirectory}${creaturesPracticeNotAlvoName}${i}.png`;
     creatures.push(file);
   }

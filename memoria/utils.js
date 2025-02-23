@@ -108,4 +108,4 @@ function validateBackwardResponse(sequence, response) {
   return true;
 }
 
-export {getSequences, getBackwardSequences, validateResponse, validateBackwardResponsea};
+export {getSequences, getBackwardSequences, validateResponse, validateBackwardResponse};

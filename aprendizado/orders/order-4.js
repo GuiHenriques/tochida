@@ -1,6 +1,6 @@
 import { creatures, objects, audios } from "./loader.js";
 
-const trials_pt_es_4 = {
+const trials_pt_en_4 = {
   order: "4-PT-ES",
   learn: [
     // Trial 1
@@ -167,7 +167,7 @@ const trials_pt_es_4 = {
     },],
 };
 
-const trials_es_pt_4 = {
+const trials_en_pt_4 = {
   order: "4-ES-PT",
   learn: [
     // Trial 1
@@ -332,7 +332,7 @@ const trials_es_pt_4 = {
     },],
 };
 
-const trials_es_4 = {
+const trials_en_4 = {
   order: "4-ES",
   learn: [ 
     // Trial 1
@@ -663,4 +663,4 @@ const trials_pt_4 = {
     },],
 };
 
-export { trials_pt_es_4, trials_es_pt_4, trials_es_4, trials_pt_4 };
+export { trials_pt_en_4, trials_en_pt_4, trials_en_4, trials_pt_4 };

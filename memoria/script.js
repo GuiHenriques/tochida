@@ -173,7 +173,6 @@ function trialResposta(sequencia, inversa = false) {
         }
       } else {
         data.correto = validateResponse(sequencia, resposta_usuario);
-
         if (data.correto) {
           pontuacao_direta++;
           maior_sequencia_direta = sequencia.length;
@@ -237,7 +236,7 @@ function trialFeedbackPraticaIntermediaria() {
       "<p>Lembre-se que você deve digitar os números de trás para frente.</p>" +
       "<p>Pressione qualquer tecla para continuar.</p>",
     choices: "ALL_KEYS",
-    data: { tipo: "feedback" },
+    data: { type: "feedback" },
   };
 }
 
@@ -252,17 +251,17 @@ function trialFeedbackPosPratica() {
       "<p>Vamos começar!</p>" +
       "<p>Pressione qualquer tecla para continuar.</p>",
     choices: "ALL_KEYS",
-    data: { tipo: "feedback" },
+    data: { type: "feedback" },
   };
 }
 
 // Função para criar um bloco de nível condicional
 function criarNivel(indice, ordemInversa = false) {
   let s1, s2;
-  
+
   // Obtém as sequências para o nível atual
   if (!ordemInversa) {
-    ({s1, s2} = getSequences(indice));
+    ({ s1, s2 } = getSequences(indice));
   } else {
     ({ s1, s2 } = getBackwardSequences(indice));
   }
@@ -296,12 +295,11 @@ function criarNivel(indice, ordemInversa = false) {
     conditional_function: function () {
       const contadorCorretos = jsPsych.data
         .get()
-        .filter({ tipo: "resposta" })
+        .filter({ type: "resposta" })
         .last(2)
-        .filter({ correta: true })
+        .filter({ correto: true })
         .count();
 
-      console.log("contadorCorretos", contadorCorretos);      
       return contadorCorretos > 0;
     },
   };
@@ -351,12 +349,7 @@ function criarTentativaPratica(sequencia) {
   const feedback = trialFeedbackPratica(sequencia); // Feedback após a resposta
 
   return {
-    timeline: [
-      preTrial,
-      ...digitosPratica,
-      respostaPratica,
-      feedback,
-    ],
+    timeline: [preTrial, ...digitosPratica, respostaPratica, feedback],
     // Função para repetir o trial se a resposta estiver incorreta até 2 tentativas
     loop_function: function (data) {
       tentativasPratica++;

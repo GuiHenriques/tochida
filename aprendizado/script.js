@@ -18,26 +18,26 @@ import {
 // Trial Orders
 import {
   trials_pt_1,
-  trials_es_1,
-  trials_pt_es_1,
-  trials_es_pt_1,
+  trials_en_1,
+  trials_pt_en_1,
+  trials_en_pt_1,
 } from "./orders/order-1.js";
 import {
-  trials_es_2,
+  trials_en_2,
   trials_pt_2,
-  trials_pt_es_2,
-  trials_es_pt_2,
+  trials_pt_en_2,
+  trials_en_pt_2,
 } from "./orders/order-2.js";
 import {
-  trials_es_pt_3,
-  trials_pt_es_3,
+  trials_en_pt_3,
+  trials_pt_en_3,
   trials_pt_3,
-  trials_es_3,
+  trials_en_3,
 } from "./orders/order-3.js";
 import {
-  trials_pt_es_4,
-  trials_es_pt_4,
-  trials_es_4,
+  trials_pt_en_4,
+  trials_en_pt_4,
+  trials_en_4,
   trials_pt_4,
 } from "./orders/order-4.js";
 
@@ -103,17 +103,18 @@ function mapPracticeTrials(index) {
   }
 }
 
-// Select chosen trial
+// Select chosen trial 
+// ? Caso ele ja tenha balanciado as ordens e so trocar o index pra 1
 function mapTrialOrders(index) {
   switch (index) {
     case 1:
-      return [trials_pt_1, trials_es_1, trials_es_pt_1, trials_pt_es_1];
+      return [trials_pt_1, trials_en_1, trials_en_pt_1, trials_pt_en_1];
     case 2:
-      return [trials_es_2, trials_pt_2, trials_pt_es_2, trials_es_pt_2];
+      return [trials_en_2, trials_pt_2, trials_pt_en_2, trials_en_pt_2];
     case 3:
-      return [trials_es_pt_3, trials_pt_es_3, trials_pt_3, trials_es_3];
+      return [trials_en_pt_3, trials_pt_en_3, trials_pt_3, trials_en_3];
     case 4:
-      return [trials_pt_es_4, trials_es_pt_4, trials_es_4, trials_pt_4];
+      return [trials_pt_en_4, trials_en_pt_4, trials_en_4, trials_pt_4];
   }
 }
 

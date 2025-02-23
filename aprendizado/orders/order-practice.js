@@ -44,7 +44,7 @@ const practice_trials_1 = {
       audio: audios[0],
     },
     {
-      // PT - EN
+      // EN - PT
       grid: [
         { creature: creatures[76], object: objects[15] },
         { creature: creatures[77], object: objects[16] },
@@ -54,7 +54,7 @@ const practice_trials_1 = {
       audio: audios[0],
     },
     {
-      // PT - EN
+      // EN - PT
       grid: [
         { creature: creatures[79], object: objects[2] },
         { creature: creatures[72], object: objects[3] },
@@ -64,7 +64,7 @@ const practice_trials_1 = {
       audio: audios[0],
     },
     {
-      // EN - PT
+      // PT - EN
       grid: [
         { creature: creatures[70], object: objects[14] },
         { creature: creatures[74], object: objects[5] },
@@ -74,7 +74,7 @@ const practice_trials_1 = {
       audio: audios[0],
     },
     {
-      // EN - PT
+      // PT - EN
       grid: [
         { creature: creatures[77], object: objects[10] },
         { creature: creatures[71], object: objects[8] },
@@ -90,7 +90,7 @@ const practice_trials_2 = {
   order: "Practice 2",
   practice: [
     {
-      // PT
+      // EN
       grid: [
         { creature: creatures[74], object: objects[5] },
         { creature: creatures[68], object: objects[9] },
@@ -100,7 +100,7 @@ const practice_trials_2 = {
       audio: audios[1],
     },
     {
-      // PT
+      // EN
       grid: [
         { creature: creatures[77], object: objects[10] },
         { creature: creatures[78], object: objects[11] },
@@ -110,7 +110,7 @@ const practice_trials_2 = {
       audio: audios[1],
     },
     {
-      // EN
+      // PT
       grid: [
         { creature: creatures[78], object: objects[12] },
         { creature: creatures[79], object: objects[13] },
@@ -120,7 +120,7 @@ const practice_trials_2 = {
       audio: audios[1],
     },
     {
-      // EN
+      // PT
       grid: [
         { creature: creatures[67], object: objects[15] },
         { creature: creatures[73], object: objects[9] },
@@ -173,10 +173,10 @@ const practice_trials_2 = {
 };
 
 const practice_trials_3 = {
-  order: "Practice 1",
+  order: "Practice 3",
   practice: [
     {
-      // PT
+      // EN - PT
       grid: [
         { creature: creatures[75], object: objects[6] },
         { creature: creatures[76], object: objects[7] },
@@ -186,7 +186,7 @@ const practice_trials_3 = {
       audio: audios[0],
     },
     {
-      // PT
+      // EN - PT
       grid: [
         { creature: creatures[72], object: objects[3] },
         { creature: creatures[73], object: objects[4] },
@@ -196,7 +196,7 @@ const practice_trials_3 = {
       audio: audios[1],
     },
     {
-      // EN
+      // PT - EN
       grid: [
         { creature: creatures[78], object: objects[9] },
         { creature: creatures[67], object: objects[3] },
@@ -206,7 +206,7 @@ const practice_trials_3 = {
       audio: audios[0],
     },
     {
-      // EN
+      // PT - EN
       grid: [
         { creature: creatures[73], object: objects[12] },
         { creature: creatures[74], object: objects[13] },
@@ -216,7 +216,7 @@ const practice_trials_3 = {
       audio: audios[1],
     },
     {
-      // PT - EN
+      // PT
       grid: [
         { creature: creatures[76], object: objects[2] },
         { creature: creatures[69], object: objects[5] },
@@ -226,7 +226,7 @@ const practice_trials_3 = {
       audio: audios[0],
     },
     {
-      // PT - EN
+      // PT
       grid: [
         { creature: creatures[68], object: objects[6] },
         { creature: creatures[79], object: objects[15] },
@@ -236,7 +236,7 @@ const practice_trials_3 = {
       audio: audios[1],
     },
     {
-      // EN - PT
+      // EN
       grid: [
         { creature: creatures[71], object: objects[7] },
         { creature: creatures[73], object: objects[10] },
@@ -246,7 +246,7 @@ const practice_trials_3 = {
       audio: audios[0],
     },
     {
-      // EN - PT
+      // EN
       grid: [
         { creature: creatures[77], object: objects[5] },
         { creature: creatures[78], object: objects[6] },
@@ -259,10 +259,10 @@ const practice_trials_3 = {
 };
 
 const practice_trials_4 = {
-  order: "Practice 1",
+  order: "Practice 4",
   practice: [
     {
-      // PT
+      // PT - EN
       grid: [
         { creature: creatures[64], object: objects[11] },
         { creature: creatures[72], object: objects[6] },
@@ -272,7 +272,7 @@ const practice_trials_4 = {
       audio: audios[0],
     },
     {
-      // PT
+      // PT - EN
       grid: [
         { creature: creatures[75], object: objects[3] },
         { creature: creatures[76], object: objects[4] },
@@ -282,7 +282,7 @@ const practice_trials_4 = {
       audio: audios[1],
     },
     {
-      // EN
+      // EN - PT
       grid: [
         { creature: creatures[78], object: objects[12] },
         { creature: creatures[66], object: objects[8] },
@@ -292,7 +292,7 @@ const practice_trials_4 = {
       audio: audios[0],
     },
     {
-      // EN
+      // EN - PT
       grid: [
         { creature: creatures[73], object: objects[9] },
         { creature: creatures[74], object: objects[10] },
@@ -302,7 +302,7 @@ const practice_trials_4 = {
       audio: audios[1],
     },
     {
-      // PT - EN
+      // EN
       grid: [
         { creature: creatures[79], object: objects[15] },
         { creature: creatures[72], object: objects[16] },
@@ -312,7 +312,7 @@ const practice_trials_4 = {
       audio: audios[0],
     },
     {
-      // PT - EN
+      // EN
       grid: [
         { creature: creatures[69], object: objects[10] },
         { creature: creatures[76], object: objects[2] },
@@ -322,7 +322,7 @@ const practice_trials_4 = {
       audio: audios[1],
     },
     {
-      // EN - PT
+      // PT
       grid: [
         { creature: creatures[77], object: objects[5] },
         { creature: creatures[78], object: objects[6] },
@@ -332,7 +332,7 @@ const practice_trials_4 = {
       audio: audios[0],
     },
     {
-      // EN - PT
+      // PT
       grid: [
         { creature: creatures[74], object: objects[10] },
         { creature: creatures[71], object: objects[4] },

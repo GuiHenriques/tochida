@@ -173,6 +173,7 @@ function trialResposta(sequencia, inversa = false) {
         }
       } else {
         data.correto = validateResponse(sequencia, resposta_usuario);
+
         if (data.correto) {
           pontuacao_direta++;
           maior_sequencia_direta = sequencia.length;
@@ -300,6 +301,7 @@ function criarNivel(indice, ordemInversa = false) {
         .filter({ correta: true })
         .count();
 
+      console.log("contadorCorretos", contadorCorretos);      
       return contadorCorretos > 0;
     },
   };

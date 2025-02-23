@@ -168,7 +168,7 @@ const trials_pt_1 = {
   ],
 };
 
-const trials_es_1 = {
+const trials_en_1 = {
   order: "1-ES",
   learn: [
     {
@@ -336,7 +336,7 @@ const trials_es_1 = {
   ],
 };
 
-const trials_es_pt_1 = {
+const trials_en_pt_1 = {
   order: "1-ES-PT",
   learn: [
     {
@@ -504,7 +504,7 @@ const trials_es_pt_1 = {
   ],
 };
 
-const trials_pt_es_1 = {
+const trials_pt_en_1 = {
   order: "1-PT-ES", 
   learn: [
     {
@@ -672,4 +672,4 @@ const trials_pt_es_1 = {
   ],
 };
 
-export { trials_pt_1, trials_es_1, trials_pt_es_1, trials_es_pt_1 };
+export { trials_pt_1, trials_en_1, trials_pt_en_1, trials_en_pt_1 };

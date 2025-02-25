@@ -75,7 +75,7 @@ function loadObjects() {
   const totalObjects = 16;
   const objects = [];
 
-  for (let i = 0; i <= totalObjects - 1; i++) {
+  for (let i = 0; i <= totalObjects; i++) {
     const padNum = String(i).padStart(2, "0");
     const file = `${objectsDirectory}${objectsName}${padNum}.png`;
     objects.push(file);

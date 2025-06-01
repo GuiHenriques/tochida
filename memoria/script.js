@@ -8,13 +8,13 @@ import {
 
 // CONSTANTES
 // Tempo de preparação antes de cada sequência
-let tempo_preparacao = 2000;
+let tempo_preparacao = 200;
 
 // Tempo de exibição do feedback de acerto/erro
-let tempo_feedback = 1500;
+let tempo_feedback = 150;
 
 // Tempo de exibição de cada dígito
-let tempo_exibicao_digito = 1000;
+let tempo_exibicao_digito = 100;
 
 // VARIÁVEIS
 let timeline = [];
@@ -69,14 +69,9 @@ function criarInstrucoesOrdemDireta() {
   return {
     type: jsPsychHtmlKeyboardResponse,
     stimulus:
-      "<h4>Esta es una tarea de memoria.</h4>" +
-      "<h4>Algunos números surgirán en la pantalla, Pon atención. Cuándo termine, repita la secuencia. </h4>" +
-      "<h4>Pulse cualquier tecla para seguir</h4>" +
-      "<hr>" +
       "<p>Essa é uma tarefa de memória.</p>" +
       "<p>Alguns números aparecerão na tela, observe com atenção. Assim que terminar, repita a sequência.</p>" +
-      "<p>Pressione qualquer tecla para continuar.</p>" +
-      "<br>",
+      "<p>Pressione qualquer tecla para continuar.</p>",
     choices: "ALL_KEYS",
     data: { part: "instructions" },
   };
@@ -86,8 +81,7 @@ function criarInstrucoesOrdemDireta() {
 function trialPreparacao() {
   return {
     type: jsPsychHtmlKeyboardResponse,
-    stimulus:
-      "<h4>Memorice la secuencia</h4>" + "<hr>" + "<p>Memorize a sequência</p>",
+    stimulus: "<p>Memorize a sequência</p>",
     choices: "NO_KEYS",
     trial_duration: tempo_preparacao,
     data: { type: "pre-trial" },
@@ -123,11 +117,11 @@ function trialResposta(sequencia, inversa = false) {
       <div id="resposta" style="height: 24px; font-size: 24px; margin: 20px 0;"></div>
       <div style="display: flex; justify-content: space-between; gap: 50px">
         <button id="botao-limpar" class="jspsych-btn" style="padding: 7px">
-          <span style="display: inline-block; vertical-align: middle; font-size: 14px">Borrar</span>
+          <span style="display: inline-block; vertical-align: middle; font-size: 14px">Apagar</span>
           <span class="material-symbols-outlined" style="display: inline-block; vertical-align: middle;">backspace</span>
         </button>
         <button id="botao-enviar" class="jspsych-btn" style="padding: 7px">
-          <span style="display: inline-block; vertical-align: middle; font-size: 16px">Seguir</span>
+          <span style="display: inline-block; vertical-align: middle; font-size: 16px">Continuar</span>
           <span class="material-symbols-outlined" style="display: inline-block; vertical-align: middle;">arrow_forward</span>
         </button>
       </div>
@@ -190,8 +184,8 @@ function trialFeedback() {
     stimulus: function () {
       const ultimoTeste = jsPsych.data.get().last(1).values()[0];
       return ultimoTeste.correto
-        ? "<h4>¡Correcto!</h4>" + "<hr>" + "<p>Correto!</p>"
-        : "<h4>¡Incorrecto!</h4>" + "<hr>" + "<p>Incorreto!</p>";
+        ? "<p>Correto!</p>"
+        : "<p>Incorreto!</p>";
     },
     trial_duration: tempo_feedback,
     choices: "NO_KEYS",
@@ -206,19 +200,14 @@ function trialFeedbackPratica(sequencia) {
     stimulus: function () {
       const ultimoTeste = jsPsych.data.get().last(1).values()[0];
       return ultimoTeste.correto
-        ? "<h4>Muy bien.</h4>" + "<hr>" + "<p>Muito bem.</p>"
-        : `<h4>No exactamente. La secuencia era ${sequencia[0]} - ${sequencia[1]}.</h4>
-            <h4>Entonces, en orden de atrás hacia adelante debe introducir ${sequencia[1]} - ${sequencia[0]}.</h4>
-            <h4>Vamos a intentarlo de nuevo.</h4>
-            <h4> Pulse cualquier tecla para seguir.</h4>
-            <hr>
-            <p>Não exatamente. A sequência era ${sequencia[0]} - ${sequencia[1]}.</p>
+        ? "<p>Muito bem.</p>"
+        : `<p>Não exatamente. A sequência era ${sequencia[0]} - ${sequencia[1]}.</p>
             <p>Então, na ordem de trás para frente, você deve digitar ${sequencia[1]} - ${sequencia[0]}.</p>
             <p>Vamos tentar novamente.</p>
             <p>Pressione qualquer tecla para continuar.</p>`;
     },
-    choices: "NO_KEYS",
-    trial_duration: tempo_feedback,
+    // choices: "NO_KEYS",
+    // trial_duration: tempo_feedback,
     data: { type: "feedback" },
   };
 }
@@ -228,10 +217,6 @@ function trialFeedbackPraticaIntermediaria() {
   return {
     type: jsPsychHtmlKeyboardResponse,
     stimulus:
-      "<h4>¿Vamos a intentar una vez más?</h4>" +
-      "<h4>Recuerde que debe introducir los números de atrás hacia adelante.</h4>" +
-      "<h4>Pulse cualquier tecla para seguir.</h4>" +
-      "<hr>" +
       "<p>Vamos tentar mais uma vez?</p>" +
       "<p>Lembre-se que você deve digitar os números de trás para frente.</p>" +
       "<p>Pressione qualquer tecla para continuar.</p>",
@@ -245,9 +230,6 @@ function trialFeedbackPosPratica() {
   return {
     type: jsPsychHtmlKeyboardResponse,
     stimulus:
-      "<h4>¡Vamos empezar!</h4>" +
-      "<h4>Pulse cualquier tecla para seguir.</h4>" +
-      "<hr>" +
       "<p>Vamos começar!</p>" +
       "<p>Pressione qualquer tecla para continuar.</p>",
     choices: "ALL_KEYS",
@@ -324,15 +306,10 @@ function criarInstrucoesOrdemInversa() {
   return {
     type: jsPsychHtmlKeyboardResponse,
     stimulus:
-      "<h4>Agora, você verá alguns números mais.</h4>" +
-      "<h4>Desta vez, quando terminar, você deve introduzi-los em ordem inversa (de trás para frente).</h4>" +
-      "<h4>Vamos tentar?</h4>" +
-      "<h4>Pressione qualquer tecla para continuar</h4>" +
-      "<hr>" +
-      "<p>Ahora, usted verá algunos números más.</p>" +
-      "<p>Esta vez, cuándo termine, usted debe introducirlos en orden de atrás hacia adelante. </p>" +
-      "<p>¿Vamos a intentarlo?</p>" +
-      "<p>Pulse cualquier tecla para seguir.</p>",
+      "<p>Agora, você verá mais alguns números.</p>" +
+      "<p>Desta vez, quando terminar, você deve introduzi-los em ordem inversa (de trás para frente).</p>" +
+      "<p>Vamos tentar?</p>" +
+      "<p>Pressione qualquer tecla para continuar</p>",
     choices: "ALL_KEYS",
     data: { parte: "instrucoes" },
   };
@@ -431,8 +408,6 @@ function trialAgradecimento() {
     type: jsPsychHtmlKeyboardResponse,
     stimulus:
       "<div style='text-align: center; width: 80%; margin: auto;'>" +
-      "<h4>¡Gracias!</h4>" +
-      "<hr>" +
       "<p>Obrigado!</p>" +
       "</div>",
   };

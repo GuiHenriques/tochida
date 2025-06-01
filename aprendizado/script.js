@@ -124,9 +124,6 @@ function instructionsPracticeTrial() {
     type: jsPsychHtmlKeyboardResponse,
     stimulus:
       "<div style='text-align: center; width: 80%; margin: auto;'>" +
-      "<h4>Pratique a tarefa antes de começar o experimento.</h4>" +
-      "<h4>Pulse cualquier tecla para seguir</h4>" +
-      "<hr>" +
       "<p>Pratique a tarefa antes de começar o experimento.</p>" +
       "<p>Pressione qualquer tecla para continuar.</p>" +
       "</div>",
@@ -141,9 +138,6 @@ function instructionsLearnTrial() {
 
     stimulus:
       "<div style='text-align: center; width: 80%; margin: auto;'>" +
-      "<h4>En esta actividad, usted verá algunas figuras y oirá una voz le orientando a mirar a una de estas figuras. Direccione su mirada a la figura indicada.</h4>" +
-      "<h4>Pulse cualquier tecla para seguir</h4>" +
-      "<hr>" +
       "<p>Nessa atividade, você verá algumas figuras na tela, e ouvirá uma voz te orientando a olhar para uma dessas figuras. Direcione seu olhar para a figura indicada.</p>" +
       "<p>Pressione qualquer tecla para continuar.</p>" +
       "</div>",
@@ -158,9 +152,6 @@ function instructionsTestTrial() {
 
     stimulus:
       "<div style='text-align: center; width: 80%; margin: auto;'>" +
-      "<h4>Oiga la palabra y direccione su mirada a la figura indicada.</h4>" +
-      "<h4>Pulse cualquier tecla para seguir</h4>" +
-      "<hr>" +
       "<p>Ouça a palavra e direcione seu olhar para a figura indicada.</p>" +
       "<p>Pressione qualquer tecla para continuar.</p>" +
       "</div>",
@@ -303,8 +294,6 @@ function thankTrial() {
     type: jsPsychHtmlKeyboardResponse,
     stimulus:
       "<div style='text-align: center; width: 80%; margin: auto;'>" +
-      "<h4>¡Gracias!</h4>" +
-      "<hr>" +
       "<p>Obrigado!</p>" +
       "</div>",
   };

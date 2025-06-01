@@ -70,17 +70,18 @@ function createTestGrid(grid) {
 
 // Load objects
 function loadObjects() {
-  const objectsDirectory = "assets/objetos/";
+  const objectsDirectory = "assets/objetos_gui/";
   const objectsName = "objeto";
   const totalObjects = 16;
   const objects = [];
 
   for (let i = 0; i <= totalObjects; i++) {
+    console.log(i);
+    
     const padNum = String(i).padStart(2, "0");
     const file = `${objectsDirectory}${objectsName}${padNum}.png`;
     objects.push(file);
   }
-
   return objects;
 }
 

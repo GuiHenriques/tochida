@@ -192,8 +192,8 @@ function createLearnPracticeTrials(trials) {
     let image_practice_trial = {
       type: jsPsychHtmlKeyboardResponse,
       stimulus: createGrid(trial.grid),
-      // trial_duration: preLearnTrialTime,
-      choices: "NO_KEYS",
+      trial_duration: preLearnTrialTime,
+      // choices: "NO_KEYS",
     };
 
     let sound_practice_trial = {

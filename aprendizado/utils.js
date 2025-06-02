@@ -8,13 +8,13 @@ function createGrid(grid) {
                 <td>
                   <div class="container">
                     <img src="${grid[0].creature}" alt="Creature1">
-                    <img src="${grid[0].object}" alt="Object1">
+                    <img src="${grid[0].object}" class="object" alt="Object1">
                   </div>
                 </td>
                 <td>
                   <div class="container">
                     <img src="${grid[1].creature}" alt="Creature2">
-                    <img src="${grid[1].object}" alt="Object2">
+                    <img src="${grid[1].object}" class="object" alt="Object2">
                   </div>
                 </td>
               </tr>
@@ -22,13 +22,13 @@ function createGrid(grid) {
                 <td>
                   <div class="container">
                     <img src="${grid[2].creature}" alt="Creature 3">
-                    <img src="${grid[2].object}" alt="Object 3">
+                    <img src="${grid[2].object}" class="object" alt="Object3">
                   </div>
                 </td>
                 <td>
                   <div class="container">
                     <img src="${grid[3].creature}" alt="Creature 4">
-                    <img src="${grid[3].object}" alt="Object 4">
+                    <img src="${grid[3].object}" class="object" alt="Object4">
                   </div>
                 </td>
               </tr>
@@ -76,8 +76,6 @@ function loadObjects() {
   const objects = [];
 
   for (let i = 0; i <= totalObjects; i++) {
-    console.log(i);
-    
     const padNum = String(i).padStart(2, "0");
     const file = `${objectsDirectory}${objectsName}${padNum}.png`;
     objects.push(file);
@@ -132,35 +130,42 @@ function loadCreatures() {
 
 // Load audios
 function loadAudios() {
-  const audiosDirectory = "assets/audios/";
-  const ordem = "Ordem ";
-  const condicao = "_Condição ";
-  const aprendizado = "_Aprendizado ";
-  const teste = "_Teste ";
-  const rodada = "Rodada ";
-
-  const totalTrials = 8;
-  const totalOrders = 4;
-  const totalConditions = 4;
+  const baseDirectory = "assets/audios_gui/";
+  const totalPastas = 4;
 
   const audios = [];
 
-  for (let o = 1; o <= totalOrders; o++) {
-    // console.log("Ordem: " + o);
-    for (let c = 1; c <= totalConditions; c++) {
-      // console.log("Condição: " + c);
-      for (let t = 1; t <= totalTrials; t++) { // Aprendizado
-        // console.log("Trial: " + t);
-        const file_a = `${audiosDirectory}${ordem}${o}${condicao}${c}${aprendizado}${rodada}${t}.mp3`;
-        audios.push(file_a);
-      }
-      for (let t = 1; t <= totalTrials; t++) { // Teste
-        const file_b = `${audiosDirectory}${ordem}${o}${condicao}${c}${teste}${rodada}${t}.mp3`;
-        audios.push(file_b);
-      }
+  // audios.push("assets/audios/1.wav");
+
+  // Etapa 1: carregar treino e teste (32 arquivos cada) para cada pasta 1-4
+  for (let p = 1; p <= totalPastas; p++) {
+    // Treino
+    for (let i = 1; i <= 32; i++) {
+      const caminhoTreino = `${baseDirectory}${p}/treino/${i}.wav`;
+      audios.push(caminhoTreino);
+    }
+    // Teste
+    for (let i = 1; i <= 32; i++) {
+      const caminhoTeste = `${baseDirectory}${p}/teste/${i}.wav`;
+      audios.push(caminhoTeste);
     }
   }
 
+  // Etapa 2: carregar pratica/treino e pratica/teste (8 arquivos cada) para cada pasta 1-4
+  for (let p = 1; p <= totalPastas; p++) {
+    // Pratica/Treino
+    for (let i = 1; i <= 8; i++) {
+      const caminhoPraticaTreino = `${baseDirectory}${p}/pratica/treino/${i}.wav`;
+      audios.push(caminhoPraticaTreino);
+    }
+    // Pratica/Teste
+    for (let i = 1; i <= 8; i++) {
+      const caminhoPraticaTeste = `${baseDirectory}${p}/pratica/teste/${i}.wav`;
+      audios.push(caminhoPraticaTeste);
+    }
+  }
+  console.log(audios);
+  
   return audios;
 }
 

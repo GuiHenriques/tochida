@@ -53,9 +53,9 @@
       var instructions = {
         type: jsPsychHtmlKeyboardResponse,
         stimulus:
-          "<p>Tarefa de tradução</p>" +
-          "<p>Você verá uma palavra escrita em Português. Por favor, escreva uma tradução correspondente em Espanhol." +
-          "<p>Pressione qualquer tecla para continuar.</p>",
+          "<h4>Tarefa de tradução</h4>" +
+          "<h4>Você verá uma palavra escrita em Inglês. Por favor, escreva uma tradução correspondente em Português.</h4>" +
+          "<h4>Pressione qualquer tecla para continuar.</h4>",
         choices: "ALL_KEYS",
       };
       timeline.push(instructions);
@@ -115,7 +115,7 @@
         type: jsPsychHtmlKeyboardResponse,
         stimulus:
           "<div style='text-align: center; width: 80%; margin: auto;'>" +
-          "<p>Obrigado!</p>" +
+          "<h4>Obrigado!</h4>" +
           "</div>",
       };
       timeline.push(thanks);

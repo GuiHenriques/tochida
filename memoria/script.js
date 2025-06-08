@@ -8,13 +8,13 @@ import {
 
 // CONSTANTES
 // Tempo de preparação antes de cada sequência
-let tempo_preparacao = 200;
+let tempo_preparacao = 2000;
 
 // Tempo de exibição do feedback de acerto/erro
-let tempo_feedback = 150;
+let tempo_feedback = 1500;
 
 // Tempo de exibição de cada dígito
-let tempo_exibicao_digito = 100;
+let tempo_exibicao_digito = 1000;
 
 // VARIÁVEIS
 let timeline = [];

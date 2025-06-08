@@ -124,8 +124,8 @@ function instructionsPracticeTrial() {
     type: jsPsychHtmlKeyboardResponse,
     stimulus:
       "<div style='text-align: center; width: 80%; margin: auto;'>" +
-      "<p>Pratique a tarefa antes de começar o experimento.</p>" +
-      "<p>Pressione qualquer tecla para continuar.</p>" +
+      "<h4>Pratique a tarefa antes de começar o experimento.</h4>" +
+      "<h4>Pressione qualquer tecla para continuar.</h4>" +
       "</div>",
     choices: "ALL_KEYS",
   };
@@ -138,8 +138,8 @@ function instructionsLearnTrial() {
 
     stimulus:
       "<div style='text-align: center; width: 80%; margin: auto;'>" +
-      "<p>Nessa atividade, você verá algumas figuras na tela, e ouvirá uma voz te orientando a olhar para uma dessas figuras. Direcione seu olhar para a figura indicada.</p>" +
-      "<p>Pressione qualquer tecla para continuar.</p>" +
+      "<h4>Nessa atividade, você verá algumas figuras na tela, e ouvirá uma voz te orientando a olhar para uma dessas figuras. Direcione seu olhar para a figura indicada.</h4>" +
+      "<h4>Pressione qualquer tecla para continuar.</h4>" +
       "</div>",
     choices: "ALL_KEYS",
   };
@@ -152,8 +152,8 @@ function instructionsTestTrial() {
 
     stimulus:
       "<div style='text-align: center; width: 80%; margin: auto;'>" +
-      "<p>Ouça a palavra e direcione seu olhar para a figura indicada.</p>" +
-      "<p>Pressione qualquer tecla para continuar.</p>" +
+      "<h4>Ouça a palavra e direcione seu olhar para a figura indicada.</h4>" +
+      "<h4>Pressione qualquer tecla para continuar.</h4>" +
       "</div>",
     choices: "ALL_KEYS",
   };
@@ -169,7 +169,7 @@ function createFixationTrial() {
           </div>
       `,
     trial_duration: fixationTime,
-    // choices: "NO_KEYS",
+    choices: "NO_KEYS",
   };
 }
 
@@ -193,7 +193,7 @@ function createLearnPracticeTrials(trials) {
       type: jsPsychHtmlKeyboardResponse,
       stimulus: createGrid(trial.grid),
       trial_duration: preLearnTrialTime,
-      // choices: "NO_KEYS",
+      choices: "NO_KEYS",
     };
 
     let sound_practice_trial = {
@@ -201,7 +201,7 @@ function createLearnPracticeTrials(trials) {
       stimulus: trial.audio,
       prompt: createGrid(trial.grid),
       trial_duration: learnTrialTime,
-      // choices: "NO_KEYS",
+      choices: "NO_KEYS",
     };
 
     practiceTimeline = practiceTimeline.concat([
@@ -294,7 +294,7 @@ function thankTrial() {
     type: jsPsychHtmlKeyboardResponse,
     stimulus:
       "<div style='text-align: center; width: 80%; margin: auto;'>" +
-      "<p>Obrigado!</p>" +
+      "<h4>Obrigado!</h4>" +
       "</div>",
   };
 }

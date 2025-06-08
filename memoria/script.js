@@ -69,9 +69,9 @@ function criarInstrucoesOrdemDireta() {
   return {
     type: jsPsychHtmlKeyboardResponse,
     stimulus:
-      "<p>Essa é uma tarefa de memória.</p>" +
-      "<p>Alguns números aparecerão na tela, observe com atenção. Assim que terminar, repita a sequência.</p>" +
-      "<p>Pressione qualquer tecla para continuar.</p>",
+      "<h4>Essa é uma tarefa de memória.</h4>" +
+      "<h4>Alguns números aparecerão na tela, observe com atenção. Assim que terminar, repita a sequência.</h4>" +
+      "<h4>Pressione qualquer tecla para continuar.</h4>",
     choices: "ALL_KEYS",
     data: { part: "instructions" },
   };
@@ -81,7 +81,7 @@ function criarInstrucoesOrdemDireta() {
 function trialPreparacao() {
   return {
     type: jsPsychHtmlKeyboardResponse,
-    stimulus: "<p>Memorize a sequência</p>",
+    stimulus: "<h4>Memorize a sequência</h4>",
     choices: "NO_KEYS",
     trial_duration: tempo_preparacao,
     data: { type: "pre-trial" },
@@ -104,7 +104,7 @@ function trialResposta(sequencia, inversa = false) {
   let resposta_usuario = [];
 
   let html_stimulus = `
-      <p>Digite a sequência:</p>
+      <h4>Digite a sequência:</h4>
       <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 150px; margin: 0 auto;">
         ${Array.from(
           { length: 9 },
@@ -184,8 +184,8 @@ function trialFeedback() {
     stimulus: function () {
       const ultimoTeste = jsPsych.data.get().last(1).values()[0];
       return ultimoTeste.correto
-        ? "<p>Correto!</p>"
-        : "<p>Incorreto!</p>";
+        ? "<h4>Correto!</h4>"
+        : "<h4>Incorreto!</h4>";
     },
     trial_duration: tempo_feedback,
     choices: "NO_KEYS",
@@ -200,11 +200,11 @@ function trialFeedbackPratica(sequencia) {
     stimulus: function () {
       const ultimoTeste = jsPsych.data.get().last(1).values()[0];
       return ultimoTeste.correto
-        ? "<p>Muito bem.</p>"
-        : `<p>Não exatamente. A sequência era ${sequencia[0]} - ${sequencia[1]}.</p>
-            <p>Então, na ordem de trás para frente, você deve digitar ${sequencia[1]} - ${sequencia[0]}.</p>
-            <p>Vamos tentar novamente.</p>
-            <p>Pressione qualquer tecla para continuar.</p>`;
+        ? "<h4>Muito bem.</h4>"
+        : `<h4>Não exatamente. A sequência era ${sequencia[0]} - ${sequencia[1]}.</h4>
+            <h4>Então, na ordem de trás para frente, você deve digitar ${sequencia[1]} - ${sequencia[0]}.</h4>
+            <h4>Vamos tentar novamente.</h4>
+            <h4>Pressione qualquer tecla para continuar.</h4>`;
     },
     // choices: "NO_KEYS",
     // trial_duration: tempo_feedback,
@@ -217,9 +217,9 @@ function trialFeedbackPraticaIntermediaria() {
   return {
     type: jsPsychHtmlKeyboardResponse,
     stimulus:
-      "<p>Vamos tentar mais uma vez?</p>" +
-      "<p>Lembre-se que você deve digitar os números de trás para frente.</p>" +
-      "<p>Pressione qualquer tecla para continuar.</p>",
+      "<h4>Vamos tentar mais uma vez?</h4>" +
+      "<h4>Lembre-se que você deve digitar os números de trás para frente.</h4>" +
+      "<h4>Pressione qualquer tecla para continuar.</h4>",
     choices: "ALL_KEYS",
     data: { type: "feedback" },
   };
@@ -230,8 +230,8 @@ function trialFeedbackPosPratica() {
   return {
     type: jsPsychHtmlKeyboardResponse,
     stimulus:
-      "<p>Vamos começar!</p>" +
-      "<p>Pressione qualquer tecla para continuar.</p>",
+      "<h4>Vamos começar!</h4>" +
+      "<h4>Pressione qualquer tecla para continuar.</h4>",
     choices: "ALL_KEYS",
     data: { type: "feedback" },
   };
@@ -306,10 +306,10 @@ function criarInstrucoesOrdemInversa() {
   return {
     type: jsPsychHtmlKeyboardResponse,
     stimulus:
-      "<p>Agora, você verá mais alguns números.</p>" +
-      "<p>Desta vez, quando terminar, você deve introduzi-los em ordem inversa (de trás para frente).</p>" +
-      "<p>Vamos tentar?</p>" +
-      "<p>Pressione qualquer tecla para continuar</p>",
+      "<h4>Agora, você verá mais alguns números.</h4>" +
+      "<h4>Desta vez, quando terminar, você deve introduzi-los em ordem inversa (de trás para frente).</h4>" +
+      "<h4>Vamos tentar?</h4>" +
+      "<h4>Pressione qualquer tecla para continuar</h4>",
     choices: "ALL_KEYS",
     data: { parte: "instrucoes" },
   };
@@ -385,10 +385,10 @@ function exibirResultadoFinal() {
     type: jsPsychHtmlKeyboardResponse,
     stimulus: function () {
       return `
-                <p>Pontos em ordem direta: ${pontuacao_direta}</p>
-                <p>Pontos em ordem inversa: ${pontuacao_inversa}</p>
-                <p>Maior sequência em ordem direta: ${maior_sequencia_direta}</p>
-                <p>Maior sequência em ordem inversa: ${maior_sequencia_inversa}</p>
+                <h4>Pontos em ordem direta: ${pontuacao_direta}</h4>
+                <h4>Pontos em ordem inversa: ${pontuacao_inversa}</h4>
+                <h4>Maior sequência em ordem direta: ${maior_sequencia_direta}</h4>
+                <h4>Maior sequência em ordem inversa: ${maior_sequencia_inversa}</h4>
             `;
     },
     // Salva os dados de pontuação e sequência máxima ao final
@@ -408,7 +408,7 @@ function trialAgradecimento() {
     type: jsPsychHtmlKeyboardResponse,
     stimulus:
       "<div style='text-align: center; width: 80%; margin: auto;'>" +
-      "<p>Obrigado!</p>" +
+      "<h4>Obrigado!</h4>" +
       "</div>",
   };
 }

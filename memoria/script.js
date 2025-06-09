@@ -8,13 +8,13 @@ import {
 
 // CONSTANTES
 // Tempo de preparação antes de cada sequência
-let tempo_preparacao = 2000;
+let tempo_preparacao = 200;
 
 // Tempo de exibição do feedback de acerto/erro
-let tempo_feedback = 1500;
+let tempo_feedback = 150;
 
 // Tempo de exibição de cada dígito
-let tempo_exibicao_digito = 1000;
+let tempo_exibicao_digito = 100;
 
 // VARIÁVEIS
 let timeline = [];
@@ -206,8 +206,8 @@ function trialFeedbackPratica(sequencia) {
             <h4>Vamos tentar novamente.</h4>
             <h4>Pressione qualquer tecla para continuar.</h4>`;
     },
-    // choices: "NO_KEYS",
-    // trial_duration: tempo_feedback,
+    choices: "NO_KEYS",
+    trial_duration: tempo_feedback,
     data: { type: "feedback" },
   };
 }
@@ -335,7 +335,8 @@ function criarTentativaPratica(sequencia) {
       if (tentativasPratica === 2) {
         return false; // Se já houver 2 tentativas, para o loop
       }
-      return !dadosResposta.correct; // Continua o loop se a resposta estiver incorreta
+      
+      return !dadosResposta.correto; // Continua o loop se a resposta estiver incorreta
     },
   };
 }

@@ -177,14 +177,14 @@ const practice_trials_2 = {
         { creature: creatures[74], object: objects[5] },
         { creature: creatures[68], object: objects[9] },
         { creature: creatures[75], object: objects[6] },
-        { creature: creatures[76], object: objects[9] },
+        { creature: creatures[76], object: objects[7] },
       ],
       audio: audios[272],
     },
     {
       // EN
       grid: [
-        { creature: creatures[77], object: objects[10] },
+        { creature: creatures[77], object: objects[8] },
         { creature: creatures[78], object: objects[11] },
         { creature: creatures[79], object: objects[12] },
         { creature: creatures[69], object: objects[10] },
@@ -347,7 +347,7 @@ const practice_trials_3 = {
         { creature: creatures[77], object: objects[8] },
         { creature: creatures[65], object: objects[1] },
       ],
-      audio: audios[278],
+      audio: audios[288],
     },
     {
       // EN - PT
@@ -357,7 +357,7 @@ const practice_trials_3 = {
         { creature: creatures[74], object: objects[5] },
         { creature: creatures[64], object: objects[2] },
       ],
-      audio: audios[279],
+      audio: audios[289],
     },
     {
       // PT - EN
@@ -367,7 +367,7 @@ const practice_trials_3 = {
         { creature: creatures[79], object: objects[10] },
         { creature: creatures[72], object: objects[11] },
       ],
-      audio: audios[280],
+      audio: audios[290],
     },
     {
       // PT - EN
@@ -377,7 +377,7 @@ const practice_trials_3 = {
         { creature: creatures[66], object: objects[11] },
         { creature: creatures[75], object: objects[14] },
       ],
-      audio: audios[281],
+      audio: audios[291],
     },
     {
       // PT
@@ -387,7 +387,7 @@ const practice_trials_3 = {
         { creature: creatures[77], object: objects[3] },
         { creature: creatures[78], object: objects[4] },
       ],
-      audio: audios[282],
+      audio: audios[292],
     },
     {
       // PT
@@ -397,7 +397,7 @@ const practice_trials_3 = {
         { creature: creatures[72], object: objects[16] },
         { creature: creatures[73], object: objects[1] },
       ],
-      audio: audios[283],
+      audio: audios[293],
     },
     {
       // EN
@@ -407,7 +407,7 @@ const practice_trials_3 = {
         { creature: creatures[75], object: objects[11] },
         { creature: creatures[76], object: objects[12] },
       ],
-      audio: audios[284],
+      audio: audios[294],
     },
     {
       // EN
@@ -417,7 +417,7 @@ const practice_trials_3 = {
         { creature: creatures[79], object: objects[9] },
         { creature: creatures[70], object: objects[8] },
       ],
-      audio: audios[285],
+      audio: audios[295],
     },
   ],
   test: [
@@ -429,7 +429,7 @@ const practice_trials_3 = {
         { creature: creatures[73] },
         { creature: creatures[64] },
       ],
-      audio: audios[286],
+      audio: audios[296],
     },
     {
       // Test 2
@@ -439,7 +439,7 @@ const practice_trials_3 = {
         { creature: creatures[77] },
         { creature: creatures[64] },
       ],
-      audio: audios[287],
+      audio: audios[297],
     },
     {
       // Test 3
@@ -449,7 +449,7 @@ const practice_trials_3 = {
         { creature: creatures[75] },
         { creature: creatures[67] },
       ],
-      audio: audios[288],
+      audio: audios[298],
     },
     {
       // Test 4
@@ -459,7 +459,7 @@ const practice_trials_3 = {
         { creature: creatures[67] },
         { creature: creatures[72] },
       ],
-      audio: audios[289],
+      audio: audios[299],
     },
     {
       // Test 5
@@ -469,7 +469,7 @@ const practice_trials_3 = {
         { creature: creatures[69] },
         { creature: creatures[73] },
       ],
-      audio: audios[290],
+      audio: audios[300],
     },
     {
       // Test 6
@@ -479,7 +479,7 @@ const practice_trials_3 = {
         { creature: creatures[77] },
         { creature: creatures[69] },
       ],
-      audio: audios[291],
+      audio: audios[301],
     },
     {
       // Test 7
@@ -489,7 +489,7 @@ const practice_trials_3 = {
         { creature: creatures[70] },
         { creature: creatures[71] },
       ],
-      audio: audios[292],
+      audio: audios[302],
     },
     {
       // Test 8
@@ -499,7 +499,7 @@ const practice_trials_3 = {
         { creature: creatures[71] },
         { creature: creatures[76] },
       ],
-      audio: audios[293],
+      audio: audios[303],
     },
   ],
 };
@@ -515,7 +515,7 @@ const practice_trials_4 = {
         { creature: creatures[73], object: objects[7] },
         { creature: creatures[74], object: objects[8] },
       ],
-      audio: audios[294],
+      audio: audios[304],
     },
     {
       // PT - EN
@@ -525,7 +525,7 @@ const practice_trials_4 = {
         { creature: creatures[65], object: objects[11] },
         { creature: creatures[77], object: objects[5] },
       ],
-      audio: audios[295],
+      audio: audios[305],
     },
     {
       // EN - PT
@@ -535,7 +535,7 @@ const practice_trials_4 = {
         { creature: creatures[79], object: objects[13] },
         { creature: creatures[72], object: objects[14] },
       ],
-      audio: audios[296],
+      audio: audios[306],
     },
     {
       // EN - PT
@@ -545,7 +545,7 @@ const practice_trials_4 = {
         { creature: creatures[75], object: objects[11] },
         { creature: creatures[67], object: objects[6] },
       ],
-      audio: audios[297],
+      audio: audios[307],
     },
     {
       // EN
@@ -555,7 +555,7 @@ const practice_trials_4 = {
         { creature: creatures[68], object: objects[9] },
         { creature: creatures[73], object: objects[1] },
       ],
-      audio: audios[298],
+      audio: audios[308],
     },
     {
       // EN
@@ -565,7 +565,7 @@ const practice_trials_4 = {
         { creature: creatures[77], object: objects[3] },
         { creature: creatures[78], object: objects[4] },
       ],
-      audio: audios[299],
+      audio: audios[309],
     },
     {
       // PT
@@ -575,7 +575,7 @@ const practice_trials_4 = {
         { creature: creatures[79], object: objects[9] },
         { creature: creatures[70], object: objects[3] },
       ],
-      audio: audios[300],
+      audio: audios[310],
     },
     {
       // PT
@@ -585,7 +585,7 @@ const practice_trials_4 = {
         { creature: creatures[75], object: objects[11] },
         { creature: creatures[76], object: objects[12] },
       ],
-      audio: audios[301],
+      audio: audios[311],
     },
   ],
   test: [
@@ -597,7 +597,7 @@ const practice_trials_4 = {
         { creature: creatures[64] },
         { creature: creatures[65] },
       ],
-      audio: audios[302],
+      audio: audios[312],
     },
     {
       // Test 2
@@ -607,7 +607,7 @@ const practice_trials_4 = {
         { creature: creatures[64] },
         { creature: creatures[74] },
       ],
-      audio: audios[303],
+      audio: audios[313],
     },
     {
       // Test 3
@@ -617,7 +617,7 @@ const practice_trials_4 = {
         { creature: creatures[67] },
         { creature: creatures[75] },
       ],
-      audio: audios[304],
+      audio: audios[314],
     },
     {
       // Test 4
@@ -627,7 +627,7 @@ const practice_trials_4 = {
         { creature: creatures[67] },
         { creature: creatures[66] },
       ],
-      audio: audios[305],
+      audio: audios[315],
     },
     {
       // Test 5
@@ -637,7 +637,7 @@ const practice_trials_4 = {
         { creature: creatures[77] },
         { creature: creatures[78] },
       ],
-      audio: audios[306],
+      audio: audios[316],
     },
     {
       // Test 6
@@ -647,7 +647,7 @@ const practice_trials_4 = {
         { creature: creatures[73] },
         { creature: creatures[68] },
       ],
-      audio: audios[307],
+      audio: audios[317],
     },
     {
       // Test 7
@@ -657,7 +657,7 @@ const practice_trials_4 = {
         { creature: creatures[70] },
         { creature: creatures[71] },
       ],
-      audio: audios[308],
+      audio: audios[318],
     },
     {
       // Test 8
@@ -667,7 +667,7 @@ const practice_trials_4 = {
         { creature: creatures[78] },
         { creature: creatures[71] },
       ],
-      audio: audios[309],
+      audio: audios[319],
     },
   ],
 };

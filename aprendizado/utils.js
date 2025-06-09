@@ -132,26 +132,29 @@ function loadCreatures() {
 function loadAudios() {
   const baseDirectory = "assets/audios_gui/";
   const totalPastas = 4;
-
   const audios = [];
 
-  // audios.push("assets/audios/1.wav");
-
-  // Etapa 1: carregar treino e teste (32 arquivos cada) para cada pasta 1-4
+  // Etapa 1: carregar treino e teste em blocos de 8 arquivos por vez
   for (let p = 1; p <= totalPastas; p++) {
-    // Treino
-    for (let i = 1; i <= 32; i++) {
-      const caminhoTreino = `${baseDirectory}${p}/treino/${i}.wav`;
-      audios.push(caminhoTreino);
-    }
-    // Teste
-    for (let i = 1; i <= 32; i++) {
-      const caminhoTeste = `${baseDirectory}${p}/teste/${i}.wav`;
-      audios.push(caminhoTeste);
+    for (let bloco = 0; bloco < 4; bloco++) {
+      const inicio = bloco * 8 + 1;
+      const fim = inicio + 8 - 1;
+
+      // Treino - bloco atual
+      for (let i = inicio; i <= fim; i++) {
+        const caminhoTreino = `${baseDirectory}${p}/treino/${i}.wav`;
+        audios.push(caminhoTreino);
+      }
+
+      // Teste - bloco atual
+      for (let i = inicio; i <= fim; i++) {
+        const caminhoTeste = `${baseDirectory}${p}/teste/${i}.wav`;
+        audios.push(caminhoTeste);
+      }
     }
   }
 
-  // Etapa 2: carregar pratica/treino e pratica/teste (8 arquivos cada) para cada pasta 1-4
+  // Etapa 2: igual à sua versão atual
   for (let p = 1; p <= totalPastas; p++) {
     // Pratica/Treino
     for (let i = 1; i <= 8; i++) {
@@ -164,9 +167,10 @@ function loadAudios() {
       audios.push(caminhoPraticaTeste);
     }
   }
+
   console.log(audios);
-  
   return audios;
 }
+
 
 export { createGrid, createTestGrid, loadObjects, loadCreatures, loadAudios };

@@ -169,7 +169,7 @@ function createFixationTrial() {
           </div>
       `,
     trial_duration: fixationTime,
-    choices: "NO_KEYS",
+    // choices: "NO_KEYS",
   };
 }
 
@@ -192,8 +192,8 @@ function createLearnPracticeTrials(trials) {
     let image_practice_trial = {
       type: jsPsychHtmlKeyboardResponse,
       stimulus: createGrid(trial.grid),
-      trial_duration: preLearnTrialTime,
-      choices: "NO_KEYS",
+      // trial_duration: preLearnTrialTime,
+      // choices: "NO_KEYS",
     };
 
     let sound_practice_trial = {
@@ -201,14 +201,17 @@ function createLearnPracticeTrials(trials) {
       stimulus: trial.audio,
       prompt: createGrid(trial.grid),
       trial_duration: learnTrialTime,
-      choices: "NO_KEYS",
+      // choices: "NO_KEYS",
     };
-
+    
     practiceTimeline = practiceTimeline.concat([
       fixation,
       image_practice_trial,
       sound_practice_trial,
     ]);
+    let i = 0;
+    console.log("Audio:", trial.audio);
+    
   });
 
   return practiceTimeline;
@@ -235,7 +238,7 @@ function createLearnTrials(trials) {
         type: jsPsychAudioKeyboardResponse,
         stimulus: trial.audio,
         prompt: createGrid(trial.grid),
-        trial_duration: learnTrialTime,
+        // trial_duration: learnTrialTime,
         // choices: "NO_KEYS",
       };
 
@@ -261,7 +264,7 @@ function createTestTrials(trials) {
     let image_test_trial = {
       type: jsPsychHtmlKeyboardResponse,
       stimulus: createTestGrid(trial.grid),
-      trial_duration: preTestTrialTime,
+      // trial_duration: preTestTrialTime, 
       // choices: "NO_KEYS",
     };
 

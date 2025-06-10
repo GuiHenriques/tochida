@@ -342,7 +342,7 @@ const trials_en_pt_1 = {
     {
       // Trial 1
       grid: [
-        { creature: creatures[48], object: objects[1] },
+        { creature: creatures[48], object: objects[16] },
         { creature: creatures[49], object: objects[2] },
         { creature: creatures[16], object: objects[1] },
         { creature: creatures[50], object: objects[3] },
@@ -540,7 +540,7 @@ const trials_pt_en_1 = {
     {
       // Trial 4
       grid: [
-        { creature: creatures[46], object: objects[13] },
+        { creature: creatures[46], object: objects[11] },
         { creature: creatures[44], object: objects[14] },
         { creature: creatures[27], object: objects[13] },
         { creature: creatures[45], object: objects[15] },

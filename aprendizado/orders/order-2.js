@@ -213,7 +213,7 @@ const trials_pt_2 = {
     // Trial 5
     {
       grid: [
-        { creature: creatures[36], object: objects[14] },
+        { creature: creatures[36], object: objects[1] },
         { creature: creatures[11], object: objects[14] },
         { creature: creatures[37], object: objects[15] },
         { creature: creatures[38], object: objects[16] },
@@ -382,14 +382,14 @@ const trials_pt_en_2 = {
       { creature: creatures[57], object: objects[1] },
       { creature: creatures[58], object: objects[2] },
       { creature: creatures[19], object: objects[3] },
-      { creature: creatures[59], object: objects[3] },
+      { creature: creatures[59], object: objects[12] },
     ],
     audio: audios[100],
   },
   // Trial 6
   {
     grid: [
-      { creature: creatures[54], object: objects[4] },
+      { creature: creatures[54], object: objects[13] },
       { creature: creatures[18], object: objects[4] },
       { creature: creatures[55], object: objects[5] },
       { creature: creatures[56], object: objects[6] },

@@ -169,7 +169,7 @@ function createFixationTrial() {
           </div>
       `,
     trial_duration: fixationTime,
-    // choices: "NO_KEYS",
+    choices: "NO_KEYS",
   };
 }
 
@@ -192,8 +192,8 @@ function createLearnPracticeTrials(trials) {
     let image_practice_trial = {
       type: jsPsychHtmlKeyboardResponse,
       stimulus: createGrid(trial.grid),
-      // trial_duration: preLearnTrialTime,
-      // choices: "NO_KEYS",
+      trial_duration: preLearnTrialTime,
+      choices: "NO_KEYS",
     };
 
     let sound_practice_trial = {
@@ -201,7 +201,7 @@ function createLearnPracticeTrials(trials) {
       stimulus: trial.audio,
       prompt: createGrid(trial.grid),
       trial_duration: learnTrialTime,
-      // choices: "NO_KEYS",
+      choices: "NO_KEYS",
     };
     
     practiceTimeline = practiceTimeline.concat([
@@ -231,15 +231,15 @@ function createLearnTrials(trials) {
         type: jsPsychHtmlKeyboardResponse,
         stimulus: createGrid(trial.grid),
         trial_duration: preLearnTrialTime,
-        // choices: "NO_KEYS",
+        choices: "NO_KEYS",
       };
 
       let sound_learn_trial = {
         type: jsPsychAudioKeyboardResponse,
         stimulus: trial.audio,
         prompt: createGrid(trial.grid),
-        // trial_duration: learnTrialTime,
-        // choices: "NO_KEYS",
+        trial_duration: learnTrialTime,
+        choices: "NO_KEYS",
       };
 
       learnTimeline = learnTimeline.concat([
@@ -264,8 +264,8 @@ function createTestTrials(trials) {
     let image_test_trial = {
       type: jsPsychHtmlKeyboardResponse,
       stimulus: createTestGrid(trial.grid),
-      // trial_duration: preTestTrialTime, 
-      // choices: "NO_KEYS",
+      trial_duration: preTestTrialTime, 
+      choices: "NO_KEYS",
     };
 
     let sound_test_trial = {
@@ -273,7 +273,7 @@ function createTestTrials(trials) {
       stimulus: trial.audio,
       prompt: createTestGrid(trial.grid),
       trial_duration: testTrialTime,
-      // choices: "NO_KEYS",
+      choices: "NO_KEYS",
     };
 
     testTimeline = testTimeline.concat([

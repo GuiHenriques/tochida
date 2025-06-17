@@ -70,7 +70,7 @@ function criarInstrucoesOrdemDireta() {
     type: jsPsychHtmlKeyboardResponse,
     stimulus:
       "<h4>Essa é uma tarefa de memória.</h4>" +
-      "<h4>Alguns números aparecerão na tela, observe com atenção. Assim que terminar, repita a sequência.</h4>" +
+      "<h4>Alguns números aparecerão na tela, observe com atenção. Assim que terminar, repita a sequência clicando com o mouse nos números que você viu na mesma ordem.</h4>" +
       "<h4>Pressione qualquer tecla para continuar.</h4>",
     choices: "ALL_KEYS",
     data: { part: "instructions" },
@@ -307,7 +307,7 @@ function criarInstrucoesOrdemInversa() {
     type: jsPsychHtmlKeyboardResponse,
     stimulus:
       "<h4>Agora, você verá mais alguns números.</h4>" +
-      "<h4>Desta vez, quando terminar, você deve introduzi-los em ordem inversa (de trás para frente).</h4>" +
+      "<h4>Desta vez, quando terminar, você deve introduzi-los clicando com o mouse nos números que você viu em ordem inversa (de trás para frente).</h4>" +
       "<h4>Vamos tentar?</h4>" +
       "<h4>Pressione qualquer tecla para continuar</h4>",
     choices: "ALL_KEYS",

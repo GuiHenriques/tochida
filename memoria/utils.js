@@ -1,5 +1,4 @@
 // Sequences
-
 const sequences = [
   [
     ["2", "9"],

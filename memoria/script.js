@@ -8,13 +8,9 @@ import {
 
 // CONSTANTES
 // Tempo de preparação antes de cada sequência
-let tempo_preparacao = 2000;
-
-// Tempo de exibição do feedback de acerto/erro
-let tempo_feedback = 1500;
-
-// Tempo de exibição de cada dígito
-let tempo_exibicao_digito = 1000;
+let tempo_preparacao = 200;
+let tempo_feedback = 150;
+let tempo_exibicao_digito = 500;
 
 // VARIÁVEIS
 let timeline = [];
@@ -100,7 +96,7 @@ function trialDigito(digito) {
 }
 
 // Função para criar uma etapa de resposta do participante
-function trialResposta(sequencia, inversa = false) {
+function trialResposta(sequencia, inversa = false, pratica = false) {
   let resposta_usuario = [];
 
   let html_stimulus = `
@@ -131,7 +127,7 @@ function trialResposta(sequencia, inversa = false) {
     type: jsPsychHtmlKeyboardResponse,
     stimulus: html_stimulus,
     choices: "NO_KEYS",
-    data: { type: "resposta" },
+    data: { type: "resposta", pratica: pratica },
     on_load: function () {
       document.querySelectorAll(".digit-button").forEach((button) => {
         button.addEventListener("click", function () {
@@ -161,14 +157,20 @@ function trialResposta(sequencia, inversa = false) {
       if (inversa) {
         data.correto = validateBackwardResponse(sequencia, resposta_usuario);
 
-        if (data.correto) {
+        // Pontuar apenas se NÃO for prática
+        if (data.correto && !data.pratica) {
           pontuacao_inversa++;
+          console.log(pontuacao_inversa);
+          
           maior_sequencia_inversa = sequencia.length;
         }
       } else {
         data.correto = validateResponse(sequencia, resposta_usuario);
-        if (data.correto) {
+
+        if (data.correto && !data.pratica) {
           pontuacao_direta++;
+          console.log(pontuacao_direta);
+          
           maior_sequencia_direta = sequencia.length;
         }
       }
@@ -193,6 +195,80 @@ function trialFeedback() {
   };
 }
 
+// === Prática de Ordem Direta ===
+// Feedback específico para a prática direta (para 2, 3 ou mais dígitos)
+function trialFeedbackPraticaDireta(sequencia) {
+  // Converte [1,2,3] em "1 - 2 - 3"
+  const sequenciaTexto = sequencia.join(" - ");
+
+  return {
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus: function () {
+      const ultimoTeste = jsPsych.data.get().last(1).values()[0];
+
+      return ultimoTeste.correto
+        ? "<h4>Muito bem.</h4><h4>Pressione qualquer tecla para continuar.</h4>"
+        : `<h4>Não exatamente. A sequência era ${sequenciaTexto}.</h4>
+           <h4>Você deve digitá-la na mesma ordem.</h4>
+           <h4>Pressione qualquer tecla para continuar.</h4>`;
+    },
+    choices: "ALL_KEYS",
+    data: { type: "feedback" },
+  };
+}
+
+// Tentativa de prática direta com até duas repetições
+function criarTentativaPraticaDireta(sequencia) {
+  // let tentativasPratica = 0;
+  const preTrial = trialPreparacao();
+  const digitosPratica = sequencia.map((digito) => trialDigito(digito));
+  const respostaPratica = trialResposta(sequencia, false, true); // ordem direta
+  const feedback = trialFeedbackPraticaDireta(sequencia);
+
+  return {
+    timeline: [preTrial, ...digitosPratica, respostaPratica, feedback],
+    loop_function: function (data) {
+      // tentativasPratica++;
+      const dadosTrials = data.values();
+      const dadosResposta = dadosTrials[dadosTrials.length - 2];
+      // if (tentativasPratica === 2) {
+      //   return false;
+      // }
+      return !dadosResposta.correto;
+    },
+  };
+}
+
+// Função para criar um bloco de feedback de prática intermediária
+function trialFeedbackPraticaIntermediarioDireto() {
+  return {
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus:
+      "<h4>Vamos tentar mais uma vez?</h4>" +
+      "<h4>Lembre-se que você deve digitar os na ordem que eles aparecem.</h4>" +
+      "<h4>Pressione qualquer tecla para continuar.</h4>",
+    choices: "ALL_KEYS",
+    data: { type: "feedback" },
+  };
+}
+
+// Fase completa de prática direta
+function criarFasePraticaDireta() {
+  let s1, s2;
+
+  ({ s1, s2 } = getSequences(0)); // ordem direta
+  
+  const pratica1 = criarTentativaPraticaDireta(s1);
+  const feedbackIntermediario = trialFeedbackPraticaIntermediarioDireto();
+  const pratica2 = criarTentativaPraticaDireta(s2);
+  const feedbackFinal = trialFeedbackPosPratica();
+
+  return {
+    timeline: [pratica1, feedbackIntermediario, pratica2, feedbackFinal],
+  };
+}
+
+
 // Função para criar o feedback durante o nível de prática
 function trialFeedbackPratica(sequencia) {
   return {
@@ -203,7 +279,6 @@ function trialFeedbackPratica(sequencia) {
         ? "<h4>Muito bem.</h4>"
         : `<h4>Não exatamente. A sequência era ${sequencia[0]} - ${sequencia[1]}.</h4>
             <h4>Então, na ordem de trás para frente, você deve digitar ${sequencia[1]} - ${sequencia[0]}.</h4>
-            <h4>Vamos tentar novamente.</h4>
             <h4>Pressione qualquer tecla para continuar.</h4>`;
     },
     choices: "NO_KEYS",
@@ -213,7 +288,7 @@ function trialFeedbackPratica(sequencia) {
 }
 
 // Função para criar um bloco de feedback de prática intermediária
-function trialFeedbackPraticaIntermediaria() {
+function trialFeedbackPraticaIntermediariaInverso() {
   return {
     type: jsPsychHtmlKeyboardResponse,
     stimulus:
@@ -292,8 +367,15 @@ function ordemDireta() {
   // Instruções iniciais para a fase de ordem direta
   timeline.push(criarInstrucoesOrdemDireta());
 
+  // Pratica ordem direta
+  timeline.push(criarFasePraticaDireta());
+
+  // <<< REINICIA PONTUAÇÃO DA FASE DIRETA
+  pontuacao_direta = 0;
+  maior_sequencia_direta = 0;
+  
   // Adiciona o trial inicial (primeiro nível)
-  timeline.push(...criarNivel(0).timeline);
+  timeline.push(...criarNivel(1).timeline);
 
   // Adiciona os níveis subsequentes de ordem direta, do índice 1 até o 7
   for (let indice_direto = 1; indice_direto <= 7; indice_direto++) {
@@ -316,13 +398,13 @@ function criarInstrucoesOrdemInversa() {
 }
 
 // Função para criar um teste prático com uma sequência de dígitos
-function criarTentativaPratica(sequencia) {
+function criarTentativaPraticaInversa(sequencia) {
   let tentativasPratica = 0; // Conta o número de tentativas na prática
   const preTrial = trialPreparacao(); // Apresentação inicial antes da sequência
 
   // Cria os trials de dígitos da sequência prática
   const digitosPratica = sequencia.map((digito) => trialDigito(digito));
-  const respostaPratica = trialResposta(sequencia, true); // Permite resposta em ordem inversa
+  const respostaPratica = trialResposta(sequencia, true, true); // Permite resposta em ordem inversa
   const feedback = trialFeedbackPratica(sequencia); // Feedback após a resposta
 
   return {
@@ -342,16 +424,16 @@ function criarTentativaPratica(sequencia) {
 }
 
 // Função para criar a fase completa de prática
-function criarFasePratica() {
+function criarFasePraticaInversa() {
   let s1, s2;
 
   // Obtém duas sequências para prática em ordem inversa
   ({ s1, s2 } = getBackwardSequences(0));
 
   // Cria os trials de prática e feedback para cada sequência
-  const pratica1 = criarTentativaPratica(s1);
-  const feedbackIntermediario = trialFeedbackPraticaIntermediaria();
-  const pratica2 = criarTentativaPratica(s2);
+  const pratica1 = criarTentativaPraticaInversa(s1);
+  const feedbackIntermediario = trialFeedbackPraticaIntermediariaInverso();
+  const pratica2 = criarTentativaPraticaInversa(s2);
   const feedbackFinal = trialFeedbackPosPratica();
 
   return {
@@ -365,7 +447,7 @@ function ordemInversa() {
   timeline.push(criarInstrucoesOrdemInversa());
 
   // Prática
-  timeline.push(criarFasePratica());
+  timeline.push(criarFasePraticaInversa());
 
   // Inicialização das variáveis de pontuação e sequência máxima
   pontuacao_inversa = 0;

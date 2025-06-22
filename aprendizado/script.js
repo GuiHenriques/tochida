@@ -210,7 +210,6 @@ function createLearnPracticeTrials(trials) {
       sound_practice_trial,
     ]);
     let i = 0;
-    console.log("Audio:", trial.audio);
     
   });
 

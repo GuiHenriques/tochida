@@ -168,7 +168,6 @@ function loadAudios() {
     }
   }
 
-  console.log(audios);
   return audios;
 }
 

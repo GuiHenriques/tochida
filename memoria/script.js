@@ -8,9 +8,9 @@ import {
 
 // CONSTANTES
 // Tempo de preparação antes de cada sequência
-let tempo_preparacao = 200;
-let tempo_feedback = 150;
-let tempo_exibicao_digito = 500;
+let tempo_preparacao = 2000;
+let tempo_feedback = 1500;
+let tempo_exibicao_digito = 1000;
 
 // VARIÁVEIS
 let timeline = [];

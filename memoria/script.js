@@ -66,7 +66,7 @@ function criarInstrucoesOrdemDireta() {
     type: jsPsychHtmlKeyboardResponse,
     stimulus:
       "<h4>Essa é uma tarefa de memória.</h4>" +
-      "<h4>Alguns números aparecerão na tela, observe com atenção. Assim que terminar, repita a sequência clicando com o mouse nos números que você viu na mesma ordem.</h4>" +
+      "<h4>Alguns números aparecerão na tela, observe com atenção. Assim que terminar, repita a sequência na mesma ordem, clicando com o mouse nos números que você viu.</h4>" +
       "<h4>Pressione qualquer tecla para continuar.</h4>",
     choices: "ALL_KEYS",
     data: { part: "instructions" },
@@ -245,7 +245,7 @@ function trialFeedbackPraticaIntermediarioDireto() {
     type: jsPsychHtmlKeyboardResponse,
     stimulus:
       "<h4>Vamos tentar mais uma vez?</h4>" +
-      "<h4>Lembre-se que você deve digitar os na ordem que eles aparecem.</h4>" +
+      "<h4>Lembre-se que você deve digitar os números na mesma ordem que eles aparecem.</h4>" +
       "<h4>Pressione qualquer tecla para continuar.</h4>",
     choices: "ALL_KEYS",
     data: { type: "feedback" },

@@ -29,7 +29,7 @@ Tarefa principal do estudo. A cada tentativa aparece uma grade 2×2 com quatro *
 
 - **4 ordens contrabalanceadas**, escolhidas pelo pesquisador no início. Cada ordem apresenta as **4 condições de língua** em sequência diferente: só língua A, só língua B, A→B e B→A. No estudo 1 as línguas são português e espanhol, com instruções bilíngues. No estudo 2 são português e inglês.
 - Cada condição tem uma **fase de aprendizado** (8 tentativas, apresentadas duas vezes) seguida de uma **fase de teste** (8 tentativas).
-- **Prática** com criaturas e áudios próprios antes do experimento.
+- **Prática** com criaturas e áudios próprios antes do experimento (só no estudo 2; o estudo 1 não tinha essa etapa).
 - Modo **"somente teste"**, que pula a prática e o aprendizado.
 - **Pré-carregamento** de todas as imagens (80 criaturas + 17 objetos) e de todos os áudios (256 no estudo 1, 320 no estudo 2) antes do início, para que nenhum estímulo atrase durante a coleta.
 

@@ -105,10 +105,10 @@ function instructionsLearnTrial() {
     stimulus:
       "<div style='text-align: center; width: 80%; margin: auto;'>" +
       "<h4>En esta actividad, usted verá algunas figuras y oirá una voz le orientando a mirar a una de estas figuras. Direccione su mirada a la figura indicada.</h4>" +
-      "<h4>Pulse cualquier tecla o toque la pantalla para seguir</h4>" +
+      "<h4>Pulse cualquier tecla para seguir</h4>" +
       "<hr>" +
       "<p>Nessa atividade, você verá algumas figuras na tela, e ouvirá uma voz te orientando a olhar para uma dessas figuras. Direcione seu olhar para a figura indicada.</p>" +
-      "<p>Pressione qualquer tecla ou toque na tela para continuar.</p>" +
+      "<p>Pressione qualquer tecla para continuar.</p>" +
       "</div>",
     choices: "ALL_KEYS",
     ...tapToContinue(jsPsych),
@@ -123,10 +123,10 @@ function instructionsTestTrial() {
     stimulus:
       "<div style='text-align: center; width: 80%; margin: auto;'>" +
       "<h4>Oiga la palabra y direccione su mirada a la figura indicada.</h4>" +
-      "<h4>Pulse cualquier tecla o toque la pantalla para seguir</h4>" +
+      "<h4>Pulse cualquier tecla para seguir</h4>" +
       "<hr>" +
       "<p>Ouça a palavra e direcione seu olhar para a figura indicada.</p>" +
-      "<p>Pressione qualquer tecla ou toque na tela para continuar.</p>" +
+      "<p>Pressione qualquer tecla para continuar.</p>" +
       "</div>",
     choices: "ALL_KEYS",
     ...tapToContinue(jsPsych),

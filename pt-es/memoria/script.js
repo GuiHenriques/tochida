@@ -73,11 +73,11 @@ function criarInstrucoesOrdemDireta() {
     stimulus:
       "<h4>Esta es una tarea de memoria.</h4>" +
       "<h4>Algunos números surgirán en la pantalla, Pon atención. Cuándo termine, repita la secuencia. </h4>" +
-      "<h4>Pulse cualquier tecla o toque la pantalla para seguir</h4>" +
+      "<h4>Pulse cualquier tecla para seguir</h4>" +
       "<hr>" +
       "<p>Essa é uma tarefa de memória.</p>" +
       "<p>Alguns números aparecerão na tela, observe com atenção. Assim que terminar, repita a sequência.</p>" +
-      "<p>Pressione qualquer tecla ou toque na tela para continuar.</p>" +
+      "<p>Pressione qualquer tecla para continuar.</p>" +
       "<br>",
     choices: "ALL_KEYS",
     ...tapToContinue(jsPsych),
@@ -213,12 +213,12 @@ function trialFeedbackPratica(sequencia) {
         : `<h4>No exactamente. La secuencia era ${sequencia[0]} - ${sequencia[1]}.</h4>
             <h4>Entonces, en orden de atrás hacia adelante debe introducir ${sequencia[1]} - ${sequencia[0]}.</h4>
             <h4>Vamos a intentarlo de nuevo.</h4>
-            <h4> Pulse cualquier tecla o toque la pantalla para seguir.</h4>
+            <h4> Pulse cualquier tecla para seguir.</h4>
             <hr>
             <p>Não exatamente. A sequência era ${sequencia[0]} - ${sequencia[1]}.</p>
             <p>Então, na ordem de trás para frente, você deve digitar ${sequencia[1]} - ${sequencia[0]}.</p>
             <p>Vamos tentar novamente.</p>
-            <p>Pressione qualquer tecla ou toque na tela para continuar.</p>`;
+            <p>Pressione qualquer tecla para continuar.</p>`;
     },
     choices: "NO_KEYS",
     trial_duration: tempo_feedback,
@@ -233,11 +233,11 @@ function trialFeedbackPraticaIntermediaria() {
     stimulus:
       "<h4>¿Vamos a intentar una vez más?</h4>" +
       "<h4>Recuerde que debe introducir los números de atrás hacia adelante.</h4>" +
-      "<h4>Pulse cualquier tecla o toque la pantalla para seguir.</h4>" +
+      "<h4>Pulse cualquier tecla para seguir.</h4>" +
       "<hr>" +
       "<p>Vamos tentar mais uma vez?</p>" +
       "<p>Lembre-se que você deve digitar os números de trás para frente.</p>" +
-      "<p>Pressione qualquer tecla ou toque na tela para continuar.</p>",
+      "<p>Pressione qualquer tecla para continuar.</p>",
     choices: "ALL_KEYS",
     ...tapToContinue(jsPsych),
     data: { type: "feedback" },
@@ -250,10 +250,10 @@ function trialFeedbackPosPratica() {
     type: jsPsychHtmlKeyboardResponse,
     stimulus:
       "<h4>¡Vamos empezar!</h4>" +
-      "<h4>Pulse cualquier tecla o toque la pantalla para seguir.</h4>" +
+      "<h4>Pulse cualquier tecla para seguir.</h4>" +
       "<hr>" +
       "<p>Vamos começar!</p>" +
-      "<p>Pressione qualquer tecla ou toque na tela para continuar.</p>",
+      "<p>Pressione qualquer tecla para continuar.</p>",
     choices: "ALL_KEYS",
     ...tapToContinue(jsPsych),
     data: { type: "feedback" },
@@ -332,12 +332,12 @@ function criarInstrucoesOrdemInversa() {
       "<h4>Agora, você verá alguns números mais.</h4>" +
       "<h4>Desta vez, quando terminar, você deve introduzi-los em ordem inversa (de trás para frente).</h4>" +
       "<h4>Vamos tentar?</h4>" +
-      "<h4>Pressione qualquer tecla ou toque na tela para continuar</h4>" +
+      "<h4>Pressione qualquer tecla para continuar</h4>" +
       "<hr>" +
       "<p>Ahora, usted verá algunos números más.</p>" +
       "<p>Esta vez, cuándo termine, usted debe introducirlos en orden de atrás hacia adelante. </p>" +
       "<p>¿Vamos a intentarlo?</p>" +
-      "<p>Pulse cualquier tecla o toque la pantalla para seguir.</p>",
+      "<p>Pulse cualquier tecla para seguir.</p>",
     choices: "ALL_KEYS",
     ...tapToContinue(jsPsych),
     data: { parte: "instrucoes" },

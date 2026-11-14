@@ -364,7 +364,7 @@ function criarTentativaPratica(sequencia) {
       if (tentativasPratica === 2) {
         return false; // Se já houver 2 tentativas, para o loop
       }
-      return !dadosResposta.correct; // Continua o loop se a resposta estiver incorreta
+      return !dadosResposta.correto; // Continua o loop se a resposta estiver incorreta
     },
   };
 }

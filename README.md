@@ -4,7 +4,7 @@ Bateria com três tarefas computadorizadas em **JavaScript + [jsPsych 7](https:/
 
 | Línguas | Pesquisa | Pasta |
 | --- | --- | --- |
-| **Português · Espanhol** | Júlia | [`pt-es/`](pt-es/) |
+| **Português · Espanhol** | Julia | [`pt-es/`](pt-es/) |
 | **Português · Inglês** | Guilherme | [`pt-en/`](pt-en/) |
 
 Os dois estudos usam a mesma arquitetura. O que muda são as línguas, os áudios, os objetos e as palavras de cada tarefa.

@@ -23,6 +23,8 @@ let maior_sequencia_inversa = 0;
 // Inicialização do jsPsych com função ao final do experimento para salvar dados
 const jsPsych = initJsPsych({
   on_finish: function () {
+    exitFullscreen();
+
     let id_participante = jsPsych.data
       .get()
       .filter({ part: "participant_id" })
@@ -67,8 +69,9 @@ function criarInstrucoesOrdemDireta() {
     stimulus:
       "<h4>Essa é uma tarefa de memória.</h4>" +
       "<h4>Alguns números aparecerão na tela, observe com atenção. Assim que terminar, repita a sequência na mesma ordem, clicando com o mouse nos números que você viu.</h4>" +
-      "<h4>Pressione qualquer tecla para continuar.</h4>",
+      "<h4>Pressione qualquer tecla ou toque na tela para continuar.</h4>",
     choices: "ALL_KEYS",
+    ...tapToContinue(jsPsych),
     data: { part: "instructions" },
   };
 }
@@ -207,12 +210,13 @@ function trialFeedbackPraticaDireta(sequencia) {
       const ultimoTeste = jsPsych.data.get().last(1).values()[0];
 
       return ultimoTeste.correto
-        ? "<h4>Muito bem.</h4><h4>Pressione qualquer tecla para continuar.</h4>"
+        ? "<h4>Muito bem.</h4><h4>Pressione qualquer tecla ou toque na tela para continuar.</h4>"
         : `<h4>Não exatamente. A sequência era ${sequenciaTexto}.</h4>
            <h4>Você deve digitá-la na mesma ordem.</h4>
-           <h4>Pressione qualquer tecla para continuar.</h4>`;
+           <h4>Pressione qualquer tecla ou toque na tela para continuar.</h4>`;
     },
     choices: "ALL_KEYS",
+    ...tapToContinue(jsPsych),
     data: { type: "feedback" },
   };
 }
@@ -246,8 +250,9 @@ function trialFeedbackPraticaIntermediarioDireto() {
     stimulus:
       "<h4>Vamos tentar mais uma vez?</h4>" +
       "<h4>Lembre-se que você deve digitar os números na mesma ordem que eles aparecem.</h4>" +
-      "<h4>Pressione qualquer tecla para continuar.</h4>",
+      "<h4>Pressione qualquer tecla ou toque na tela para continuar.</h4>",
     choices: "ALL_KEYS",
+    ...tapToContinue(jsPsych),
     data: { type: "feedback" },
   };
 }
@@ -279,7 +284,7 @@ function trialFeedbackPratica(sequencia) {
         ? "<h4>Muito bem.</h4>"
         : `<h4>Não exatamente. A sequência era ${sequencia[0]} - ${sequencia[1]}.</h4>
             <h4>Então, na ordem de trás para frente, você deve digitar ${sequencia[1]} - ${sequencia[0]}.</h4>
-            <h4>Pressione qualquer tecla para continuar.</h4>`;
+            <h4>Pressione qualquer tecla ou toque na tela para continuar.</h4>`;
     },
     choices: "NO_KEYS",
     trial_duration: tempo_feedback,
@@ -294,8 +299,9 @@ function trialFeedbackPraticaIntermediariaInverso() {
     stimulus:
       "<h4>Vamos tentar mais uma vez?</h4>" +
       "<h4>Lembre-se que você deve digitar os números de trás para frente.</h4>" +
-      "<h4>Pressione qualquer tecla para continuar.</h4>",
+      "<h4>Pressione qualquer tecla ou toque na tela para continuar.</h4>",
     choices: "ALL_KEYS",
+    ...tapToContinue(jsPsych),
     data: { type: "feedback" },
   };
 }
@@ -306,8 +312,9 @@ function trialFeedbackPosPratica() {
     type: jsPsychHtmlKeyboardResponse,
     stimulus:
       "<h4>Vamos começar!</h4>" +
-      "<h4>Pressione qualquer tecla para continuar.</h4>",
+      "<h4>Pressione qualquer tecla ou toque na tela para continuar.</h4>",
     choices: "ALL_KEYS",
+    ...tapToContinue(jsPsych),
     data: { type: "feedback" },
   };
 }
@@ -391,8 +398,9 @@ function criarInstrucoesOrdemInversa() {
       "<h4>Agora, você verá mais alguns números.</h4>" +
       "<h4>Desta vez, quando terminar, você deve introduzi-los clicando com o mouse nos números que você viu em ordem inversa (de trás para frente).</h4>" +
       "<h4>Vamos tentar?</h4>" +
-      "<h4>Pressione qualquer tecla para continuar</h4>",
+      "<h4>Pressione qualquer tecla ou toque na tela para continuar</h4>",
     choices: "ALL_KEYS",
+    ...tapToContinue(jsPsych),
     data: { parte: "instrucoes" },
   };
 }
@@ -498,6 +506,7 @@ function trialAgradecimento() {
 
 // Função principal para executar o experimento completo
 function executarExperimento() {
+  timeline.push(fullscreenStep()); // Tela cheia no celular
   timeline.push(obterIdParticipante());
 
   // Executa os trials de ordem direta

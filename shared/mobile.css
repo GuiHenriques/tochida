@@ -1,0 +1,52 @@
+/* Ajustes para celular compartilhados pelas tarefas */
+
+/* Toque: sem atraso de duplo toque/zoom e sem menu de "salvar imagem" ao segurar */
+html, body {
+  touch-action: manipulation;
+}
+
+img {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Campos de texto (tradução, ID do participante) não estouram a tela */
+.jspsych-survey-text input,
+.jspsych-content input[type="text"] {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+  .jspsych-content {
+    max-width: 100%;
+    padding: 0 16px;
+    box-sizing: border-box;
+  }
+
+  .jspsych-btn {
+    padding: 12px 20px;
+    font-size: 16px;
+  }
+}
+
+/* Celular na horizontal: pede para virar o aparelho de pé */
+@media (orientation: landscape) and (pointer: coarse) and (max-height: 500px) {
+  html[data-rotate-msg]::after {
+    content: attr(data-rotate-msg);
+    white-space: pre-line;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 600;
+    background: #fff;
+    color: #333;
+  }
+}

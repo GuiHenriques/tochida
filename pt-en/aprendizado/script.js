@@ -125,9 +125,10 @@ function instructionsPracticeTrial() {
     stimulus:
       "<div style='text-align: center; width: 80%; margin: auto;'>" +
       "<h4>Pratique a tarefa antes de começar o experimento.</h4>" +
-      "<h4>Pressione qualquer tecla para continuar.</h4>" +
+      "<h4>Pressione qualquer tecla ou toque na tela para continuar.</h4>" +
       "</div>",
     choices: "ALL_KEYS",
+    ...tapToContinue(jsPsych),
   };
 }
 
@@ -139,9 +140,10 @@ function instructionsLearnTrial() {
     stimulus:
       "<div style='text-align: center; width: 80%; margin: auto;'>" +
       "<h4>Nessa atividade, você verá algumas figuras na tela, e ouvirá uma voz te orientando a olhar para uma dessas figuras. Direcione seu olhar para a figura indicada.</h4>" +
-      "<h4>Pressione qualquer tecla para continuar.</h4>" +
+      "<h4>Pressione qualquer tecla ou toque na tela para continuar.</h4>" +
       "</div>",
     choices: "ALL_KEYS",
+    ...tapToContinue(jsPsych),
   };
 }
 
@@ -153,9 +155,10 @@ function instructionsTestTrial() {
     stimulus:
       "<div style='text-align: center; width: 80%; margin: auto;'>" +
       "<h4>Ouça a palavra e direcione seu olhar para a figura indicada.</h4>" +
-      "<h4>Pressione qualquer tecla para continuar.</h4>" +
+      "<h4>Pressione qualquer tecla ou toque na tela para continuar.</h4>" +
       "</div>",
     choices: "ALL_KEYS",
+    ...tapToContinue(jsPsych),
   };
 }
 
@@ -298,6 +301,7 @@ function thankTrial() {
       "<div style='text-align: center; width: 80%; margin: auto;'>" +
       "<h4>Obrigado!</h4>" +
       "</div>",
+    on_load: exitFullscreen,
   };
 }
 
@@ -306,6 +310,9 @@ async function runExperiment() {
   let timeline = [];
 
   // Preload Assets
+  // Tela cheia no celular
+  preTimeline.push(fullscreenStep());
+
   preTimeline.push(preloadAssets());
 
   // Experiment order

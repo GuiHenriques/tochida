@@ -1,11 +1,11 @@
 # Tochida: bateria de experimentos psicolinguísticos
 
-Bateria com três tarefas computadorizadas em **JavaScript + [jsPsych 7](https://www.jspsych.org/)**, desenvolvidas do zero para pesquisas de pós-graduação do [LabLing](https://labling.ufsc.br/), o laboratório de psicolinguística da UFSC. As tarefas investigam a aprendizagem de palavras novas por falantes bilíngues e foram usadas em **dois estudos** com pesquisadores diferentes:
+Bateria com três tarefas computadorizadas em **JavaScript + [jsPsych 7](https://www.jspsych.org/)**, desenvolvidas do zero para pesquisas de pós-graduação do [LabLing](https://labling.ufsc.br/), o laboratório de psicolinguística da UFSC. As tarefas investigam a aprendizagem de palavras novas por falantes bilíngues e foram usadas em **dois estudos**, conduzidos por pesquisadores diferentes:
 
-| Estudo | Línguas | Pasta |
+| Línguas | Pesquisa | Pasta |
 | --- | --- | --- |
-| **Estudo 1** | Português e espanhol | [`estudo-1/`](estudo-1/) |
-| **Estudo 2** | Português e inglês | [`estudo-2/`](estudo-2/) |
+| **Português · Espanhol** | Júlia | [`pt-es/`](pt-es/) |
+| **Português · Inglês** | Guilherme | [`pt-en/`](pt-en/) |
 
 Os dois estudos usam a mesma arquitetura. O que muda são as línguas, os áudios, os objetos e as palavras de cada tarefa.
 
@@ -27,11 +27,11 @@ Tarefa principal do estudo. A cada tentativa aparece uma grade 2×2 com quatro *
 
 **Estrutura**
 
-- **4 ordens contrabalanceadas**, escolhidas pelo pesquisador no início. Cada ordem apresenta as **4 condições de língua** em sequência diferente: só língua A, só língua B, A→B e B→A. No estudo 1 as línguas são português e espanhol, com instruções bilíngues. No estudo 2 são português e inglês.
+- **4 ordens contrabalanceadas**, escolhidas pelo pesquisador no início. Cada ordem apresenta as **4 condições de língua** em sequência diferente: só língua A, só língua B, A→B e B→A. Na versão PT·ES as línguas são português e espanhol, com instruções bilíngues. Na versão PT·EN são português e inglês.
 - Cada condição tem uma **fase de aprendizado** (8 tentativas, apresentadas duas vezes) seguida de uma **fase de teste** (8 tentativas).
-- **Prática** com criaturas e áudios próprios antes do experimento (só no estudo 2; o estudo 1 não tinha essa etapa).
+- **Prática** com criaturas e áudios próprios antes do experimento (só na versão PT·EN; a versão PT·ES não tinha essa etapa).
 - Modo **"somente teste"**, que pula a prática e o aprendizado.
-- **Pré-carregamento** de todas as imagens (80 criaturas + 17 objetos) e de todos os áudios (256 no estudo 1, 320 no estudo 2) antes do início, para que nenhum estímulo atrase durante a coleta.
+- **Pré-carregamento** de todas as imagens (80 criaturas + 17 objetos) e de todos os áudios (256 na versão PT·ES, 320 na versão PT·EN) antes do início, para que nenhum estímulo atrase durante a coleta.
 
 **Linha do tempo de cada tentativa**
 
@@ -40,7 +40,7 @@ Fixação (+) 3000 ms → Grade 500 ms → Grade + áudio 6500 ms   (aprendizado
 Fixação (+) 3000 ms → Grade 1000 ms → Grade + áudio 6000 ms  (teste)
 ```
 
-Todos os tempos ficam em constantes no topo de [`aprendizado/script.js`](estudo-2/aprendizado/script.js). As tentativas de cada ordem e condição são definidas de forma declarativa em [`aprendizado/orders/`](estudo-2/aprendizado/orders/). A montagem da linha do tempo acontece em duas etapas: primeiro roda a configuração (ordem e tipo de experimento) e, com base nas escolhas do pesquisador, o restante do experimento é gerado dinamicamente.
+Todos os tempos ficam em constantes no topo de [`aprendizado/script.js`](pt-en/aprendizado/script.js). As tentativas de cada ordem e condição são definidas de forma declarativa em [`aprendizado/orders/`](pt-en/aprendizado/orders/). A montagem da linha do tempo acontece em duas etapas: primeiro roda a configuração (ordem e tipo de experimento) e, com base nas escolhas do pesquisador, o restante do experimento é gerado dinamicamente.
 
 ## Memória de trabalho (span de dígitos)
 
@@ -55,7 +55,7 @@ Implementação de uma tarefa de **span de dígitos** em ordem **direta** e **in
 
 ## Tradução
 
-O participante vê 16 palavras escritas, uma por vez, e digita a tradução: do português para o espanhol no estudo 1, e do inglês para o português no estudo 2. As respostas são exportadas em `traducao_<id>.csv`.
+O participante vê 16 palavras escritas, uma por vez, e digita a tradução: do português para o espanhol na versão PT·ES, e do inglês para o português na versão PT·EN. As respostas são exportadas em `traducao_<id>.csv`.
 
 ---
 
